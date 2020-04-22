@@ -1,0 +1,44 @@
+{
+	"name": "@kidzbracket/backend",
+	"version": "0.0.0",
+	"repository": "",
+	"main": "lib/index.js",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"build": "tsc",
+		"clean": "rimraf dist",
+		"dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
+		"lint": "yarn eslint --ext .ts . && yarn prettier:check",
+		"lint:fix": "eslint --ext .ts,.tsx --fix . && yarn prettier:format",
+		"prettier:format": "prettier --write --ignore-path ../../.gitignore --loglevel error \"**/*.{js,jsx,json,yml,yaml}\"",
+		"prettier:check": "prettier --list-different --ignore-path ../../.gitignore \"**/*.{js,jsx,json,yml,yaml}\"",
+		"start": "node dist/index.js",
+		"test": "jest --passWithNoTests"
+	},
+	"dependencies": {
+		"apollo-server-express": "^2.12.0",
+		"axios": "^0.19.2",
+		"bcrypt": "^4.0.1",
+		"connect-redis": "^4.0.4",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"express-session": "^1.17.1",
+		"graphql": "^14.6.0",
+		"pg": "^8.0.2",
+		"query-string": "^6.12.1",
+		"redis": "^3.0.2",
+		"reflect-metadata": "^0.1.13",
+		"type-graphql": "^0.17.6",
+		"typeorm": "^0.2.24"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^3.0.0",
+		"@types/connect-redis": "^0.0.13",
+		"@types/express": "^4.17.6",
+		"@types/express-session": "^1.17.0",
+		"@types/node": "^12.12.31",
+		"@types/redis": "^2.8.18",
+		"ts-node-dev": "^1.0.0-pre.44"
+	}
+}

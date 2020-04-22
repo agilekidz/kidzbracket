@@ -1,0 +1,46 @@
+{
+	"name": "kidzbracket",
+	"description": "A tournament hosting solution",
+	"repository": "",
+	"author": "",
+	"license": "MIT",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"lint-staged": {
+		"*.{ts,tsx,js,json,yml,yaml}": "prettier --write --loglevel error"
+	},
+	"scripts": {
+		"build": "lerna run build",
+		"build:check": "lerna run build:check",
+		"check-packages": "yarn clean && yarn build:check && yarn build && yarn test && yarn lint",
+		"clean": "lerna run clean",
+		"lint": "lerna run lint && yarn prettier:check",
+		"lint:fix": "lerna run lint:fix && yarn prettier:format",
+		"pre-commit": "lint-staged",
+		"prettier:format": "prettier --write --ignore-path .gitignore --loglevel error \"*.{js,jsx,json,yml,yaml}\"",
+		"prettier:check": "prettier --list-different --ignore-path .gitignore \"*.{js,jsx,json,yml,yaml}\"",
+		"test": "lerna run test",
+		"update-version": "lerna publish --skip-git --skip-npm --force-publish '*'"
+	},
+	"devDependencies": {
+		"@types/jest": "^25.2.1",
+		"@typescript-eslint/eslint-plugin": "^2.25.0",
+		"@typescript-eslint/parser": "^2.25.0",
+		"eslint": "^6.8.0",
+		"eslint-config-prettier": "^6.10.1",
+		"eslint-plugin-import": "^2.20.2",
+		"eslint-plugin-prettier": "^3.1.2",
+		"eslint-plugin-simple-import-sort": "^5.0.2",
+		"husky": "^4.2.3",
+		"jest": "^25.3.0",
+		"lerna": "^3.20.2",
+		"lint-staged": "^10.1.2",
+		"prettier": "^2.0.2",
+		"rimraf": "^3.0.2",
+		"ts-jest": "^25.4.0",
+		"typescript": "^3.8.3",
+		"yarnhook": "^0.4.3"
+	}
+}
