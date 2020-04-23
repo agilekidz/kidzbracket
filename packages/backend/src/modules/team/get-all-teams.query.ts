@@ -6,7 +6,7 @@ import DBTeam from '../../entities/team';
 import GQLTeam from './team';
 
 @Resolver()
-export default class TeamsQueryResolver {
+export default class GetAllTeamsQueryResolver {
 	@Query(() => [GQLTeam])
 	async teams(): Promise<GQLTeam[]> {
 		const teamRepository = getRepository(DBTeam);
