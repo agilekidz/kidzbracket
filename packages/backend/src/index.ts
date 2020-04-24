@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import './generate-bracket';
 
 import RedisSession from 'connect-redis';
 import dotenv from 'dotenv';
