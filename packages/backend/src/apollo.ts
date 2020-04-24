@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
+import path from 'path';
 import { buildSchema } from 'type-graphql';
 import { getRepository } from 'typeorm';
 
@@ -13,6 +14,7 @@ export interface Context {
 async function createApolloServer() {
 	const schema = await buildSchema({
 		resolvers: [__dirname + '/modules/**/*.{mutation,query,field}.{js,ts}'],
+		emitSchemaFile: path.resolve(__dirname, '__generated__/schema.gql'),
 	});
 
 	return new ApolloServer({

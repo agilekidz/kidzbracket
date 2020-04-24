@@ -2,14 +2,8 @@ import React from 'react';
 
 import { gql, useQuery } from '@apollo/client';
 
+import { UsersQuery } from './__generated__/UsersQuery';
 import UsersView from './users-view';
-
-interface UsersQueryResult {
-	users: {
-		id: string;
-		name: string;
-	}[];
-}
 
 const USERS_QUERY = gql`
 	query UsersQuery {
@@ -21,7 +15,7 @@ const USERS_QUERY = gql`
 `;
 
 const UsersData = () => {
-	const { data, error, loading } = useQuery<UsersQueryResult>(USERS_QUERY);
+	const { data, error, loading } = useQuery<UsersQuery>(USERS_QUERY);
 
 	if (loading) {
 		return <>Loading...</>;
