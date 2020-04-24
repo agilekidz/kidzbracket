@@ -2,8 +2,6 @@ import { FieldResolver, Resolver, ResolverInterface, Root } from 'type-graphql';
 import { getRepository } from 'typeorm';
 
 import DBMatch from '../../entities/match';
-import DBTeam from '../../entities/team';
-import GQLTeam from '../team/team';
 
 import GQLMatch from './match';
 
@@ -16,15 +14,3 @@ export default class FirstTeamResolver implements ResolverInterface<GQLMatch> {
 		return match?.firstTeam;
 	}
 }
-
-(async function () {
-	const teamRepository = getRepository(DBTeam);
-	const matchRepository = getRepository(DBMatch);
-	const team = await teamRepository.save({
-		name: 'Hekko',
-	});
-
-	await matchRepository.save({
-		firstTeam: team,
-	});
-})();
