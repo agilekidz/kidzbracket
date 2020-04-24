@@ -1,13 +1,17 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
+import Match from '../match/match';
+
 @ObjectType()
-export default class Match {
-	@Field(() => ID)
+export default class Tournament {
+	@Field(() => ID, { description: 'Unique identifier for the match' })
 	id: string;
 
-	@Field()
+	@Field({ description: 'The name of the tournament' })
 	name: string;
 
-	@Field(() => Match)
+	@Field(() => Match, {
+		description: 'References all the matches that are connected to the tournament',
+	})
 	matches: Match[];
 }

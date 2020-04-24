@@ -4,8 +4,6 @@ import { getRepository } from 'typeorm';
 import { Context } from '../../apollo';
 import DBTeam from '../../entities/team';
 
-import GQLTeam from './team';
-
 @InputType()
 class RegisterTeamInput {
 	@Field()
