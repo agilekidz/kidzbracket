@@ -19,7 +19,7 @@ const AppView = () => {
 	const { isAuthenticated, logout, user } = useAuth();
 
 	return (
-		<div style={{ background: 'black', height: '100vh' }}>
+		<div style={{ background: 'rgb(74, 78, 105)', minHeight: '100vh' }}>
 			<GlobalStyle />
 			<Normalize />
 			<ul style={{ margin: '0' }}>

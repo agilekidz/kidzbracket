@@ -1,15 +1,26 @@
 import React from 'react';
 
-import style from 'styled-components';
+import styled from 'styled-components';
 
 import TournamentCard from './components/tournament-card';
 
-const Wrapper = style.div`
-  margin-right: auto;
-  margin-left:  auto; 
-  max-width: 80%;
-  height: 800px;
-  background: lightgray; 
+const Wrapper = styled.div`
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 1400px;
+	display: flex;
+`;
+
+const Upcoming = styled.div`
+	flex-grow: 2;
+`;
+
+const Newsfeed = styled.div`
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 250px;
+	margin-left: 20px;
+	margin-top: 1%;
 `;
 
 /// Info required by card
@@ -40,14 +51,19 @@ const info2 = {
 	region: 'NA',
 };
 
-const info = [info1, info2];
+const info = [info1, info2, info1, info2, info1, info2];
 
 const HomeView = () => {
 	return (
 		<Wrapper>
-			{info.map(yeet => (
-				<TournamentCard key={yeet.id} info={yeet} />
-			))}
+			<Upcoming>
+				{info.map(yeet => (
+					<TournamentCard key={yeet.id} info={yeet} />
+				))}
+			</Upcoming>
+			<Newsfeed>
+				<div style={{ height: '800px', background: 'red' }} />
+			</Newsfeed>
 		</Wrapper>
 	);
 };

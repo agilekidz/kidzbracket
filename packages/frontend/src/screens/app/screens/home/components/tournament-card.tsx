@@ -4,11 +4,9 @@ import style from 'styled-components';
 
 const Mainbox = style.div`
     margin: 0;
-    padding 0;
+    padding: 0;
     width: 100%;
     height: 200px;
-    background: darkgray;
-    border: 1px solid black;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -16,13 +14,16 @@ const Mainbox = style.div`
 `;
 
 const Innerbox = style.div`
-    width: 95%;
+    width: 100%;
     height: 90%;
     padding-left: 5%;
-    background: lightgray;
+    background: rgb(229, 234, 250);
     border-radius: 7px;
     display: flex;
-    align-items: stretch;
+	align-items: stretch;
+	border: 4px solid rgb(43, 45, 66);
+	transition: all 0.2s;
+	&:hover{background: #bcc0d0;}
 
 `;
 
@@ -102,8 +103,7 @@ const TournamentCard: React.FC<TCProps> = ({ info }) => {
 					</div>
 					<Desc>
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe eius sint inventore
-						optio ut numquam, consequatur, doloribus, architecto suscipit fuga similique excepturi
-						minus maiores dicta distinctio? Doloribus maiores tempora quam?
+						optio ut numquam, consequatur, doloribu
 					</Desc>
 				</div>
 				<div

@@ -26,6 +26,8 @@
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-router-dom": "^5.1.2",
+		"simplebar": "^5.1.0",
+		"simplebar-react": "^2.1.0",
 		"styled-components": "^5.1.0",
 		"styled-normalize": "^8.0.7"
 	},
