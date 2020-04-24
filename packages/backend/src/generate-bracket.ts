@@ -1,18 +1,7 @@
-import { nanoid } from 'nanoid';
+import { getRepository } from 'typeorm';
 
-interface Team {
-	id: string;
-	name: string;
-}
-
-interface Match {
-	id: string;
-	firstTeamId: string | null;
-	secondTeamId: string | null;
-	firstParentId: string | null;
-	secondParentId: string | null;
-	round: number;
-}
+import Match from './entities/match';
+import Team from './entities/team';
 
 function shuffle<T>(arr: T[]): T[] {
 	arr = [...arr];
@@ -23,7 +12,9 @@ function shuffle<T>(arr: T[]): T[] {
 	return arr;
 }
 
-export function generateBracket(teams: Team[]): Match[] {
+const matchRepository = getRepository(Match);
+
+export async function generateBracket(teams: Team[]): Promise<Match[]> {
 	teams = shuffle(teams);
 
 	const matches: Match[] = [];
@@ -35,14 +26,12 @@ export function generateBracket(teams: Team[]): Match[] {
 	});
 
 	for (let i = 0; i < Math.pow(2, numberOfRounds); i += 2) {
-		const match: Match = {
-			id: nanoid(3),
-			firstParentId: null,
-			secondParentId: null,
-			firstTeamId: teams[i].id,
-			secondTeamId: teams[i + 1].id,
+		let match = matchRepository.create({
+			firstTeam: teams[i],
+			secondTeam: teams[i + 1],
 			round: numberOfRounds,
-		};
+		});
+		match = await matchRepository.save(match);
 		matches.push(match);
 	}
 
@@ -51,14 +40,12 @@ export function generateBracket(teams: Team[]): Match[] {
 	for (let currentRound = numberOfRounds - 1; currentRound > 0; currentRound--) {
 		const matchesLength = matches.length;
 		for (let i = skip; i < matchesLength; i += 2) {
-			const match: Match = {
-				id: nanoid(3),
-				firstParentId: matches[i].id,
-				secondParentId: matches[i + 1].id,
-				firstTeamId: null,
-				secondTeamId: null,
+			let match = matchRepository.create({
+				firstParent: matches[i],
+				secondParent: matches[i + 1],
 				round: currentRound,
-			};
+			});
+			match = await matchRepository.save(match);
 			matches.push(match);
 		}
 		skip += Math.pow(2, currentRound);
@@ -69,35 +56,34 @@ export function generateBracket(teams: Team[]): Match[] {
 	let first = true;
 	let current = 0;
 	for (let i = 0; i < restOfTeams.length; i++) {
-		console.log(i, current, first);
 		if (i === Math.pow(2, numberOfRounds) / 2) {
 			first = false;
 			current = 0;
 		}
 
-		let teamId: string | null;
+		let team: Team | undefined;
 		if (first) {
-			teamId = matches[current].firstTeamId;
-			matches[current].firstTeamId = null;
+			team = matches[current].firstTeam;
+			matches[current].firstTeam = undefined;
 		} else {
-			teamId = matches[current].secondTeamId;
-			matches[current].secondTeamId = null;
+			team = matches[current].secondTeam;
+			matches[current].secondTeam = undefined;
 		}
 
-		const match: Match = {
-			id: nanoid(3),
-			firstParentId: null,
-			secondParentId: null,
-			firstTeamId: teamId,
-			secondTeamId: restOfTeams[i].id,
+		let match = matchRepository.create({
+			firstTeam: team,
+			secondTeam: restOfTeams[i],
 			round: numberOfRounds + 1,
-		};
+		});
+		match = await matchRepository.save(match);
 
 		if (first) {
-			matches[current].firstParentId = match.id;
+			matches[current].firstParent = match;
 		} else {
-			matches[current].secondParentId = match.id;
+			matches[current].secondParent = match;
 		}
+
+		matches[current] = await matchRepository.save(matches[current]);
 
 		matches.push(match);
 		current += 1;
