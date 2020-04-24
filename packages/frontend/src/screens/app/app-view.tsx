@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Link, Route, Switch } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 import { Normalize } from 'styled-normalize';
 
 import GuestRoute from './components/guest-route';
@@ -10,11 +11,16 @@ import AuthScreen from './screens/auth';
 import HomeScreen from './screens/home';
 import UsersScreen from './screens/users';
 
+const GlobalStyle = createGlobalStyle`
+	*{box-sizing: border-box}
+`;
+
 const AppView = () => {
 	const { isAuthenticated, logout, user } = useAuth();
 
 	return (
 		<div style={{ background: 'black', height: '100vh' }}>
+			<GlobalStyle />
 			<Normalize />
 			<ul style={{ margin: '0' }}>
 				<li>
