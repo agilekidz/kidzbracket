@@ -4,7 +4,7 @@ import Match from '../match/match';
 
 @ObjectType()
 export default class Tournament {
-	@Field(() => ID, { description: 'Unique identifier for the match' })
+	@Field(() => ID, { description: 'Unique identifier for the tournament' })
 	id: string;
 
 	@Field({ description: 'The name of the tournament' })
