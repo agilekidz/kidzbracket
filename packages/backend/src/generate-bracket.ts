@@ -38,6 +38,14 @@ const teams: Team[] = [
 		id: nanoid(3),
 		name: 'Team 7',
 	},
+	{
+		id: nanoid(3),
+		name: 'Team 8',
+	},
+	{
+		id: nanoid(3),
+		name: 'Team 9',
+	},
 ];
 
 interface Match {
@@ -46,6 +54,7 @@ interface Match {
 	secondTeamId: string | null;
 	firstParentId: string | null;
 	secondParentId: string | null;
+	round: number;
 }
 
 function shuffle<T>(arr: T[]) {
@@ -56,40 +65,59 @@ function shuffle<T>(arr: T[]) {
 
 	return arr;
 }
+// shuffle(teams);
 
 const matches: Match[] = [];
 
-shuffle(teams);
+const rounds = Math.floor(Math.log2(teams.length));
+console.log('bruh', rounds);
 
-for (let i = 0; i < teams.length; i += 2) {
+const restOfThePeeps: Team[] = teams.filter((_, index) => {
+	return index >= Math.pow(2, rounds);
+});
+
+for (let i = 0; i < Math.pow(2, rounds); i += 2) {
 	const match: Match = {
 		id: nanoid(3),
 		firstParentId: null,
 		secondParentId: null,
 		firstTeamId: teams[i].id,
 		secondTeamId: teams[i + 1].id,
+		round: rounds,
 	};
 	matches.push(match);
 }
 
-let count = 0;
-let numberOfMatches = matches.length;
-while (numberOfMatches !== 1) {
-	console.log(count);
-	const matchLength = matches.length;
-	for (let i = count; i < matchLength; i += 2) {
+let skip = 0;
+for (let currentRound = rounds - 1; currentRound > 0; currentRound--) {
+	const matchesLength = matches.length;
+	for (let i = skip; i < matchesLength; i += 2) {
 		const match: Match = {
 			id: nanoid(3),
 			firstParentId: matches[i].id,
 			secondParentId: matches[i + 1].id,
 			firstTeamId: null,
 			secondTeamId: null,
+			round: currentRound,
 		};
 		matches.push(match);
 	}
-
-	count += numberOfMatches;
-	numberOfMatches /= 2;
+	skip += Math.pow(2, currentRound);
 }
 
-console.log(matches);
+console.log(matches.length);
+
+console.log(Math.pow(2, rounds) / 2);
+console.log(restOfThePeeps.length);
+
+const numbers = [];
+for (let i = 0; i < Math.pow(2, rounds) / 2; ++i) {
+	numbers.push(i);
+}
+
+console.log(numbers);
+
+shuffle(numbers);
+
+console.log(numbers);
+console.log(numbers.slice(restOfThePeeps.length));
