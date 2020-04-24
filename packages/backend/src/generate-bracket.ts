@@ -64,31 +64,43 @@ export function generateBracket(teams: Team[]): Match[] {
 		skip += Math.pow(2, currentRound);
 	}
 
-	// Generate a range of numbers (0..n), shuffle, and then slice
-	const numbers = shuffle(
-		Array.from({ length: Math.pow(2, numberOfRounds) / 2 }, (_, i) => i),
-	).slice(0, restOfTeams.length);
-
 	// Add the remaining teams
-	for (const i in numbers) {
-		const teamIndex = Number(i);
-		const matchIndex = numbers[i];
-		// Always chooses the first team to play an extra match
-		const teamId = matches[matchIndex].firstTeamId;
-		matches[matchIndex].firstTeamId = null;
+	// Loop 0..n twice, first time expanding first match, the second time, the second match
+	let first = true;
+	let current = 0;
+	for (let i = 0; i < restOfTeams.length; i++) {
+		console.log(i, current, first);
+		if (i === Math.pow(2, numberOfRounds) / 2) {
+			first = false;
+			current = 0;
+		}
+
+		let teamId: string | null;
+		if (first) {
+			teamId = matches[current].firstTeamId;
+			matches[current].firstTeamId = null;
+		} else {
+			teamId = matches[current].secondTeamId;
+			matches[current].secondTeamId = null;
+		}
 
 		const match: Match = {
 			id: nanoid(3),
 			firstParentId: null,
 			secondParentId: null,
 			firstTeamId: teamId,
-			secondTeamId: restOfTeams[teamIndex].id,
+			secondTeamId: restOfTeams[i].id,
 			round: numberOfRounds + 1,
 		};
 
-		matches[matchIndex].firstParentId = match.id;
+		if (first) {
+			matches[current].firstParentId = match.id;
+		} else {
+			matches[current].secondParentId = match.id;
+		}
 
 		matches.push(match);
+		current += 1;
 	}
 
 	return matches;
