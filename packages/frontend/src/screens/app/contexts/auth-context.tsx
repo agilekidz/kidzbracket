@@ -2,6 +2,26 @@ import React, { useCallback, useContext, useState } from 'react';
 
 import { gql, useMutation, useQuery } from '@apollo/client';
 
+import {
+	FacebookLoginMutation,
+	FacebookLoginMutationVariables,
+} from './__generated__/FacebookLoginMutation';
+import {
+	GitHubLoginMutation,
+	GitHubLoginMutationVariables,
+} from './__generated__/GitHubLoginMutation';
+import {
+	GoogleLoginMutation,
+	GoogleLoginMutationVariables,
+} from './__generated__/GoogleLoginMutation';
+import { LogoutMutation } from './__generated__/LogoutMutation';
+import {
+	PasswordLoginMutation,
+	PasswordLoginMutationVariables,
+} from './__generated__/PasswordLoginMutation';
+import { ProfileQuery } from './__generated__/ProfileQuery';
+import { RegisterMutation, RegisterMutationVariables } from './__generated__/RegisterMutation';
+
 interface User {
 	id: string;
 	name: string;
@@ -41,18 +61,6 @@ const AuthContext = React.createContext<AuthContextValue>({
 	},
 });
 
-interface FacebookLoginMutationResult {
-	loginFacebook: {
-		success: boolean;
-	};
-}
-
-interface FacebookLoginMutationInput {
-	input: {
-		code: string;
-	};
-}
-
 const FACEBOOK_LOGIN_MUTATION = gql`
 	mutation FacebookLoginMutation($input: LoginFacebookInput!) {
 		loginFacebook(input: $input) {
@@ -60,18 +68,6 @@ const FACEBOOK_LOGIN_MUTATION = gql`
 		}
 	}
 `;
-
-interface GitHubLoginMutationResult {
-	loginGitHub: {
-		success: boolean;
-	};
-}
-
-interface GitHubLoginMutationInput {
-	input: {
-		code: string;
-	};
-}
 
 const GITHUB_LOGIN_MUTATION = gql`
 	mutation GitHubLoginMutation($input: LoginGitHubInput!) {
@@ -81,18 +77,6 @@ const GITHUB_LOGIN_MUTATION = gql`
 	}
 `;
 
-interface GoogleLoginMutationResult {
-	loginGoogle: {
-		success: boolean;
-	};
-}
-
-interface GoogleLoginMutationInput {
-	input: {
-		code: string;
-	};
-}
-
 const GOOGLE_LOGIN_MUTATION = gql`
 	mutation GoogleLoginMutation($input: LoginGoogleInput!) {
 		loginGoogle(input: $input) {
@@ -100,19 +84,6 @@ const GOOGLE_LOGIN_MUTATION = gql`
 		}
 	}
 `;
-
-interface PasswordLoginMutationResult {
-	loginPassword: {
-		success: boolean;
-	};
-}
-
-interface PasswordLoginMutationInput {
-	input: {
-		email: string;
-		password: string;
-	};
-}
 
 const PASSWORD_LOGIN_MUTATION = gql`
 	mutation PasswordLoginMutation($input: LoginPasswordInput!) {
@@ -122,20 +93,6 @@ const PASSWORD_LOGIN_MUTATION = gql`
 	}
 `;
 
-interface RegisterMutationResult {
-	register: {
-		success: boolean;
-	};
-}
-
-interface RegisterMutationInput {
-	input: {
-		name: string;
-		email: string;
-		password: string;
-	};
-}
-
 const REGISTER_MUTATION = gql`
 	mutation RegisterMutation($input: RegisterInput!) {
 		register(input: $input) {
@@ -144,23 +101,13 @@ const REGISTER_MUTATION = gql`
 	}
 `;
 
-interface LogoutMutationResult {
-	logout: {
-		success: true;
-	};
-}
-
 const LOGOUT_MUTATION = gql`
-	mutation Logout {
+	mutation LogoutMutation {
 		logout {
 			success
 		}
 	}
 `;
-
-interface ProfileQueryResult {
-	me: User;
-}
 
 const PROFILE_QUERY = gql`
 	query ProfileQuery {
@@ -175,27 +122,27 @@ export const AuthProvider: React.FC = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [initialised, setInitialised] = useState(false);
-	const { data, loading, refetch } = useQuery<ProfileQueryResult>(PROFILE_QUERY);
+	const { data, loading, refetch } = useQuery<ProfileQuery>(PROFILE_QUERY);
 
-	const [_loginFacebook] = useMutation<FacebookLoginMutationResult, FacebookLoginMutationInput>(
+	const [_loginFacebook] = useMutation<FacebookLoginMutation, FacebookLoginMutationVariables>(
 		FACEBOOK_LOGIN_MUTATION,
 	);
 
-	const [_loginGitHub] = useMutation<GitHubLoginMutationResult, GitHubLoginMutationInput>(
+	const [_loginGitHub] = useMutation<GitHubLoginMutation, GitHubLoginMutationVariables>(
 		GITHUB_LOGIN_MUTATION,
 	);
 
-	const [_loginGoogle] = useMutation<GoogleLoginMutationResult, GoogleLoginMutationInput>(
+	const [_loginGoogle] = useMutation<GoogleLoginMutation, GoogleLoginMutationVariables>(
 		GOOGLE_LOGIN_MUTATION,
 	);
 
-	const [_loginPassword] = useMutation<PasswordLoginMutationResult, PasswordLoginMutationInput>(
+	const [_loginPassword] = useMutation<PasswordLoginMutation, PasswordLoginMutationVariables>(
 		PASSWORD_LOGIN_MUTATION,
 	);
 
-	const [_register] = useMutation<RegisterMutationResult, RegisterMutationInput>(REGISTER_MUTATION);
+	const [_register] = useMutation<RegisterMutation, RegisterMutationVariables>(REGISTER_MUTATION);
 
-	const [_logout] = useMutation<LogoutMutationResult>(LOGOUT_MUTATION);
+	const [_logout] = useMutation<LogoutMutation>(LOGOUT_MUTATION);
 
 	const loginFacebook = useCallback(
 		(code: string) => {
