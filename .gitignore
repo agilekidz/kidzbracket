@@ -132,3 +132,6 @@ sketch
 .history
 
 # End of https://www.gitignore.io/api/node,react,visualstudiocode
+
+# Apollo generated graphql types
+__generated__ 
