@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
 import Team from '../../entities/team';
+import Tournament from '../tournament/tournament';
 
 @ObjectType()
 export default class Match {
