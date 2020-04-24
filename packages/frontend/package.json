@@ -7,11 +7,14 @@
 	"private": true,
 	"scripts": {
 		"build": "parcel build src/index.html",
-		"build:check": "tsc --noEmit",
-		"clean": "rimraf .cache dist",
-		"dev": "parcel -p 3000 --hmr-port 1234 --https watch src/index.html",
+		"build:check": "yarn --cwd ../backend generate-gql-schema && yarn generate-gql-types && tsc --noEmit",
+		"clean": "rimraf .cache dist **/__generated__",
+		"dev": "concurrently --kill-others \"yarn generate-gql-types:watch\" \"yarn parcel:watch\"",
+		"generate-gql-types": "apollo client:codegen --config apollo.config.not-vscode.js --target typescript",
+		"generate-gql-types:watch": "apollo client:codegen --config ./apollo.config.not-vscode.js --target typescript --watch",
 		"lint": "eslint --ext .ts,.tsx . && yarn prettier:check",
 		"lint:fix": "eslint --ext .ts,.tsx --fix . && yarn prettier:format",
+		"parcel:watch": "parcel -p 3000 --hmr-port 1234 --https watch src/index.html",
 		"prettier:format": "prettier --write --ignore-path ../../.gitignore --loglevel error \"**/*.{js,jsx,json,yml,yaml}\"",
 		"prettier:check": "prettier --list-different --ignore-path ../../.gitignore \"**/*.{js,jsx,json,yml,yaml}\"",
 		"test": "jest --passWithNoTests"
@@ -35,6 +38,8 @@
 		"@types/react": "^16.9.25",
 		"@types/react-dom": "^16.9.5",
 		"@types/react-router-dom": "^5.1.4",
+		"apollo": "^2.27.3",
+		"concurrently": "^5.1.0",
 		"eslint-plugin-react": "^7.19.0",
 		"eslint-plugin-react-hooks": "^3.0.0",
 		"parcel-bundler": "^1.12.4"

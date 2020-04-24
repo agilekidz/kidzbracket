@@ -11,6 +11,8 @@ services:
     volumes:
       - /usr/src/app/packages/frontend/node_modules
       - ./packages/frontend:/usr/src/app/packages/frontend
+      - /usr/src/app/packages/backend/node_modules
+      - ./packages/backend:/usr/src/app/packages/backend
 
   backend:
     build:
