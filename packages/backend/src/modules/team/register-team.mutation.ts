@@ -1,7 +1,6 @@
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
+import { Arg, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { getRepository } from 'typeorm';
 
-import { Context } from '../../apollo';
 import DBTeam from '../../entities/team';
 
 @InputType()
@@ -19,10 +18,7 @@ class RegisterTeamPayload {
 @Resolver()
 export default class RegisterTeamMutationResolver {
 	@Mutation(() => RegisterTeamPayload)
-	async registerTeam(
-		@Ctx() context: Context,
-		@Arg('input') { name }: RegisterTeamInput,
-	): Promise<RegisterTeamPayload> {
+	async registerTeam(@Arg('input') { name }: RegisterTeamInput): Promise<RegisterTeamPayload> {
 		const teamRepository = getRepository(DBTeam);
 		let team = await teamRepository.findOne(undefined, {
 			where: { name },
