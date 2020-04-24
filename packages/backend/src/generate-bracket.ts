@@ -65,12 +65,12 @@ function shuffle<T>(arr: T[]) {
 
 	return arr;
 }
-// shuffle(teams);
+
+shuffle(teams);
 
 const matches: Match[] = [];
 
 const rounds = Math.floor(Math.log2(teams.length));
-console.log('bruh', rounds);
 
 const restOfThePeeps: Team[] = teams.filter((_, index) => {
 	return index >= Math.pow(2, rounds);
@@ -105,19 +105,33 @@ for (let currentRound = rounds - 1; currentRound > 0; currentRound--) {
 	skip += Math.pow(2, currentRound);
 }
 
-console.log(matches.length);
-
-console.log(Math.pow(2, rounds) / 2);
-console.log(restOfThePeeps.length);
-
-const numbers = [];
+let numbers = [];
 for (let i = 0; i < Math.pow(2, rounds) / 2; ++i) {
 	numbers.push(i);
 }
 
-console.log(numbers);
-
 shuffle(numbers);
+numbers = numbers.slice(restOfThePeeps.length);
 
-console.log(numbers);
-console.log(numbers.slice(restOfThePeeps.length));
+for (const i in numbers) {
+	const teamIndex = Number(i);
+	const matchIndex = numbers[i];
+	// Always chooses the first team to play an extra match
+	const teamId = matches[matchIndex].firstTeamId;
+	matches[matchIndex].firstTeamId = null;
+
+	const match: Match = {
+		id: nanoid(3),
+		firstParentId: null,
+		secondParentId: null,
+		firstTeamId: teamId,
+		secondTeamId: restOfThePeeps[teamIndex].id,
+		round: rounds + 1,
+	};
+
+	matches[matchIndex].firstParentId = match.id;
+
+	matches.push(match);
+}
+
+console.log(matches);
