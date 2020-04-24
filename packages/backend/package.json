@@ -6,9 +6,10 @@
 	"license": "MIT",
 	"private": true,
 	"scripts": {
-		"build": "tsc",
-		"clean": "rimraf dist",
+		"build": "yarn generate-gql-schema && tsc",
+		"clean": "rimraf dist **/__generated__",
 		"dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
+		"generate-gql-schema": "ts-node --transpile-only src/generate-gql-schema.ts",
 		"lint": "yarn eslint --ext .ts . && yarn prettier:check",
 		"lint:fix": "eslint --ext .ts,.tsx --fix . && yarn prettier:format",
 		"prettier:format": "prettier --write --ignore-path ../../.gitignore --loglevel error \"**/*.{js,jsx,json,yml,yaml}\"",
