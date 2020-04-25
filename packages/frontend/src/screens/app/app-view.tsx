@@ -8,6 +8,7 @@ import GuestRoute from './components/guest-route';
 import PrivateRoute from './components/private-route';
 import { useAuth } from './contexts/auth-context';
 import AuthScreen from './screens/auth';
+import BracketScreen from './screens/bracket';
 import HomeScreen from './screens/home';
 import UsersScreen from './screens/users';
 
@@ -51,19 +52,26 @@ const AppView = () => {
 			<GlobalStyle />
 			<Normalize />
 			<div style={{ background: '#2B2D42', width: '100%', height: '75px', display: 'flex' }}>
-				<LinkWrapper
-					style={{ marginLeft: 'auto' }}
-					//Detta funkade inte så bra pga tsx
-					//onClick={() => document.getElementById('link1').click()}
-				>
-					<Link id="link1" style={LinkStyling} to="/users">
+				<LinkWrapper>
+					<Link style={LinkStyling} to="/">
+						Home
+					</Link>
+				</LinkWrapper>
+				{
+					///maybe add some .env testing thing to this button, its ment to link to the site for new features
+				}
+				<LinkWrapper style={{ marginRight: 'auto' }}>
+					<Link style={LinkStyling} to="/bracket">
+						Testing
+					</Link>
+				</LinkWrapper>
+				<LinkWrapper style={{ marginLeft: 'auto' }}>
+					<Link style={LinkStyling} to="/users">
 						Users
 					</Link>
 				</LinkWrapper>
 				{!isAuthenticated && (
-					<LinkWrapper
-					//onClick={() => document.getElementById('link2').click()}
-					>
+					<LinkWrapper>
 						<Link style={LinkStyling} to="/auth/login">
 							Login
 						</Link>
@@ -88,6 +96,7 @@ const AppView = () => {
 				<PrivateRoute path="/users" component={UsersScreen} />
 				<GuestRoute path="/auth" component={AuthScreen} />
 				<Route exact path="/" component={HomeScreen} />
+				<Route path="/bracket" component={BracketScreen} />
 			</Switch>
 		</div>
 	);
