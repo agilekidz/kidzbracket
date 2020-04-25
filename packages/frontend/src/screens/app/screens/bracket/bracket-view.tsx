@@ -1,5 +1,7 @@
 import React from 'react';
 
+import LineTo from 'react-lineto';
+
 import styled from 'styled-components';
 
 import Column from './components/bo-x-column';
@@ -22,6 +24,7 @@ const BracketView = () => {
 				<Column props={round3}></Column>
 				<Column props={round2}></Column>
 				<Column props={round1}></Column>
+				<LineTo from="1" to="2" />
 			</Wrapper>
 		</div>
 	);

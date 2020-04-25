@@ -8,7 +8,7 @@ const Column = styled.div`
 	height: 500px;
 	width: 200px;
 	border: 1px solid black;
-	background: red;
+	background: darkgray;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -25,6 +25,7 @@ const BoXColumn: React.FC<MatchesProps> = ({ props }) => {
 	return (
 		<Column>
 			{props.matches.map(match => (
+				// eslint-disable-next-line react/jsx-key
 				<MatchCard match={match}></MatchCard>
 			))}
 		</Column>

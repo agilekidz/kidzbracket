@@ -15,7 +15,7 @@ interface MatchProps {
 }
 
 const MatchCard: React.FC<MatchProps> = ({ match }) => {
-	return <Card>{match}</Card>;
+	return <Card className={match}>{match}</Card>;
 };
 
 export default MatchCard;
