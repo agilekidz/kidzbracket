@@ -39,4 +39,7 @@ export default class Match extends BaseEntity {
 	//Winner of the match
 	@OneToOne(() => Team, { nullable: true })
 	winner?: Team;
+
+	@Column()
+	round: number;
 }
