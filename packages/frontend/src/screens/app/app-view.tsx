@@ -42,9 +42,8 @@ const AppView = () => {
 			<div style={{ background: '#2B2D42', width: '100%', height: '75px', display: 'flex' }}>
 				<LinkWrapper
 					style={{ marginLeft: 'auto' }}
-					// DETTA ÄR MEGA PEPEG MEN OM NI HAR ETT BÄTTRE FÖRSLAG SÅ FÅR NI IMPLEMENTERA DET SJÄLVA XDDD KL är 05:04 :DDD
-
-					onClick={() => document.getElementById('link1').click()}
+					//Detta funkade inte så bra pga tsx
+					//onClick={() => document.getElementById('link1').click()}
 				>
 					<Link
 						id="link1"
@@ -55,7 +54,9 @@ const AppView = () => {
 					</Link>
 				</LinkWrapper>
 				{!isAuthenticated && (
-					<LinkWrapper onClick={() => document.getElementById('link2').click()}>
+					<LinkWrapper
+					//onClick={() => document.getElementById('link2').click()}
+					>
 						<Link
 							id="link2"
 							style={{ font: '1.4em Arial, sans-serif', textDecoration: 'none', color: 'black' }}
@@ -66,7 +67,9 @@ const AppView = () => {
 					</LinkWrapper>
 				)}
 				{!isAuthenticated && (
-					<LinkWrapper onClick={() => document.getElementById('link3').click()}>
+					<LinkWrapper
+					//onClick={() => document.getElementById('link3').click()}
+					>
 						<Link
 							id="link3"
 							style={{ font: '1.4em Arial, sans-serif', textDecoration: 'none', color: 'black' }}
