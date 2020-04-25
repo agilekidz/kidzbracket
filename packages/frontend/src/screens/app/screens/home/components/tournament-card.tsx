@@ -23,9 +23,13 @@ const Innerbox = style.div`
 	align-items: stretch;
 	border: 4px solid rgb(43, 45, 66);
 	transition: all 0.2s;
-	&:hover{background: #bcc0d0;}
+	&:hover{
+		box-shadow: inset 0 0 10px #000000;
+		background: #ccd1e3;
+	}
 
 `;
+// old color #bcc0d0
 
 const Name = style.div`
     height: 20%;
