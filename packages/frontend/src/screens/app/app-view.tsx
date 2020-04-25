@@ -32,6 +32,17 @@ const LinkWrapper = styled.div`
 	}
 `;
 
+const LinkStyling = {
+	font: '1.4em Arial, sans-serif',
+	textDecoration: 'none',
+	color: 'black',
+	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+	width: '100%',
+	height: '100%',
+};
+
 const AppView = () => {
 	const { isAuthenticated, logout, user } = useAuth();
 
@@ -45,11 +56,7 @@ const AppView = () => {
 					//Detta funkade inte så bra pga tsx
 					//onClick={() => document.getElementById('link1').click()}
 				>
-					<Link
-						id="link1"
-						style={{ font: '1.4em Arial, sans-serif', textDecoration: 'none', color: 'black' }}
-						to="/users"
-					>
+					<Link id="link1" style={LinkStyling} to="/users">
 						Users
 					</Link>
 				</LinkWrapper>
@@ -57,29 +64,25 @@ const AppView = () => {
 					<LinkWrapper
 					//onClick={() => document.getElementById('link2').click()}
 					>
-						<Link
-							id="link2"
-							style={{ font: '1.4em Arial, sans-serif', textDecoration: 'none', color: 'black' }}
-							to="/auth/login"
-						>
+						<Link style={LinkStyling} to="/auth/login">
 							Login
 						</Link>
 					</LinkWrapper>
 				)}
 				{!isAuthenticated && (
-					<LinkWrapper
-					//onClick={() => document.getElementById('link3').click()}
-					>
-						<Link
-							id="link3"
-							style={{ font: '1.4em Arial, sans-serif', textDecoration: 'none', color: 'black' }}
-							to="/auth/register"
-						>
-							Register
+					<LinkWrapper>
+						<Link style={LinkStyling} to="/auth/register">
+							<p>Register</p>
 						</Link>
 					</LinkWrapper>
 				)}
-				{isAuthenticated && <button onClick={() => logout()}>Logout {user && user.name}</button>}
+				{isAuthenticated && (
+					<LinkWrapper onClick={() => logout()}>
+						<p style={{ textAlign: 'center', font: '1.4em Arial, sans-serif' }}>
+							Logout <br /> {user && user.name}
+						</p>
+					</LinkWrapper>
+				)}
 			</div>
 			<Switch>
 				<PrivateRoute path="/users" component={UsersScreen} />
