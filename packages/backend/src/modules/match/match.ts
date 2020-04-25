@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
-import Team from '../../entities/team';
+import GQLTeam from '../team/team';
 import Tournament from '../tournament/tournament';
 
 @ObjectType()
@@ -10,17 +10,17 @@ export default class Match {
 	})
 	id: string;
 
-	@Field(() => Team, {
+	@Field(() => GQLTeam, {
 		nullable: true,
 		description: 'References the first team of the match',
 	})
-	firstTeam?: Team;
+	firstTeam?: GQLTeam;
 
-	@Field(() => Team, {
+	@Field(() => GQLTeam, {
 		nullable: true,
 		description: 'Refrences the second team of the match',
 	})
-	secondTeam?: Team;
+	secondTeam?: GQLTeam;
 
 	@Field(() => Match, {
 		nullable: true,
@@ -51,9 +51,9 @@ export default class Match {
 	})
 	tournament: Tournament;
 
-	@Field(() => Team, {
+	@Field(() => GQLTeam, {
 		nullable: true,
 		description: 'References the winning team',
 	})
-	winner?: Team;
+	winner?: GQLTeam;
 }
