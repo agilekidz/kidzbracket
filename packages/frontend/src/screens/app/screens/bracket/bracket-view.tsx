@@ -1,7 +1,6 @@
 import React from 'react';
 
 import LineTo from 'react-lineto';
-
 import styled from 'styled-components';
 
 import Column from './components/bo-x-column';
@@ -16,7 +15,7 @@ const Wrapper = styled.div`
 const BracketView = () => {
 	const round1 = { matches: [1] };
 	const round2 = { matches: [2, 3] };
-	const round3 = { matches: [4, 5, 6, 7] };
+	const round3 = { matches: [4, 5, null, null] };
 
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

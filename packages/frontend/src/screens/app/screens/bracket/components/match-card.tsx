@@ -15,7 +15,17 @@ interface MatchProps {
 }
 
 const MatchCard: React.FC<MatchProps> = ({ match }) => {
-	return <Card className={match}>{match}</Card>;
+	function lmaoxd(): string {
+		if (match != null) {
+			return '1';
+		} else {
+			return '0';
+		}
+	}
+
+	const menDino = { opacity: lmaoxd() };
+
+	return <Card style={menDino}>{match}</Card>;
 };
 
 export default MatchCard;
