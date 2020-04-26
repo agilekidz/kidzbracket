@@ -8,7 +8,6 @@ import redis from 'redis';
 import { createConnection, getRepository } from 'typeorm';
 
 import createApolloServer from './apollo';
-import Match from './entities/match';
 import Team from './entities/team';
 import Tournament from './entities/tournament';
 import { generateBracket } from './generate-bracket';
@@ -29,9 +28,8 @@ const RedisSessionStore = RedisSession(session);
 
 		const app = express();
 
-		app.get('/', async (req, res) => {
+		app.get('/', async (_req, res) => {
 			const tournamentRepository = getRepository(Tournament);
-			const matchRepository = getRepository(Match);
 			const teamRepository = getRepository(Team);
 
 			let tournament = tournamentRepository.create({ name: 'My first tournament' });
