@@ -5,13 +5,12 @@ import styled from 'styled-components';
 const Card = styled.div`
 	background: lightblue;
 	border: 1px black solid;
-	width: 120px;
+	width: 200px;
 	height: 50px;
-	margin: auto;
 `;
 
 interface MatchProps {
-	match: number;
+	match: string;
 }
 
 const MatchCard: React.FC<MatchProps> = ({ match }) => {

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import LineTo from 'react-lineto';
 import styled from 'styled-components';
 
-import Column from './components/bo-x-column';
+import RBox from './components/recurse-box';
 
 const Wrapper = styled.div`
 	background: lightgray;
@@ -13,17 +12,43 @@ const Wrapper = styled.div`
 //const BracketScroller =
 
 const BracketView = () => {
-	const round1 = { matches: [1] };
-	const round2 = { matches: [2, 3] };
-	const round3 = { matches: [4, 5, null, null] };
+	const second = {
+		id: '2',
+		firstParent: undefined,
+		secondParent: undefined,
+		firstTeam: { id: '3', name: 'third' },
+		secondTeam: { id: '4', name: 'forth' },
+		firstTeamScore: 2,
+		secondTeamScore: 3,
+		winner: { id: '3', name: 'third' },
+	};
+
+	const third = {
+		id: '4',
+		firstParent: undefined,
+		secondParent: undefined,
+		firstTeam: { id: '5', name: 'fifth' },
+		secondTeam: { id: '6', name: 'sixth' },
+		firstTeamScore: 2,
+		secondTeamScore: 3,
+		winner: { id: '5', name: 'fifth' },
+	};
+
+	const start = {
+		id: '1',
+		firstParent: second,
+		secondParent: third,
+		firstTeam: { id: '1', name: 'first' },
+		secondTeam: { id: '2', name: 'second' },
+		firstTeamScore: 2,
+		secondTeamScore: 3,
+		winner: { id: '1', name: 'first' },
+	};
 
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 			<Wrapper style={{ display: 'flex' }}>
-				<Column props={round3}></Column>
-				<Column props={round2}></Column>
-				<Column props={round1}></Column>
-				<LineTo from="1" to="2" />
+				<RBox match={start}></RBox>
 			</Wrapper>
 		</div>
 	);
