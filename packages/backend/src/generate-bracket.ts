@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 
 import Match from './entities/match';
 import Team from './entities/team';
+import Tournament from './entities/tournament';
 
 function shuffle<T>(arr: T[]): T[] {
 	arr = [...arr];
@@ -12,9 +13,8 @@ function shuffle<T>(arr: T[]): T[] {
 	return arr;
 }
 
-const matchRepository = getRepository(Match);
-
-export async function generateBracket(teams: Team[]): Promise<Match[]> {
+export async function generateBracket(teams: Team[], tournament: Tournament): Promise<Match[]> {
+	const matchRepository = getRepository(Match);
 	teams = shuffle(teams);
 
 	const matches: Match[] = [];
@@ -30,6 +30,7 @@ export async function generateBracket(teams: Team[]): Promise<Match[]> {
 			firstTeam: teams[i],
 			secondTeam: teams[i + 1],
 			round: numberOfRounds,
+			tournament,
 		});
 		match = await matchRepository.save(match);
 		matches.push(match);
@@ -44,6 +45,7 @@ export async function generateBracket(teams: Team[]): Promise<Match[]> {
 				firstParent: matches[i],
 				secondParent: matches[i + 1],
 				round: currentRound,
+				tournament,
 			});
 			match = await matchRepository.save(match);
 			matches.push(match);
@@ -74,6 +76,7 @@ export async function generateBracket(teams: Team[]): Promise<Match[]> {
 			firstTeam: team,
 			secondTeam: restOfTeams[i],
 			round: numberOfRounds + 1,
+			tournament,
 		});
 		match = await matchRepository.save(match);
 

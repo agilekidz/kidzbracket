@@ -56,4 +56,9 @@ export default class Match {
 		description: 'References the winning team',
 	})
 	winner?: GQLTeam;
+
+	@Field({
+		description: 'The roun+d',
+	})
+	round: number;
 }

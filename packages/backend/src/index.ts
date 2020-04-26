@@ -5,10 +5,14 @@ import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import redis from 'redis';
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
 
 import createApolloServer from './apollo';
+import Match from './entities/match';
+import Team from './entities/team';
+import Tournament from './entities/tournament';
 import typeormConfig from './typeorm-config';
+import { generateBracket } from './generate-bracket';
 
 dotenv.config();
 
@@ -20,12 +24,29 @@ const RedisSessionStore = RedisSession(session);
 
 (async function () {
 	try {
+		console.log(typeormConfig);
 		await createConnection(typeormConfig);
 
 		const app = express();
 
-		app.get('/', (req, res) => {
-			return res.send(req.query);
+		app.get('/', async (req, res) => {
+			const tournamentRepository = getRepository(Tournament);
+			const matchRepository = getRepository(Match);
+			const teamRepository = getRepository(Team);
+
+			let tournament = tournamentRepository.create({ name: 'My first tournament' });
+			tournament = await tournamentRepository.save(tournament);
+
+			const teams: Team[] = [];
+			for (let i = 0; i < 15; i++) {
+				let team = teamRepository.create({ name: 'team' + i });
+				team = await teamRepository.save(team);
+				teams.push(team);
+			}
+
+			const matches = await generateBracket(teams, tournament);
+
+			return res.send({ tournament, teams, matches });
 		});
 
 		app.use(

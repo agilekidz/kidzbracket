@@ -43,6 +43,12 @@ const RBox: React.FC<MatchesProps> = ({ match, first = false }) => {
 	const hasSecondParent = match.secondParent;
 	const hasAnyParent = hasFirstParent || hasSecondParent;
 
+	/*const condMargin = () => {
+		if (hasBothParents) {
+			return '0%';
+		}else if(hasFirstParent)
+	};*/
+
 	return (
 		<div style={{ background: 'red', display: 'flex' }}>
 			<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
