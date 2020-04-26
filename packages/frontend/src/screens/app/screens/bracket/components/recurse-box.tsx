@@ -1,12 +1,12 @@
 import React from 'react';
 
 import styled from 'styled-components';
+
 import MatchCard from './match-card';
 
 //import MatchCard from './match-card';
 
 const Column = styled.div`
-	height: 300px;
 	border: 1px solid black;
 	background: darkgray;
 	display: flex;
@@ -50,7 +50,7 @@ const RBox: React.FC<MatchesProps> = ({ match, first = false }) => {
 	};*/
 
 	return (
-		<div style={{ background: 'red', display: 'flex' }}>
+		<div style={{ display: 'flex' }}>
 			<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
 				{match.firstParent && <RBox match={match.firstParent}> </RBox>}
 				{match.secondParent && <RBox match={match.secondParent}></RBox>}

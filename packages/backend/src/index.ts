@@ -11,8 +11,8 @@ import createApolloServer from './apollo';
 import Match from './entities/match';
 import Team from './entities/team';
 import Tournament from './entities/tournament';
-import typeormConfig from './typeorm-config';
 import { generateBracket } from './generate-bracket';
+import typeormConfig from './typeorm-config';
 
 dotenv.config();
 
