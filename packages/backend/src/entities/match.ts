@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 import BaseEntity from './base-entity';
 import Team from './team';
@@ -37,7 +37,7 @@ export default class Match extends BaseEntity {
 	tournament: Tournament;
 
 	//Winner of the match
-	@OneToOne(() => Team, { nullable: true })
+	@ManyToOne(() => Team, { nullable: true })
 	winner?: Team;
 
 	@Column()
