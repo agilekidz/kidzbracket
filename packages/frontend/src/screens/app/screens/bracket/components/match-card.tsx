@@ -7,6 +7,7 @@ const Card = styled.div`
 	border: 1px black solid;
 	width: 200px;
 	height: 50px;
+	margin: 20px 0;
 `;
 
 interface MatchProps {
