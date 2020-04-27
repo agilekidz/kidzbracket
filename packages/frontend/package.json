@@ -14,7 +14,7 @@
 		"generate-gql-types:watch": "apollo client:codegen --config ./apollo.config.not-vscode.js --target typescript --watch",
 		"lint": "eslint --ext .ts,.tsx . && yarn prettier:check",
 		"lint:fix": "eslint --ext .ts,.tsx --fix . && yarn prettier:format",
-		"parcel:watch": "parcel -p 3000 --hmr-port 1234 --https watch src/index.html",
+		"parcel:watch": "parcel -p 3000 --hmr-port 1234 watch src/index.html",
 		"prettier:format": "prettier --write --ignore-path ../../.gitignore --loglevel error \"**/*.{js,jsx,json,yml,yaml}\"",
 		"prettier:check": "prettier --list-different --ignore-path ../../.gitignore \"**/*.{js,jsx,json,yml,yaml}\"",
 		"test": "jest --passWithNoTests"

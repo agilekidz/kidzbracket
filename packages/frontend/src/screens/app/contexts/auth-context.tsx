@@ -3,10 +3,6 @@ import React, { useCallback, useContext, useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 
 import {
-	FacebookLoginMutation,
-	FacebookLoginMutationVariables,
-} from './__generated__/FacebookLoginMutation';
-import {
 	GitHubLoginMutation,
 	GitHubLoginMutationVariables,
 } from './__generated__/GitHubLoginMutation';
@@ -30,7 +26,6 @@ interface User {
 interface AuthContextValue {
 	user: User | null;
 	isAuthenticated: boolean;
-	loginFacebook: (code: string) => Promise<void>;
 	loginGitHub: (code: string) => Promise<void>;
 	loginGoogle: (code: string) => Promise<void>;
 	loginPassword: (email: string, password: string) => Promise<void>;
@@ -41,9 +36,6 @@ interface AuthContextValue {
 const AuthContext = React.createContext<AuthContextValue>({
 	user: null,
 	isAuthenticated: false,
-	loginFacebook: () => {
-		throw new Error('Not implemented');
-	},
 	loginGitHub: () => {
 		throw new Error('Not implemented');
 	},
@@ -60,14 +52,6 @@ const AuthContext = React.createContext<AuthContextValue>({
 		throw new Error('Not implemented');
 	},
 });
-
-const FACEBOOK_LOGIN_MUTATION = gql`
-	mutation FacebookLoginMutation($input: LoginFacebookInput!) {
-		loginFacebook(input: $input) {
-			success
-		}
-	}
-`;
 
 const GITHUB_LOGIN_MUTATION = gql`
 	mutation GitHubLoginMutation($input: LoginGitHubInput!) {
@@ -124,10 +108,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 	const [initialised, setInitialised] = useState(false);
 	const { data, loading, refetch } = useQuery<ProfileQuery>(PROFILE_QUERY);
 
-	const [_loginFacebook] = useMutation<FacebookLoginMutation, FacebookLoginMutationVariables>(
-		FACEBOOK_LOGIN_MUTATION,
-	);
-
 	const [_loginGitHub] = useMutation<GitHubLoginMutation, GitHubLoginMutationVariables>(
 		GITHUB_LOGIN_MUTATION,
 	);
@@ -143,26 +123,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 	const [_register] = useMutation<RegisterMutation, RegisterMutationVariables>(REGISTER_MUTATION);
 
 	const [_logout] = useMutation<LogoutMutation>(LOGOUT_MUTATION);
-
-	const loginFacebook = useCallback(
-		(code: string) => {
-			return _loginFacebook({ variables: { input: { code } } })
-				.then(({ data }) => {
-					if (!data?.loginFacebook.success) {
-						throw new Error('Unsuccessful login attempt');
-					}
-
-					return refetch();
-				})
-				.then(({ data }) => {
-					if (data) {
-						setIsAuthenticated(true);
-						setUser(data.me);
-					}
-				});
-		},
-		[_loginFacebook, refetch],
-	);
 
 	const loginGitHub = useCallback(
 		(code: string) => {
@@ -271,7 +231,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 			value={{
 				isAuthenticated,
 				user,
-				loginFacebook,
 				loginGitHub,
 				loginGoogle,
 				loginPassword,
