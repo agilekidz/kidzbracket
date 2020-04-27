@@ -9,7 +9,7 @@ interface Props {
 	invisible?: boolean;
 }
 
-const MatchCard: React.FC<Props> = ({ match, invisible = false }) => {
+const MatchCardView: React.FC<Props> = ({ match, invisible = false }) => {
 	return (
 		<Card invisible={invisible}>
 			<Team first>{match.firstTeam && match.firstTeam.name}</Team>
@@ -18,4 +18,4 @@ const MatchCard: React.FC<Props> = ({ match, invisible = false }) => {
 	);
 };
 
-export default MatchCard;
+export default MatchCardView;

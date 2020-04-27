@@ -26,12 +26,12 @@ export interface BracketMatch {
 	winner?: Team;
 }
 
-interface InternalBracketMatchProps {
+interface InternalBracketProps {
 	match: BracketMatch;
 	first?: boolean;
 }
 
-const InternalBracketMatch: React.FC<InternalBracketMatchProps> = ({ match, first = false }) => {
+const InternalBracket: React.FC<InternalBracketProps> = ({ match, first = false }) => {
 	const hasBothParents = match.firstParent && match.secondParent;
 	const hasFirstParent = match.firstParent;
 	const hasSecondParent = match.secondParent;
@@ -40,8 +40,8 @@ const InternalBracketMatch: React.FC<InternalBracketMatchProps> = ({ match, firs
 	return (
 		<Wrapper>
 			<ChildWrapper>
-				{match.firstParent && <InternalBracketMatch match={match.firstParent} />}
-				{match.secondParent && <InternalBracketMatch match={match.secondParent} />}
+				{match.firstParent && <InternalBracket match={match.firstParent} />}
+				{match.secondParent && <InternalBracket match={match.secondParent} />}
 			</ChildWrapper>
 			<ContentWrapper>
 				{hasBothParents && <VerticalConnector />}
@@ -59,8 +59,8 @@ interface Props {
 	match: BracketMatch;
 }
 
-const BracketMatchView: React.FC<Props> = ({ match }) => {
-	return <InternalBracketMatch match={match} first />;
+const BracketView: React.FC<Props> = ({ match }) => {
+	return <InternalBracket match={match} first />;
 };
 
-export default BracketMatchView;
+export default BracketView;
