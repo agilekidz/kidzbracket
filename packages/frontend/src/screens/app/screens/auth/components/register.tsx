@@ -16,9 +16,6 @@ const Register = () => {
 		<>
 			<ul>
 				<li>
-					<a href={facebookAuthUri}>Register with Facebook</a>
-				</li>
-				<li>
 					<a href={gitHubAuthUri}>Register with GitHub</a>
 				</li>
 				<li>

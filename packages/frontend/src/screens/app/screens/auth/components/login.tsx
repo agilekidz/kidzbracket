@@ -14,9 +14,6 @@ const Login = () => {
 		<>
 			<ul>
 				<li>
-					<a href={facebookAuthUri}>Login with Facebook</a>
-				</li>
-				<li>
 					<a href={gitHubAuthUri}>Login with GitHub</a>
 				</li>
 				<li>
