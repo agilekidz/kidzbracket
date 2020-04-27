@@ -13,7 +13,7 @@ export default class MatchQueryResolver {
 	): Promise<GQLMatch> {
 		const matchRepository = getRepository(DBMatch);
 		const match = await matchRepository.findOne({ where: { id } });
-		if (match == undefined) {
+		if (!match) {
 			throw new Error('Match does not exist');
 		}
 
