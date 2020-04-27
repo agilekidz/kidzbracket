@@ -96,7 +96,7 @@ const AppView = () => {
 				<PrivateRoute path="/users" component={UsersScreen} />
 				<GuestRoute path="/auth" component={AuthScreen} />
 				<Route exact path="/" component={HomeScreen} />
-				<Route path="/bracket" component={BracketScreen} />
+				<Route path="/tournaments/:tournamentId" component={BracketScreen} />
 			</Switch>
 		</div>
 	);
