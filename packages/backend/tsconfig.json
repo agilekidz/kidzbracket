@@ -16,5 +16,5 @@
 		"types": ["node"]
 	},
 	"extends": "../../tsconfig.base.json",
-	"include": ["src", "typeorm-config.ts"]
+	"include": ["src"]
 }
