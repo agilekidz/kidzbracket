@@ -17,4 +17,4 @@ FROM nginx:1.17.9
 COPY --from=builder /usr/src/app/packages/frontend/dist /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d
+COPY packages/frontend/nginx.conf /etc/nginx/conf.d
