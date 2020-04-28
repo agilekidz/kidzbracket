@@ -22,7 +22,7 @@ ReactDOM.render(
 	<Router>
 		<ApolloProvider client={client}>
 			<AuthProvider>
-				<SimpleBar style={{ maxHeight: '100vh' }}>
+				<SimpleBar style={{ height: '100vh' }}>
 					<AppScreen />
 				</SimpleBar>
 			</AuthProvider>

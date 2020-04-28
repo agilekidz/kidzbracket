@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { useAuth } from '../../../contexts/auth-context';
-import facebookAuthUri from '../utils/facebook-auth-uri';
 import gitHubAuthUri from '../utils/github-auth-uri';
 import googleAuthUri from '../utils/google-auth-uri';
 
@@ -13,9 +12,6 @@ const Login = () => {
 	return (
 		<>
 			<ul>
-				<li>
-					<a href={facebookAuthUri}>Login with Facebook</a>
-				</li>
 				<li>
 					<a href={gitHubAuthUri}>Login with GitHub</a>
 				</li>
