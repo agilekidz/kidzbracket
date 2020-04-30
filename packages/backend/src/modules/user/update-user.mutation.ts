@@ -40,18 +40,20 @@ export default class UpdateUserMutationResolver {
 		if (alias !== undefined) {
 			user.alias = alias || undefined;
 		}
+
 		if (bio !== undefined) {
 			user.bio = bio || undefined;
 		}
+
 		if (name !== undefined) {
 			user.name = name;
 		}
+
 		user = await userRepository.save(user);
 
 		return {
 			user,
 		};
 		console.log(alias, bio);
-		throw new Error('lmaokanjagskrivakvadjagvil');
 	}
 }
