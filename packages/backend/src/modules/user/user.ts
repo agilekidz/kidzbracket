@@ -10,4 +10,10 @@ export default class User {
 
 	@Field()
 	email: string;
+
+	@Field({ nullable: true })
+	alias?: string;
+
+	@Field({ nullable: true })
+	bio?: string;
 }
