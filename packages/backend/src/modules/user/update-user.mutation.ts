@@ -12,6 +12,9 @@ class UpdateUserInput {
 
 	@Field(() => String, { nullable: true })
 	bio?: string | null;
+
+	@Field(() => String)
+	name?: string;
 }
 
 @ObjectType()
@@ -25,7 +28,7 @@ export default class UpdateUserMutationResolver {
 	@Mutation(() => UpdateUserPayload)
 	async updateUser(
 		@Arg('id', () => ID) id: string,
-		@Arg('data') { alias, bio }: UpdateUserInput,
+		@Arg('data') { alias, bio, name }: UpdateUserInput,
 	): Promise<UpdateUserPayload> {
 		const userRepository = getRepository(DBUser);
 		let user = await userRepository.findOne(id);
@@ -39,6 +42,9 @@ export default class UpdateUserMutationResolver {
 		}
 		if (bio !== undefined) {
 			user.bio = bio || undefined;
+		}
+		if (name !== undefined) {
+			user.name = name;
 		}
 		user = await userRepository.save(user);
 

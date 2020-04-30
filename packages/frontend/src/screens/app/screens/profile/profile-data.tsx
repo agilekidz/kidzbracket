@@ -11,6 +11,7 @@ const PROFILE_QUERY = gql`
 			id
 			alias
 			bio
+			name
 		}
 	}
 `;

@@ -15,6 +15,7 @@ const UPDATE_PROFILE_MUTATION = gql`
 				id
 				alias
 				bio
+				name
 			}
 		}
 	}
@@ -24,12 +25,14 @@ interface Props {
 		id: string;
 		alias: string;
 		bio: string;
+		name: string;
 	};
 }
 
 const ProfileLogic: React.FC<Props> = ({ user }) => {
 	const [alias, setAlias] = useState(user.alias);
 	const [bio, setBio] = useState(user.bio);
+	const [name, setName] = useState(user.name);
 	const [updateUser] = useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(
 		UPDATE_PROFILE_MUTATION,
 	);
@@ -39,22 +42,27 @@ const ProfileLogic: React.FC<Props> = ({ user }) => {
 	const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setBio(event.target.value);
 	};
+	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setName(event.target.value);
+	};
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		updateUser({
 			variables: {
-				data: { alias, bio },
+				data: { alias, bio, name },
 				id: user.id,
 			},
 		});
 	};
-
 	return (
 		<ProfileView
 			alias={alias}
 			bio={bio}
+			name={name}
 			handleAliasChange={handleAliasChange}
 			handleBioChange={handleBioChange}
+			handleNameChange={handleNameChange}
 			handleSubmit={handleSubmit}
 		/>
 	);
