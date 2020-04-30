@@ -11,7 +11,7 @@ const NavbarView = () => {
 		<Navbar>
 			<Navbox>
 				<StyledLink to="/">Home</StyledLink>
-				<StyledLink to="/bracket">Testing</StyledLink>
+				<StyledLink to="/tournament">Testing</StyledLink>
 				<StyledLink to="/users">Users</StyledLink>
 			</Navbox>
 			<Navbox>
