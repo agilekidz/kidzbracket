@@ -34,4 +34,3 @@ const BottomSubmit: React.FC<BSProps> = ({ func }) => {
 };
 
 export default BottomSubmit;
-S;
