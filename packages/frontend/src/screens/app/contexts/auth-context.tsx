@@ -225,6 +225,9 @@ export const AuthProvider: React.FC = ({ children }) => {
 			setIsAuthenticated(true);
 		}
 	}
+	if (data && data.me !== user) {
+		setUser(data.me);
+	}
 
 	return (
 		<AuthContext.Provider
