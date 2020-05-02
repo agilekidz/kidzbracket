@@ -33,6 +33,9 @@ const Footer = styled.footer`
 
 const Wrapper = styled.div`
 	flex-basis: 1300px;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 `;
 
 export class Layout extends React.Component {

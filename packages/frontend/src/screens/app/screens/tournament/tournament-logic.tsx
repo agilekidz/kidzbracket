@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import {
 	CreateTournamentMutation,

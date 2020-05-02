@@ -1,26 +1,13 @@
 import React from 'react';
 
-const Name = {
-	name: 'Name',
-	hint: 'My Very Cool Tournament',
-	info: '',
-};
-
-const Description = {
-	name: 'Description',
-	hint: "AgileKidz' first ever....",
-	info: '',
-};
-
-const Game = {
-	name: 'Game',
-	hint: 'Leauge of Legends',
-	info: '',
-};
-
-function CreateTournamentData() {
-	alert(Name.info + ' : ' + Description.info + ' : ' + Game.info);
-}
+import {
+	Form,
+	FormWrapper,
+	Input,
+	InputWrapper,
+	Label,
+	SubmitButtonWrapper,
+} from './tournament-styles';
 
 interface Props {
 	name: string;
@@ -42,40 +29,31 @@ const TournamentView: React.FC<Props> = ({
 	handleSubmit,
 }) => {
 	return (
-		// <Wrapper>
-		// 	<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-		// 		<h1>Create a Tournament</h1>
-		// 	</div>
-		// 	<FormWrapper>
-		// 		<Input input={Name}></Input>
-		// 		<Input input={Description}></Input>
-		// 		<Input input={Game}></Input>
-		// 	</FormWrapper>
-		// 	<BottomSubmit func={CreateTournamentData} />
-		// </Wrapper>
-
-		<form onSubmit={handleSubmit}>
-			<div>
-				<label htmlFor="name">Name: </label>
-				<input id="name" type="text" value={name} onChange={handleNameChange} />
-			</div>
-			<div>
-				<label htmlFor="description">Description: </label>
-				<input
-					id="description"
-					type="text"
-					value={description}
-					onChange={handleDescriptionChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="game">Game: </label>
-				<input id="game" type="text" value={game} onChange={handleGameChange} />
-			</div>
-			<div>
-				<input type="submit" value="unga" />
-			</div>
-		</form>
+		<FormWrapper>
+			<h2>Create tournament</h2>
+			<Form onSubmit={handleSubmit}>
+				<InputWrapper>
+					<Label htmlFor="name">Name</Label>
+					<Input id="name" type="text" value={name} onChange={handleNameChange} />
+				</InputWrapper>
+				<InputWrapper>
+					<Label htmlFor="description">Description</Label>
+					<Input
+						id="description"
+						type="text"
+						value={description}
+						onChange={handleDescriptionChange}
+					/>
+				</InputWrapper>
+				<InputWrapper>
+					<Label htmlFor="game">Game</Label>
+					<Input id="game" type="text" value={game} onChange={handleGameChange} />
+				</InputWrapper>
+				<SubmitButtonWrapper>
+					<Input type="submit" value="unga" />
+				</SubmitButtonWrapper>
+			</Form>
+		</FormWrapper>
 	);
 };
 
