@@ -10,6 +10,12 @@ export default class Tournament {
 	@Field({ description: 'The name of the tournament' })
 	name: string;
 
+	@Field({ description: 'The description of the tournament' })
+	description: string;
+
+	@Field({ description: 'The selected game of the tournament' })
+	game: string;
+
 	@Field(() => Match, {
 		description: 'References all the matches that are connected to the tournament',
 	})

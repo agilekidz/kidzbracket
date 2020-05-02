@@ -8,5 +8,5 @@ export default abstract class BaseEntity {
 	createdAt: Date;
 
 	@UpdateDateColumn()
-	deletedAt: Date;
+	updatedAt: Date;
 }

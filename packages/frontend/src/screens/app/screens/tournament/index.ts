@@ -1,3 +1,3 @@
-import { default as TournamentScreen } from './tournament-data';
+import { default as TournamentScreen } from './tournament-logic';
 
 export default TournamentScreen;
