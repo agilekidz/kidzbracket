@@ -9,6 +9,7 @@ const Wrapper = styled.div`
 	margin-left: auto;
 	max-width: 1400px;
 	display: flex;
+	flex-grow: 1;
 `;
 
 const Upcoming = styled.div`

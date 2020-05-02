@@ -26,6 +26,7 @@ export const Navbar = styled.div`
 	background: #2b2d42;
 	display: flex;
 	justify-content: space-between;
+	flex-grow: 1;
 `;
 
 export const Navbox = styled.div`
