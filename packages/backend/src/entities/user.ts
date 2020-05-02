@@ -5,6 +5,7 @@ import BaseEntity from './base-entity';
 
 @Entity()
 export default class User extends BaseEntity {
+	//TODO: Ta bort?
 	@Column()
 	name: string;
 
@@ -22,6 +23,12 @@ export default class User extends BaseEntity {
 
 	@Column({ nullable: true })
 	facebookId?: string;
+
+	@Column({ nullable: true })
+	alias?: string;
+
+	@Column({ nullable: true })
+	bio?: string;
 
 	private tempPassword: string;
 

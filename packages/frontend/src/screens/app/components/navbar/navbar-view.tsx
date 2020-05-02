@@ -15,10 +15,17 @@ const NavbarView = () => {
 				<StyledLink to="/users">Users</StyledLink>
 			</Navbox>
 			<Navbox>
-				{!isAuthenticated && <StyledLink to="/auth/login">Login</StyledLink>}
-				{!isAuthenticated && <StyledLink to="/auth/register">Register</StyledLink>}
+				{!isAuthenticated && (
+					<>
+						<StyledLink to="/auth/login">Login</StyledLink>
+						<StyledLink to="/auth/register">Register</StyledLink>
+					</>
+				)}
 				{isAuthenticated && (
-					<StyledButton onClick={() => logout()}>Logout{user && ` ${user.name}`}</StyledButton>
+					<>
+						<StyledButton onClick={() => logout()}>Logout{user && ` ${user.name}`}</StyledButton>
+						<StyledLink to="/profile">Profile!?!?{user && ` ${user.name}`}</StyledLink>
+					</>
 				)}
 			</Navbox>
 		</Navbar>
