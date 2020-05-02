@@ -41,7 +41,7 @@ const StyledInput: React.FC<Props> = ({ input }) => {
 			<div
 				style={{
 					display: 'flex',
-					justifyContent: 'flex-start122',
+					justifyContent: 'flex-start',
 					alignItems: 'center',
 					height: '40px',
 					marginTop: '5px',

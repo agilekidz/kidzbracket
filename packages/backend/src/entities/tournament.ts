@@ -9,6 +9,12 @@ export default class Tournament extends BaseEntity {
 	@Column()
 	name: string;
 
+	@Column()
+	description: string;
+
+	@Column()
+	game: string;
+
 	//References all the matches connected to the tournament
 	@OneToMany(() => Match, match => match.tournament)
 	matches: Match[];

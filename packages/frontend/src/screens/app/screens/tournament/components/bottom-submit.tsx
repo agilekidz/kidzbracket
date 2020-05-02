@@ -25,7 +25,7 @@ const BottomSubmit: React.FC<BSProps> = ({ func }) => {
 					alignItems: 'center',
 					borderRadius: '7px',
 				}}
-				onClick={() => func}
+				onClick={() => func()}
 			>
 				<p style={{ color: 'white', fontSize: '1.4em' }}>Submit</p>
 			</div>
