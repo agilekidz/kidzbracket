@@ -38,32 +38,11 @@ const Name = style.div`
 
 `;
 
-const Time = style.div`
-    width: 10%;
-    height: 15%;
-    font: 1em "Arial", sans-serif;
-   
-`;
-
-const Teams = style.div`
-    width: 20%;
-    height: 15%;
-    font: 1em "Arial", sans-serif;
-   
-`;
-
 const Desc = style.div`
     width: 65%;
     height: 30%;
     font: 1em "Arial", sans-serif;
   
-`;
-
-const Region = style.div`
-    width: 12%;
-    height: 15%;
-    font: 1em "Arial", sans-serif;
-   
 `;
 
 const Game = style.div`
@@ -80,35 +59,24 @@ const Image = style.div`
 `;
 
 interface TCProps {
-	info: {
-		id: number;
+	tournament: {
+		id: string;
 		name: string;
-		date: Date;
-		desc: string;
-		teams: string;
+		description: string;
 		game: string;
-		region: string;
 	};
 }
 
-const TournamentCard: React.FC<TCProps> = ({ info }) => {
+const TournamentCard: React.FC<TCProps> = ({ tournament }) => {
 	return (
 		<Mainbox>
 			<Innerbox>
 				<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', marginRight: '10%' }}>
-					<Name>{info.name}</Name>
+					<Name>{tournament.name}</Name>
 					<div style={{ display: 'flex', margin: '10px 0 30px 0' }}>
-						<Time>
-							Date: {info.date.getDate()}/{info.date.getMonth()}
-						</Time>
-						<Teams>Teams Registerd: {info.teams}</Teams>
-						<Region>Region: {info.region}</Region>
-						<Game>Game: {info.game}</Game>
+						<Game>Game: {tournament.game}</Game>
 					</div>
-					<Desc>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe eius sint inventore
-						optio ut numquam, consequatur, doloribu
-					</Desc>
+					<Desc>{tournament.description}</Desc>
 				</div>
 				<div
 					style={{
