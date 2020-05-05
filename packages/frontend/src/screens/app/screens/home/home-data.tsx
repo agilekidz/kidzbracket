@@ -26,7 +26,6 @@ const HomeData = () => {
 		return <div>Error!</div>;
 	}
 	if (data) {
-		console.log(data.tournaments);
 		return <HomeLogic tournaments={data.tournaments} />;
 	}
 	return null;
