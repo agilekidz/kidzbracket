@@ -41,7 +41,11 @@ const RedisSessionStore = RedisSession(session);
 
 			const teams: Team[] = [];
 			for (let i = 0; i < 15; i++) {
-				let team = teamRepository.create({ name: 'team' + i });
+				let team = teamRepository.create({
+					name: 'team' + i,
+					players: ['player 1', 'player 2'],
+					tournament,
+				});
 				team = await teamRepository.save(team);
 				teams.push(team);
 			}
