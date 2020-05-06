@@ -27,7 +27,11 @@ const TournamentView = () => {
 			</ul>
 			<Switch>
 				<Route exact path={`${url}/`} component={OverviewScreen} />
-				<Route exact path={`${url}/join`} component={JoinTournamentScreen} />
+				<Route
+					exact
+					path={`${url}/join`}
+					render={() => <JoinTournamentScreen tournamentId={tournamentId || ''} />}
+				/>
 				<Route
 					exact
 					path={`${url}/bracket`}
