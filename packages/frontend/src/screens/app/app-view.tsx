@@ -11,6 +11,7 @@ import PrivateRoute from './components/private-route';
 import AuthScreen from './screens/auth';
 import BracketScreen from './screens/bracket';
 import HomeScreen from './screens/home';
+import MatchScreen from './screens/match';
 import ProfileScreen from './screens/profile';
 import TournamentScreen from './screens/tournament';
 import UsersScreen from './screens/users';
@@ -49,6 +50,7 @@ const AppView = () => {
 						<Route exact path="/" component={HomeScreen} />
 						<Route path="/tournaments/:tournamentId" component={BracketScreen} />
 						<Route path="/tournament" component={TournamentScreen} />
+						<Route path="/match/:matchId" component={MatchScreen} />
 						<PrivateRoute path="/profile" component={ProfileScreen} />
 					</Switch>
 				</Layout.Wrapper>
