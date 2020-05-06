@@ -54,6 +54,5 @@ export default class UpdateUserMutationResolver {
 		return {
 			user,
 		};
-		console.log(alias, bio);
 	}
 }

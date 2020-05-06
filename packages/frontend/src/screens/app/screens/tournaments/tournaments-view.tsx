@@ -6,7 +6,6 @@ import CreateTournamentScreen from './screens/create-tournament';
 import TournamentScreen from './screens/tournament';
 
 const TournamentsView = () => {
-	console.log('I AM HERE');
 	const { url } = useRouteMatch();
 	return (
 		<Switch>

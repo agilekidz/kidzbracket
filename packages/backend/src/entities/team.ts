@@ -12,6 +12,6 @@ export default class Team extends BaseEntity {
 	@Column('simple-array')
 	players: string[];
 
-	@ManyToOne(() => Tournament)
+	@ManyToOne(() => Tournament, tournament => tournament.matches)
 	tournament: Tournament;
 }

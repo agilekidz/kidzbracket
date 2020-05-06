@@ -23,7 +23,6 @@ const RedisSessionStore = RedisSession(session);
 
 (async function () {
 	try {
-		console.log(typeormConfig);
 		await createConnection(typeormConfig);
 
 		const app = express();
