@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { gql, useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom';
 
 import {
 	BracketMatchesQuery,

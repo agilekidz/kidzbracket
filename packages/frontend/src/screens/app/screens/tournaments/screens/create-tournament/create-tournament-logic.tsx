@@ -6,8 +6,7 @@ import { useHistory } from 'react-router-dom';
 import {
 	CreateTournamentMutation,
 	CreateTournamentMutationVariables,
-} from '../../__generated__/CreateTournamentMutation';
-
+} from './__generated__/CreateTournamentMutation';
 import TournamentView from './create-tournament-view';
 
 const CREATE_TOURNAMENT_MUTATION = gql`
