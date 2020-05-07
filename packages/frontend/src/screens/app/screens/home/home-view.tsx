@@ -31,11 +31,11 @@ interface Tournament {
 	game: string;
 }
 
-interface Tournaments {
+interface Props {
 	tournaments: Tournament[];
 }
 
-const HomeView: React.FC<Tournaments> = ({ tournaments }) => {
+const HomeView: React.FC<Props> = ({ tournaments }) => {
 	return (
 		<Wrapper>
 			<Upcoming>
