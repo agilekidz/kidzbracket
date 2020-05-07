@@ -1,3 +1,3 @@
-import { default as MatchScreen } from './match-site';
+import { default as MatchScreen } from './match-data';
 
 export default MatchScreen;
