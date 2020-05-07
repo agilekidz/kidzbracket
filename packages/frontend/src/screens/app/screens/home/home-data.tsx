@@ -3,11 +3,11 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { TournamentsQuery } from './__generated__/TournamentsQuery';
-import HomeLogic from './home-logic';
+import HomeView from './home-view';
 
 const TOURNAMENTS_QUERY = gql`
 	query TournamentsQuery {
-		tournaments(sort: false) {
+		tournaments {
 			id
 			name
 			description
@@ -26,7 +26,7 @@ const HomeData = () => {
 		return <div>Error!</div>;
 	}
 	if (data) {
-		return <HomeLogic tournaments={data.tournaments} />;
+		return <HomeView tournaments={data.tournaments} />;
 	}
 	return null;
 };
