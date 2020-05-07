@@ -10,9 +10,9 @@ import Navbar from './components/navbar';
 import PrivateRoute from './components/private-route';
 import AuthScreen from './screens/auth';
 import HomeScreen from './screens/home';
-import MatchScreen from './screens/match';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
+import MatchScreen from './screens/tournaments/screens/tournament/screens/match';
 import UsersScreen from './screens/users';
 import { Layout } from './utils/styles';
 
