@@ -46,11 +46,22 @@ const MatchData = () => {
 
 	if (data) {
 		if (data.match.firstTeam && data.match.secondTeam) {
-			return <MatchLogic match={data.match} />;
+			// This assignment solves TypeScript not being able to infer firstTeam and
+			// secondTeam being non-null, despite the check in the if clause above
+			return (
+				<MatchLogic
+					match={{
+						...data.match,
+						firstTeam: data.match.firstTeam,
+						secondTeam: data.match.secondTeam,
+					}}
+				/>
+			);
 		} else {
 			return <div>Both firstTeam and secondTeam need to be set!</div>;
 		}
 	}
+
 	return null;
 };
 
