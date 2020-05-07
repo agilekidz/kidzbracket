@@ -17,7 +17,10 @@ const MatchCardView: React.FC<Props> = ({ match, invisible = false }) => {
 	const { url } = useRouteMatch();
 
 	return (
-		<Card invisible={invisible} onClick={() => history.push(url + '/match/' + match.id)}>
+		<Card
+			invisible={invisible}
+			onClick={() => history.push(url.replace('bracket', '') + 'match/' + match.id)}
+		>
 			<Team first>{match.firstTeam && match.firstTeam.name}</Team>
 			<Team first={false}>{match.secondTeam && match.secondTeam.name}</Team>
 		</Card>
