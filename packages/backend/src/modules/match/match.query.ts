@@ -1,4 +1,4 @@
-import { Arg, Query, Resolver } from 'type-graphql';
+import { Arg, ID, Query, Resolver } from 'type-graphql';
 import { getRepository } from 'typeorm';
 
 import DBMatch from '../../entities/match';
@@ -9,7 +9,7 @@ import GQLMatch from './match';
 export default class MatchQueryResolver {
 	@Query(() => GQLMatch)
 	async match(
-		@Arg('id', { description: 'Identifier of the match' }) id: string,
+		@Arg('id', () => ID, { description: 'Identifier of the match' }) id: string,
 	): Promise<GQLMatch> {
 		const matchRepository = getRepository(DBMatch);
 		const match = await matchRepository.findOne({ where: { id } });

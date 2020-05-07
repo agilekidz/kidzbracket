@@ -4,6 +4,7 @@ import { Link, Route, Switch, useParams, useRouteMatch } from 'react-router-dom'
 
 import BracketScreen from './screens/bracket';
 import JoinTournamentScreen from './screens/join-tournament';
+import MatchScreen from './screens/match';
 import OverviewScreen from './screens/overview';
 import RegisteredTeamsScreen from './screens/registered-teams';
 
@@ -44,6 +45,7 @@ const TournamentView = () => {
 					path={`${url}/teams`}
 					render={() => <RegisteredTeamsScreen tournamentId={tournamentId || ''} />}
 				/>
+				<Route exact path={`${url}/match/:matchId`} render={() => <MatchScreen />} />
 			</Switch>
 		</div>
 	);

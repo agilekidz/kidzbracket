@@ -10,10 +10,10 @@ export default class Tournament extends BaseEntity {
 	@Column()
 	name: string;
 
-	@Column()
+	@Column({ nullable: true })
 	description: string;
 
-	@Column()
+	@Column({ nullable: true })
 	game: string;
 
 	//References all the matches connected to the tournament
