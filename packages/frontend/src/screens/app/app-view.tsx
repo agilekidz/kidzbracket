@@ -12,7 +12,6 @@ import AuthScreen from './screens/auth';
 import HomeScreen from './screens/home';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
-import MatchScreen from './screens/tournaments/screens/tournament/screens/match';
 import UsersScreen from './screens/users';
 import { Layout } from './utils/styles';
 
