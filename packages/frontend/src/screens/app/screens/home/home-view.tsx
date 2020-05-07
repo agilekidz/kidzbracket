@@ -39,8 +39,8 @@ const HomeView: React.FC<Props> = ({ tournaments }) => {
 	return (
 		<Wrapper>
 			<Upcoming>
-				{tournaments.map(yeet => (
-					<TournamentCard key={yeet.id} tournament={yeet} />
+				{tournaments.map(tournament => (
+					<TournamentCard key={tournament.id} tournament={tournament} />
 				))}
 			</Upcoming>
 			<Newsfeed>
