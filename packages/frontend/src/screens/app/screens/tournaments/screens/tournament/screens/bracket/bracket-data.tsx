@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { gql, useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom';
 
 import {
 	BracketMatchesQuery,
@@ -38,13 +37,16 @@ const BRACKET_MATCHES_QUERY = gql`
 	}
 `;
 
-const BracketData = () => {
-	const { tournamentId } = useParams();
+interface Props {
+	tournamentId: string;
+}
+
+const BracketData: React.FC<Props> = ({ tournamentId }) => {
 	const { data, error, loading } = useQuery<BracketMatchesQuery, BracketMatchesQueryVariables>(
 		BRACKET_MATCHES_QUERY,
 		{
 			variables: {
-				id: tournamentId || '',
+				id: tournamentId,
 			},
 		},
 	);

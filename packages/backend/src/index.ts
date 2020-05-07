@@ -23,7 +23,6 @@ const RedisSessionStore = RedisSession(session);
 
 (async function () {
 	try {
-		console.log(typeormConfig);
 		await createConnection(typeormConfig);
 
 		const app = express();
@@ -32,12 +31,20 @@ const RedisSessionStore = RedisSession(session);
 			const tournamentRepository = getRepository(Tournament);
 			const teamRepository = getRepository(Team);
 
-			let tournament = tournamentRepository.create({ name: 'My first tournament' });
+			let tournament = tournamentRepository.create({
+				name: 'Cool Tournament',
+				description: 'Very nice tournament with good description',
+				game: 'League of Legends',
+			});
 			tournament = await tournamentRepository.save(tournament);
 
 			const teams: Team[] = [];
 			for (let i = 0; i < 15; i++) {
-				let team = teamRepository.create({ name: 'team' + i });
+				let team = teamRepository.create({
+					name: 'team' + i,
+					players: ['player 1', 'player 2'],
+					tournament,
+				});
 				team = await teamRepository.save(team);
 				teams.push(team);
 			}

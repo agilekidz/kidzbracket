@@ -1,3 +1,3 @@
-import { default as HomeScreen } from './home-view';
+import { default as HomeScreen } from './home-data';
 
 export default HomeScreen;
