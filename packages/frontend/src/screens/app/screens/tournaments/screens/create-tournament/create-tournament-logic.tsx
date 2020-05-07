@@ -7,7 +7,7 @@ import {
 	CreateTournamentMutation,
 	CreateTournamentMutationVariables,
 } from './__generated__/CreateTournamentMutation';
-import TournamentView from './tournament-view';
+import TournamentView from './create-tournament-view';
 
 const CREATE_TOURNAMENT_MUTATION = gql`
 	mutation CreateTournamentMutation($data: CreateTournamentInput!) {
@@ -22,7 +22,7 @@ const CREATE_TOURNAMENT_MUTATION = gql`
 	}
 `;
 
-const TournamentLogic = () => {
+const CreateTournamentLogic = () => {
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [game, setGame] = useState('');
@@ -64,4 +64,4 @@ const TournamentLogic = () => {
 	);
 };
 
-export default TournamentLogic;
+export default CreateTournamentLogic;
