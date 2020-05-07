@@ -7,7 +7,7 @@ import {
 	InputWrapper,
 	Label,
 	SubmitButtonWrapper,
-} from './tournament-styles';
+} from './create-tournament-styles';
 
 interface Props {
 	name: string;
@@ -19,7 +19,7 @@ interface Props {
 	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const TournamentView: React.FC<Props> = ({
+const CreateTournamentView: React.FC<Props> = ({
 	name,
 	description,
 	game,
@@ -57,4 +57,4 @@ const TournamentView: React.FC<Props> = ({
 	);
 };
 
-export default TournamentView;
+export default CreateTournamentView;

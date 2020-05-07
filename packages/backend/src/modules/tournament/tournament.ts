@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
 import Match from '../match/match';
+import Team from '../team/team';
 
 @ObjectType()
 export default class Tournament {
@@ -20,4 +21,7 @@ export default class Tournament {
 		description: 'References all the matches that are connected to the tournament',
 	})
 	matches: Match[];
+
+	@Field(() => Team)
+	teams: Team[];
 }

@@ -9,10 +9,9 @@ import GuestRoute from './components/guest-route';
 import Navbar from './components/navbar';
 import PrivateRoute from './components/private-route';
 import AuthScreen from './screens/auth';
-import BracketScreen from './screens/bracket';
 import HomeScreen from './screens/home';
 import ProfileScreen from './screens/profile';
-import TournamentScreen from './screens/tournament';
+import TournamentsScreen from './screens/tournaments';
 import UsersScreen from './screens/users';
 import { Layout } from './utils/styles';
 
@@ -47,8 +46,7 @@ const AppView = () => {
 						<PrivateRoute path="/users" component={UsersScreen} />
 						<GuestRoute path="/auth" component={AuthScreen} />
 						<Route exact path="/" component={HomeScreen} />
-						<Route path="/tournaments/:tournamentId" component={BracketScreen} />
-						<Route path="/tournament" component={TournamentScreen} />
+						<Route path="/tournaments" component={TournamentsScreen} />
 						<PrivateRoute path="/profile" component={ProfileScreen} />
 					</Switch>
 				</Layout.Wrapper>

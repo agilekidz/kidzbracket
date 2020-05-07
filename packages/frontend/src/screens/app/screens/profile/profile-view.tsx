@@ -9,6 +9,7 @@ interface Props {
 	handleNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
+
 const ProfileView: React.FC<Props> = ({
 	alias,
 	bio,
