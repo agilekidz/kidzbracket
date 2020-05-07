@@ -31,7 +31,6 @@ const RedisSessionStore = RedisSession(session);
 			const tournamentRepository = getRepository(Tournament);
 			const teamRepository = getRepository(Team);
 
-
 			const name = 'Cool Tournament';
 			const description = 'Very nice tournament with good description';
 			const game = 'League of Legends';
