@@ -32,10 +32,11 @@ const RedisSessionStore = RedisSession(session);
 			const tournamentRepository = getRepository(Tournament);
 			const teamRepository = getRepository(Team);
 
-			const name = 'Cool Tournament';
-			const description = 'Very nice tournament with good description';
-			const game = 'League of Legends';
-			let tournament = tournamentRepository.create({ name, description, game });
+			let tournament = tournamentRepository.create({
+				name: 'Cool Tournament',
+				description: 'Very nice tournament with good description',
+				game: 'League of Legends',
+			});
 			tournament = await tournamentRepository.save(tournament);
 
 			const teams: Team[] = [];

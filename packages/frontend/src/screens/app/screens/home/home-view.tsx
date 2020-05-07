@@ -24,42 +24,23 @@ const Newsfeed = styled.div`
 	margin-top: 1%;
 `;
 
-/// Info required by card
-// name - tournament 1
-// date - now()
-// desc - "my tournament"
-// teams - "15/32"
-// game - "Legend league"
-// region - "EUW"
+interface Tournament {
+	id: string;
+	name: string;
+	description: string;
+	game: string;
+}
 
-const info1 = {
-	id: 1,
-	name: 'LaggIT CM Counter-Strike: Global Offensive',
-	date: new Date(),
-	desc: 'cool tournament',
-	teams: '19/32',
-	game: 'LEagu',
-	region: 'Euw',
-};
+interface Props {
+	tournaments: Tournament[];
+}
 
-const info2 = {
-	id: 2,
-	name: 'LaggIT CM League of Legends',
-	date: new Date(),
-	desc: 'bad tournament',
-	teams: '14/32',
-	game: 'Valorant',
-	region: 'NA',
-};
-
-const info = [info1, info2, info1, info2, info1, info2];
-
-const HomeView = () => {
+const HomeView: React.FC<Props> = ({ tournaments }) => {
 	return (
 		<Wrapper>
 			<Upcoming>
-				{info.map(yeet => (
-					<TournamentCard key={yeet.id} info={yeet} />
+				{tournaments.map(tournament => (
+					<TournamentCard key={tournament.id} tournament={tournament} />
 				))}
 			</Upcoming>
 			<Newsfeed>
