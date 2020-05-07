@@ -48,7 +48,6 @@ const AppView = () => {
 						<GuestRoute path="/auth" component={AuthScreen} />
 						<Route exact path="/" component={HomeScreen} />
 						<Route path="/tournaments" component={TournamentsScreen} />
-						<Route path="/match/:matchId" component={MatchScreen} />
 						<PrivateRoute path="/profile" component={ProfileScreen} />
 					</Switch>
 				</Layout.Wrapper>
