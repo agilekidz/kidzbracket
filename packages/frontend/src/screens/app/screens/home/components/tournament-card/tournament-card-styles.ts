@@ -25,6 +25,7 @@ export const Innerbox = styled.div`
 		box-shadow: inset 0 0 10px #000000;
 		background: #ccd1e3;
 	}
+	cursor: pointer;
 `;
 // old color #bcc0d0
 

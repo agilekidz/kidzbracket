@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { Desc, Game, Image, Innerbox, Mainbox, Name } from './tournament-card-styles';
 
 interface Props {
@@ -12,9 +14,10 @@ interface Props {
 }
 
 const TournamentCardView: React.FC<Props> = ({ tournament }) => {
+	const history = useHistory();
 	return (
 		<Mainbox>
-			<Innerbox>
+			<Innerbox onClick={() => history.push('/tournaments/' + tournament.id)}>
 				<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', marginRight: '10%' }}>
 					<Name>{tournament.name}</Name>
 					<div style={{ display: 'flex', margin: '10px 0 30px 0' }}>
