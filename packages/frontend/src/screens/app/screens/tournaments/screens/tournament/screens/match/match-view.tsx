@@ -14,15 +14,25 @@ export interface MatchViewMatch {
 
 interface Props {
 	reportWin: (teamId: string) => void;
+	reportContested: (contested: boolean) => void;
 	match: MatchViewMatch;
 }
 
-const MatchView: React.FC<Props> = ({ reportWin, match }) => {
+const MatchView: React.FC<Props> = ({ reportWin, reportContested, match }) => {
+	const isContested = () => {
+		console.log(match.contested);
+		if (match.contested) {
+			return <h1>This match has been contested!</h1>;
+		} else {
+			return <button onClick={() => reportContested(true)}>Contest</button>;
+		}
+	};
+
 	if (match.winner) {
 		return (
 			<div>
 				<h1>The winner is: {match.winner.name}</h1>
-				<button>Contest</button>
+				{isContested()}
 			</div>
 		);
 	}

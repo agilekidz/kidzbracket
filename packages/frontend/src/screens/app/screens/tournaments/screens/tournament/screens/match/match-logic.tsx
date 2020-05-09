@@ -61,7 +61,7 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 		reportMatchContested({ variables: { matchId: match.id, contested: contested } });
 	};
 
-	return <MatchView reportWin={reportWin} match={match} />;
+	return <MatchView reportWin={reportWin} reportContested={reportContested} match={match} />;
 };
 
 export default MatchLogic;
