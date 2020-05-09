@@ -9,7 +9,7 @@ export interface MatchViewMatch {
 	firstTeam: Team;
 	secondTeam: Team;
 	winner: Team | null;
-	contested: boolean;
+	contested: boolean | null;
 }
 
 interface Props {
