@@ -22,6 +22,7 @@ const MATCH_INFO_QUERY = gql`
 				id
 				name
 			}
+			contested
 		}
 	}
 `;
