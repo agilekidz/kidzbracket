@@ -30,7 +30,7 @@ const MatchView: React.FC<Props> = ({ reportWin, reportContested, match }) => {
 			<div>
 				<h1>The winner is: {match.winner.name}</h1>
 				{contested && <h1>The match has been contested!</h1>}
-				{!contested && <button onClick={isContested}>Contest result</button>}
+				{!contested && <button onClick={isContested}>Contest result!</button>}
 			</div>
 		);
 	}
