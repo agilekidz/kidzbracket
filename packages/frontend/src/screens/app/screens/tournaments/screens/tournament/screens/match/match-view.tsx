@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Team {
 	id: string;
@@ -19,20 +19,18 @@ interface Props {
 }
 
 const MatchView: React.FC<Props> = ({ reportWin, reportContested, match }) => {
+	const [contested, setContested] = useState(match.contested);
 	const isContested = () => {
-		console.log(match.contested);
-		if (match.contested) {
-			return <h1>This match has been contested!</h1>;
-		} else {
-			return <button onClick={() => reportContested(true)}>Contest</button>;
-		}
+		setContested(true);
+		reportContested(true);
 	};
 
 	if (match.winner) {
 		return (
 			<div>
 				<h1>The winner is: {match.winner.name}</h1>
-				{isContested()}
+				{contested && <h1>The match has been contested!</h1>}
+				{!contested && <button onClick={isContested}>Contest result</button>}
 			</div>
 		);
 	}
