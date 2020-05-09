@@ -18,7 +18,12 @@ interface Props {
 
 const MatchView: React.FC<Props> = ({ reportWin, match }) => {
 	if (match.winner) {
-		return <h1>The winner is: {match.winner.name}</h1>;
+		return (
+			<div>
+				<h1>The winner is: {match.winner.name}</h1>
+				<button>Contest</button>
+			</div>
+		);
 	}
 
 	return (

@@ -42,4 +42,7 @@ export default class Match extends BaseEntity {
 
 	@Column()
 	round: number;
+
+	@Column({ nullable: true })
+	contested: boolean;
 }
