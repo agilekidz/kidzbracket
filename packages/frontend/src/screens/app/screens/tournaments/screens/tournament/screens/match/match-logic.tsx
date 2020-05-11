@@ -29,6 +29,7 @@ const REPORT_MATCH_CONTESTED_MUTATION = gql`
 	mutation ReportMatchContestedMutation($matchId: ID!, $contested: Boolean!) {
 		reportMatchContested(matchId: $matchId, contested: $contested) {
 			match {
+				id
 				contested
 			}
 		}

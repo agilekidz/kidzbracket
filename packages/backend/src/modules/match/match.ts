@@ -64,7 +64,6 @@ export default class Match {
 
 	@Field({
 		description: 'If score is contested',
-		nullable: true,
 	})
 	contested: boolean;
 }

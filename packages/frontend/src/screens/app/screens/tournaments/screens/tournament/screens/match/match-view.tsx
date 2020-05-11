@@ -9,7 +9,7 @@ export interface MatchViewMatch {
 	firstTeam: Team;
 	secondTeam: Team;
 	winner: Team | null;
-	contested: boolean | null;
+	contested: boolean;
 }
 
 interface Props {
@@ -19,20 +19,21 @@ interface Props {
 }
 
 const MatchView: React.FC<Props> = ({ reportWin, reportContested, match }) => {
-	const [contested, setContested] = useState(match.contested);
-	const isContested = () => {
-		setContested(true);
-		reportContested(true);
-	};
-
 	if (match.winner) {
-		return (
-			<div>
-				<h1>The winner is: {match.winner.name}</h1>
-				{contested && <h1>The match has been contested!</h1>}
-				{!contested && <button onClick={isContested}>Contest result!</button>}
-			</div>
-		);
+		if (match.winner && match.contested) {
+			return (
+				<div>
+					<h1>The winner is: {match.winner.name}</h1>
+					{match.contested && <h1>The match has been contested!</h1>}
+					{/*	 idk, if I dont have an arrow function in the onclick gets sad */}
+					{!match.contested && (
+						<button onClick={() => reportContested(true)}>Contest result!</button>
+					)}
+				</div>
+			);
+		} else {
+			return <div>loading...</div>;
+		}
 	}
 
 	return (
