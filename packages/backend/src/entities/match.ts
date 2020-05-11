@@ -42,4 +42,8 @@ export default class Match extends BaseEntity {
 
 	@Column()
 	round: number;
+
+	//If a team contests the result
+	@Column({ default: false })
+	contested: boolean;
 }

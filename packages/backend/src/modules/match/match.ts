@@ -61,4 +61,9 @@ export default class Match {
 		description: 'The round',
 	})
 	round: number;
+
+	@Field({
+		description: 'If score is contested',
+	})
+	contested: boolean;
 }

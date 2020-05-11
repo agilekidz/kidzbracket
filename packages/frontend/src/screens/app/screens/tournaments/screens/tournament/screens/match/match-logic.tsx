@@ -3,6 +3,10 @@ import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import {
+	ReportMatchContestedMutation,
+	ReportMatchContestedMutationVariables,
+} from './__generated__/ReportMatchContestedMutation';
+import {
 	ReportMatchWinMutation,
 	ReportMatchWinMutationVariables,
 } from './__generated__/ReportMatchWinMutation';
@@ -16,6 +20,17 @@ const REPORT_MATCH_WIN_MUTATION = gql`
 				winner {
 					id
 				}
+			}
+		}
+	}
+`;
+
+const REPORT_MATCH_CONTESTED_MUTATION = gql`
+	mutation ReportMatchContestedMutation($matchId: ID!, $contested: Boolean!) {
+		reportMatchContested(matchId: $matchId, contested: $contested) {
+			match {
+				id
+				contested
 			}
 		}
 	}
@@ -38,7 +53,16 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 		reportMatchWin({ variables: { matchId: match.id, teamId } });
 	};
 
-	return <MatchView reportWin={reportWin} match={match} />;
+	const [reportMatchContested] = useMutation<
+		ReportMatchContestedMutation,
+		ReportMatchContestedMutationVariables
+	>(REPORT_MATCH_CONTESTED_MUTATION);
+
+	const reportContested = (contested: boolean) => {
+		reportMatchContested({ variables: { matchId: match.id, contested: contested } });
+	};
+
+	return <MatchView reportWin={reportWin} reportContested={reportContested} match={match} />;
 };
 
 export default MatchLogic;
