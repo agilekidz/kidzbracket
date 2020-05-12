@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
-import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 
 import BaseEntity from './base-entity';
+import Tournament from './tournament';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -29,6 +30,9 @@ export default class User extends BaseEntity {
 
 	@Column({ nullable: true })
 	bio?: string;
+
+	@OneToMany(() => Tournament, tournament => tournament.owner)
+	tournaments: Tournament[];
 
 	private tempPassword: string;
 
