@@ -46,6 +46,11 @@ export default class CreateTournamentMutationResolver {
 
 		tournament = await tournamentRepository.save(tournament);
 
-		return { tournament };
+		return {
+			tournament: {
+				...tournament,
+				contestedMatches: [],
+			},
+		};
 	}
 }

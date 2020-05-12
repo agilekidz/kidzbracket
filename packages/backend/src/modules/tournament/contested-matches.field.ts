@@ -6,9 +6,9 @@ import DBTournament from '../../entities/tournament';
 import GQLTournament from './tournament';
 
 @Resolver(() => GQLTournament)
-export default class MatchesResolver implements ResolverInterface<GQLTournament> {
+export default class ContestedMatchesResolver implements ResolverInterface<GQLTournament> {
 	@FieldResolver()
-	async matches(@Root() { id }: GQLTournament) {
+	async contestedMatches(@Root() { id }: GQLTournament) {
 		const tournamentRepository = getRepository(DBTournament);
 		const tournament = await tournamentRepository.findOne({
 			where: { id },
@@ -19,6 +19,6 @@ export default class MatchesResolver implements ResolverInterface<GQLTournament>
 			throw new Error('No tournament with that id');
 		}
 
-		return tournament.matches;
+		return tournament.matches.filter(match => match.contested);
 	}
 }

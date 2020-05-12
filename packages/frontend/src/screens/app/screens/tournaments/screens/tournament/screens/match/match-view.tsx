@@ -16,24 +16,23 @@ interface Props {
 	reportWin: (teamId: string) => void;
 	reportContested: (contested: boolean) => void;
 	match: MatchViewMatch;
+	loading: boolean;
 }
 
-const MatchView: React.FC<Props> = ({ reportWin, reportContested, match }) => {
+const MatchView: React.FC<Props> = ({ reportWin, reportContested, match, loading }) => {
 	if (match.winner) {
-		if (match.winner && match.contested) {
-			return (
-				<div>
-					<h1>The winner is: {match.winner.name}</h1>
-					{match.contested && <h1>The match has been contested!</h1>}
-					{/*	 idk, if I dont have an arrow function in the onclick gets sad */}
-					{!match.contested && (
-						<button onClick={() => reportContested(true)}>Contest result!</button>
-					)}
-				</div>
-			);
-		} else {
-			return <div>loading...</div>;
-		}
+		return (
+			<div>
+				<h1>The winner is: {match.winner.name}</h1>
+				{match.contested && <h1>The match has been contested!</h1>}
+				{/*	 idk, if I dont have an arrow function in the onclick gets sad */}
+				{!match.contested && (
+					<button disabled={loading} onClick={() => reportContested(true)}>
+						Contest result!
+					</button>
+				)}
+			</div>
+		);
 	}
 
 	return (
