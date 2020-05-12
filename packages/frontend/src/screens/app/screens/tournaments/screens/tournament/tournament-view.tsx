@@ -4,7 +4,7 @@ import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import BracketScreen from './screens/bracket';
 import JoinTournamentScreen from './screens/join-tournament';
-import ManageTournamentView from './screens/manage-tournament/manage-tournament-view';
+import ManageTournamentScreen from './screens/manage-tournament';
 import MatchScreen from './screens/match';
 import OverviewScreen from './screens/overview';
 import RegisteredTeamsScreen from './screens/registered-teams';
@@ -58,7 +58,7 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 				<Route
 					exact
 					path={`${url}/manage`}
-					render={() => <ManageTournamentView tournamentId={tournament.id} />}
+					render={() => <ManageTournamentScreen tournamentId={tournament.id} />}
 				/>
 
 				<Route exact path={`${url}/match/:matchId`} render={() => <MatchScreen />} />

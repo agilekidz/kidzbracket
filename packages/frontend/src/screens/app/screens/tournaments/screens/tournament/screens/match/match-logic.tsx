@@ -45,16 +45,15 @@ interface Props {
 }
 
 const MatchLogic: React.FC<Props> = ({ match }) => {
-	const [reportMatchWin, { called }] = useMutation<
-		ReportMatchWinMutation,
-		ReportMatchWinMutationVariables
-	>(REPORT_MATCH_WIN_MUTATION);
+	const [reportMatchWin] = useMutation<ReportMatchWinMutation, ReportMatchWinMutationVariables>(
+		REPORT_MATCH_WIN_MUTATION,
+	);
 
 	const reportWin = (teamId: string) => {
 		reportMatchWin({ variables: { matchId: match.id, teamId } });
 	};
 
-	const [reportMatchContested] = useMutation<
+	const [reportMatchContested, { called }] = useMutation<
 		ReportMatchContestedMutation,
 		ReportMatchContestedMutationVariables
 	>(REPORT_MATCH_CONTESTED_MUTATION);
