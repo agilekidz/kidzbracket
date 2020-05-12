@@ -28,11 +28,18 @@ export async function seedDatabase() {
 export async function randomTournament() {
 	const tournamentRepository = getRepository(Tournament);
 	const teamRepository = getRepository(Team);
+	const userRepository = getRepository(User);
+
+	const owner = await userRepository.findOne({ where: { email: 'admin' } });
+	if (!owner) {
+		throw new Error('owner not found, please seed the database');
+	}
 
 	let tournament = tournamentRepository.create({
 		name: 'Cool Tournament',
 		description: 'Very nice tournament with good description',
 		game: 'League of Legends',
+		owner,
 	});
 	tournament = await tournamentRepository.save(tournament);
 

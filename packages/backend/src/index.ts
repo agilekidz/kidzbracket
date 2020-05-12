@@ -8,10 +8,7 @@ import redis from 'redis';
 import { createConnection, getRepository } from 'typeorm';
 
 import createApolloServer from './apollo';
-import Team from './entities/team';
-import Tournament from './entities/tournament';
 import User from './entities/user';
-import { generateBracket } from './generate-bracket';
 import { randomTournament, seedDatabase } from './seeder';
 import typeormConfig from './typeorm-config';
 
