@@ -31,9 +31,14 @@ export default class RegisterTeamMutationResolver {
 		@Arg('input') { name, players, tournamentId }: RegisterTeamInput,
 	): Promise<RegisterTeamPayload> {
 		const tournamentRepository = getRepository(DBTournament);
-		const tournament = await tournamentRepository.findOne({ id: tournamentId });
+		const tournament = await tournamentRepository.findOne(tournamentId, { relations: ['teams'] });
 		if (!tournament) {
 			throw new Error('That tournament does not exist');
+		}
+
+		console.log(tournament.teams.length);
+		if (tournament.teams.length >= tournament.maxTeams) {
+			throw new Error('This tournament is full');
 		}
 
 		const teamRepository = getRepository(DBTeam);
