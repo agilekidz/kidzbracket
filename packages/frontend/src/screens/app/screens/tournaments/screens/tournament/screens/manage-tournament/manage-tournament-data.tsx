@@ -41,9 +41,9 @@ const ManageTournamentData: React.FC<Props> = ({ tournamentId }) => {
 		},
 	);
 
-	if (loading) return <div>Ladd för fan</div>;
+	if (loading) return <div>Loading...</div>;
 
-	if (error) return <div>stfu bith is errOr</div>;
+	if (error) return <div>Error</div>;
 
 	if (data)
 		return (
