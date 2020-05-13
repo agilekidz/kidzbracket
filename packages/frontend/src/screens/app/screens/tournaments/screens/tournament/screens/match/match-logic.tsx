@@ -7,6 +7,10 @@ import {
 	ReportMatchContestedMutationVariables,
 } from './__generated__/ReportMatchContestedMutation';
 import {
+	ReportMatchFinalizedMutation,
+	ReportMatchFinalizedMutationVariables,
+} from './__generated__/ReportMatchFinalizedMutation';
+import {
 	ReportMatchWinMutation,
 	ReportMatchWinMutationVariables,
 } from './__generated__/ReportMatchWinMutation';
@@ -36,6 +40,17 @@ const REPORT_MATCH_CONTESTED_MUTATION = gql`
 	}
 `;
 
+const REPORT_MATCH_FINALIZED_MUTATION = gql`
+	mutation ReportMatchFinalizedMutation($matchId: ID!) {
+		reportMatchFinalized(matchId: $matchId) {
+			match {
+				id
+				finalized
+			}
+		}
+	}
+`;
+
 interface Match extends MatchViewMatch {
 	id: string;
 }
@@ -49,8 +64,17 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 		REPORT_MATCH_WIN_MUTATION,
 	);
 
+	const [reportMatchFinalized] = useMutation<
+		ReportMatchFinalizedMutation,
+		ReportMatchFinalizedMutationVariables
+	>(REPORT_MATCH_FINALIZED_MUTATION);
+
 	const reportWin = (teamId: string) => {
 		reportMatchWin({ variables: { matchId: match.id, teamId } });
+	};
+
+	const reportFinalized = () => {
+		reportMatchFinalized({ variables: { matchId: match.id } });
 	};
 
 	const [reportMatchContested, { called }] = useMutation<
@@ -67,7 +91,9 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 			loading={called}
 			reportWin={reportWin}
 			reportContested={reportContested}
+			reportFinalized={reportFinalized}
 			match={match}
+			tournament={match.tournament}
 		/>
 	);
 };

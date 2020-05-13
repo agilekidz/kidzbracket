@@ -66,4 +66,7 @@ export default class Match {
 		description: 'If score is contested',
 	})
 	contested: boolean;
+
+	@Field({ description: 'References to if a match is finalized' })
+	finalized: boolean;
 }

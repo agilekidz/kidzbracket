@@ -24,6 +24,8 @@ export default class ReportMatchContestedMutationResolver {
 			throw new Error('ReportMatchContested: No match found');
 		}
 
+		if (match.finalized) throw new Error('Match alrady finalized');
+
 		match.contested = contested;
 		await matchRepository.save(match);
 		return { match };

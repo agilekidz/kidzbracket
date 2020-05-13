@@ -26,15 +26,13 @@ export default class ReportMatchWinMutationResolver {
 			throw new Error('ReportMatchWin: Match does not exist');
 		}
 
+		if (match.finalized) throw new Error('Match already finalized ');
+
 		const teamRepository = getRepository(DBTeam);
 		const team = await teamRepository.findOne(teamId);
 
 		if (!team) {
 			throw new Error('ReportMatchWin: Team does not exist');
-		}
-
-		if (match.winner) {
-			throw new Error('ReportMatchWin: Winner already set');
 		}
 
 		match.winner = team;

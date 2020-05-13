@@ -25,7 +25,14 @@ const MATCH_INFO_QUERY = gql`
 				name
 				players
 			}
+			tournament {
+				id
+				owner {
+					id
+				}
+			}
 			contested
+			finalized
 		}
 	}
 `;
@@ -64,6 +71,10 @@ const MatchData: React.FC<Props> = () => {
 						...data.match,
 						firstTeam: data.match.firstTeam,
 						secondTeam: data.match.secondTeam,
+						tournament: {
+							id: data.match.tournament.id,
+							owner: { id: data.match.tournament.owner.id },
+						},
 					}}
 				/>
 			);
