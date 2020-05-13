@@ -10,6 +10,11 @@ interface Props {
 		name: string;
 		description: string;
 		game: string;
+		maxTeams: number;
+		teams: {
+			id: string;
+			name: string;
+		}[];
 	};
 }
 
@@ -24,6 +29,11 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 						<Game>Game: {tournament.game}</Game>
 					</div>
 					<Desc>{tournament.description}</Desc>
+					<div>
+						<p>
+							{tournament.teams.length}/{tournament.maxTeams}
+						</p>
+					</div>
 				</div>
 				<div
 					style={{
