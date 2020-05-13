@@ -13,10 +13,12 @@ const MATCH_INFO_QUERY = gql`
 			firstTeam {
 				id
 				name
+				players
 			}
 			secondTeam {
 				id
 				name
+				players
 			}
 			winner {
 				id
