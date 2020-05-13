@@ -22,7 +22,7 @@ export default class Tournament {
 	})
 	matches: Match[];
 
-	@Field(() => Match, {
+	@Field(() => [Match], {
 		description: 'References all the matches that are connected to the tournament',
 	})
 	// TODO: needs to be | undefined else everything be bork
