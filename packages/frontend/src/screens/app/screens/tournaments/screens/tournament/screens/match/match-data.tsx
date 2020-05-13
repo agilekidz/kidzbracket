@@ -23,6 +23,7 @@ const MATCH_INFO_QUERY = gql`
 			winner {
 				id
 				name
+				players
 			}
 			contested
 		}
