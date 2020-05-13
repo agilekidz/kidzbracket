@@ -26,7 +26,7 @@ export default class Tournament {
 		description: 'References all the matches that are connected to the tournament',
 	})
 	// TODO: needs to be | undefined else everything be bork
-	contestedMatches?: Match[] | undefined;
+	contestedMatches?: Match[];
 
 	@Field(() => Team)
 	teams: Team[];
