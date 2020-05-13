@@ -12,6 +12,7 @@ import AuthScreen from './screens/auth';
 import HomeScreen from './screens/home';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
+import CreateTournamentScreen from './screens/tournaments/screens/create-tournament';
 import UsersScreen from './screens/users';
 import { Layout } from './utils/styles';
 
@@ -48,6 +49,7 @@ const AppView = () => {
 						<Route exact path="/" component={HomeScreen} />
 						<Route path="/tournaments" component={TournamentsScreen} />
 						<PrivateRoute path="/profile" component={ProfileScreen} />
+						<Route path="/createtournament" component={CreateTournamentScreen} />
 					</Switch>
 				</Layout.Wrapper>
 			</Layout.Content>

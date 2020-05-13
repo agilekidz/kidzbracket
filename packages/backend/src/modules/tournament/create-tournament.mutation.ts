@@ -16,6 +16,9 @@ class CreateTournamentInput {
 
 	@Field()
 	game: string;
+
+	@Field()
+	maxTeams: number;
 }
 
 @ObjectType()
@@ -28,7 +31,7 @@ class CreateTournamentPayload {
 export default class CreateTournamentMutationResolver {
 	@Mutation(() => CreateTournamentPayload)
 	async createTournament(
-		@Arg('data') { name, description, game }: CreateTournamentInput,
+		@Arg('data') { name, description, game, maxTeams }: CreateTournamentInput,
 		@Ctx() { user }: Context,
 	): Promise<CreateTournamentPayload> {
 		if (!user) {
@@ -41,6 +44,7 @@ export default class CreateTournamentMutationResolver {
 			name,
 			description,
 			game,
+			maxTeams,
 			owner: user,
 		});
 
