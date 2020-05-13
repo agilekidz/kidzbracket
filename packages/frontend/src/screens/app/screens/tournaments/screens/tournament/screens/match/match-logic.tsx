@@ -53,7 +53,7 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 		reportMatchWin({ variables: { matchId: match.id, teamId } });
 	};
 
-	const [reportMatchContested] = useMutation<
+	const [reportMatchContested, { called }] = useMutation<
 		ReportMatchContestedMutation,
 		ReportMatchContestedMutationVariables
 	>(REPORT_MATCH_CONTESTED_MUTATION);
@@ -62,7 +62,14 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 		reportMatchContested({ variables: { matchId: match.id, contested: contested } });
 	};
 
-	return <MatchView reportWin={reportWin} reportContested={reportContested} match={match} />;
+	return (
+		<MatchView
+			loading={called}
+			reportWin={reportWin}
+			reportContested={reportContested}
+			match={match}
+		/>
+	);
 };
 
 export default MatchLogic;

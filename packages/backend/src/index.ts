@@ -8,9 +8,8 @@ import redis from 'redis';
 import { createConnection, getRepository } from 'typeorm';
 
 import createApolloServer from './apollo';
-import Team from './entities/team';
-import Tournament from './entities/tournament';
-import { generateBracket } from './generate-bracket';
+import User from './entities/user';
+import { randomTournament, seedDatabase } from './seeder';
 import typeormConfig from './typeorm-config';
 
 dotenv.config();
@@ -25,33 +24,18 @@ const RedisSessionStore = RedisSession(session);
 	try {
 		await createConnection(typeormConfig);
 
+		const userRepository = getRepository(User);
+		const users = await userRepository.find();
+		if (users.length === 0) {
+			await seedDatabase();
+		}
+
 		const app = express();
 
 		app.get('/', async (_req, res) => {
-			const tournamentRepository = getRepository(Tournament);
-			const teamRepository = getRepository(Team);
+			const tournament = await randomTournament();
 
-			let tournament = tournamentRepository.create({
-				name: 'Cool Tournament',
-				description: 'Very nice tournament with good description',
-				game: 'League of Legends',
-			});
-			tournament = await tournamentRepository.save(tournament);
-
-			const teams: Team[] = [];
-			for (let i = 0; i < 15; i++) {
-				let team = teamRepository.create({
-					name: 'team' + i,
-					players: ['player 1', 'player 2'],
-					tournament,
-				});
-				team = await teamRepository.save(team);
-				teams.push(team);
-			}
-
-			const matches = await generateBracket(teams, tournament);
-
-			return res.send({ tournament, teams, matches });
+			return res.send({ tournament });
 		});
 
 		app.use(
