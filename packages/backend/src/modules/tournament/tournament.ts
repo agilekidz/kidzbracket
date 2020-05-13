@@ -18,8 +18,13 @@ export default class Tournament {
 	@Field({ description: 'The selected game of the tournament' })
 	game: string;
 
+
 	@Field(() => User, { description: 'References the tournament owner' })
 	owner: User;
+
+	@Field({ description: 'Max number of teams in the tournament' })
+	maxTeams: number;
+
 
 	@Field(() => Match, {
 		description: 'References all the matches that are connected to the tournament',

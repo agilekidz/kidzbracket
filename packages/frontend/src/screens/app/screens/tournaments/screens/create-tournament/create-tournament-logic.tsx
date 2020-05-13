@@ -17,6 +17,7 @@ const CREATE_TOURNAMENT_MUTATION = gql`
 				name
 				description
 				game
+				maxTeams
 			}
 		}
 	}
@@ -26,6 +27,7 @@ const CreateTournamentLogic = () => {
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [game, setGame] = useState('');
+	const [maxTeams, setMaxTeams] = useState(2);
 	const [createTournament] = useMutation<
 		CreateTournamentMutation,
 		CreateTournamentMutationVariables
@@ -44,9 +46,13 @@ const CreateTournamentLogic = () => {
 		setGame(event.target.value);
 	};
 
+	const handleMaxTeamsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setMaxTeams(event.target.valueAsNumber);
+	};
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		createTournament({ variables: { data: { name, description, game } } }).then(() => {
+		createTournament({ variables: { data: { name, description, game, maxTeams } } }).then(() => {
 			history.replace('/');
 		});
 	};
@@ -56,9 +62,11 @@ const CreateTournamentLogic = () => {
 			name={name}
 			description={description}
 			game={game}
+			maxTeams={maxTeams}
 			handleNameChange={handleNameChange}
 			handleDescriptionChange={handleDescriptionChange}
 			handleGameChange={handleGameChange}
+			handleMaxTeamsChange={handleMaxTeamsChange}
 			handleSubmit={handleSubmit}
 		/>
 	);

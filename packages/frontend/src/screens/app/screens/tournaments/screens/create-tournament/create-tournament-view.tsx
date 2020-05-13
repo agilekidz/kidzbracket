@@ -13,9 +13,11 @@ interface Props {
 	name: string;
 	description: string;
 	game: string;
+	maxTeams: number;
 	handleNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleGameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	handleMaxTeamsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -23,9 +25,11 @@ const CreateTournamentView: React.FC<Props> = ({
 	name,
 	description,
 	game,
+	maxTeams,
 	handleNameChange,
 	handleDescriptionChange,
 	handleGameChange,
+	handleMaxTeamsChange,
 	handleSubmit,
 }) => {
 	return (
@@ -49,8 +53,19 @@ const CreateTournamentView: React.FC<Props> = ({
 					<Label htmlFor="game">Game</Label>
 					<Input id="game" type="text" value={game} onChange={handleGameChange} />
 				</InputWrapper>
+				<InputWrapper>
+					<Label htmlFor="maxTeams">Max number of teams</Label>
+					<Input
+						id="maxTeams"
+						type="number"
+						min="2"
+						max="128"
+						value={maxTeams}
+						onChange={handleMaxTeamsChange}
+					/>
+				</InputWrapper>
 				<SubmitButtonWrapper>
-					<Input type="submit" value="unga" />
+					<Input type="submit" value="Submit" />
 				</SubmitButtonWrapper>
 			</Form>
 		</FormWrapper>
