@@ -4,6 +4,9 @@ import {
 	ChildWrapper,
 	ContentCardWrapper,
 	ContentWrapper,
+	HalfVerticalConnectorEmpty,
+	HalfVerticalConnectorFilled,
+	HalfVerticalConnectorWrapper,
 	HorizontalConnector,
 	VerticalConnector,
 	Wrapper,
@@ -29,22 +32,45 @@ export interface BracketMatch {
 interface InternalBracketProps {
 	match: BracketMatch;
 	first?: boolean;
+	level: number;
 }
 
-const InternalBracket: React.FC<InternalBracketProps> = ({ match, first = false }) => {
+const InternalBracket: React.FC<InternalBracketProps> = ({ match, first = false, level }) => {
 	const hasBothParents = match.firstParent && match.secondParent;
 	const hasFirstParent = match.firstParent;
 	const hasSecondParent = match.secondParent;
 	const hasAnyParent = hasFirstParent || hasSecondParent;
 
+	console.log(level);
+
 	return (
 		<Wrapper>
 			<ChildWrapper>
-				{match.firstParent && <InternalBracket match={match.firstParent} />}
-				{match.secondParent && <InternalBracket match={match.secondParent} />}
+				{match.firstParent && <InternalBracket match={match.firstParent} level={level - 1} />}
+				{!match.firstParent && level === 0 && (
+					<ContentWrapper>
+						<ContentCardWrapper>
+							<MatchCard match={match} invisible />
+						</ContentCardWrapper>
+					</ContentWrapper>
+				)}
+				{match.secondParent && <InternalBracket match={match.secondParent} level={level - 1} />}
+				{!match.secondParent && level === 0 && (
+					<ContentWrapper>
+						<ContentCardWrapper>
+							<MatchCard match={match} invisible />
+						</ContentCardWrapper>
+					</ContentWrapper>
+				)}
 			</ChildWrapper>
 			<ContentWrapper>
 				{hasBothParents && <VerticalConnector />}
+				{!hasBothParents && hasAnyParent && (
+					<HalfVerticalConnectorWrapper>
+						<HalfVerticalConnectorFilled />
+						<HalfVerticalConnectorEmpty />
+					</HalfVerticalConnectorWrapper>
+				)}
 				{hasAnyParent && <HorizontalConnector />}
 				<ContentCardWrapper>
 					<MatchCard match={match} />
@@ -57,10 +83,11 @@ const InternalBracket: React.FC<InternalBracketProps> = ({ match, first = false 
 
 interface Props {
 	match: BracketMatch;
+	level: number;
 }
 
-const BracketView: React.FC<Props> = ({ match }) => {
-	return <InternalBracket match={match} first />;
+const BracketView: React.FC<Props> = ({ match, level }) => {
+	return <InternalBracket match={match} level={level} first />;
 };
 
 export default BracketView;
