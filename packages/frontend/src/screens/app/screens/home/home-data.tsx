@@ -12,6 +12,11 @@ const TOURNAMENTS_QUERY = gql`
 			name
 			description
 			game
+			maxTeams
+			teams {
+				id
+				name
+			}
 		}
 	}
 `;
