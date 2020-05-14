@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "test"
-
-docker buildasdfasdf -t $IMAGE_NAME --build-arg TERRAFORM_VERSION=$TERRAFORM_VERSION .
-
-echo "test"
+docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME \
+  --build-arg GRAPHQL_API_ENDPOINT=$GRAPHQL_API_ENDPOINT \
+  --build-arg GITHUB_OAUTH2_CLIENT_ID=$GITHUB_OAUTH2_CLIENT_ID \
+  --build-arg GOOGLE_OAUTH2_CLIENT_ID=$GOOGLE_OAUTH2_CLIENT_ID \
+  --build-arg GOOGLE_OAUTH2_REDIRECT_URI=$GOOGLE_OAUTH2_REDIRECT_URI
