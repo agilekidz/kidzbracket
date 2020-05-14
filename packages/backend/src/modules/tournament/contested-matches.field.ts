@@ -19,6 +19,6 @@ export default class ContestedMatchesResolver implements ResolverInterface<GQLTo
 			throw new Error('No tournament with that id');
 		}
 
-		return tournament.matches.filter(match => match.contested);
+		return tournament.matches.filter(match => match.contested && !match.finalized);
 	}
 }
