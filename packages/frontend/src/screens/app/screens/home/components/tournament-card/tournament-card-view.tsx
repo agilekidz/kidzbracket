@@ -30,9 +30,7 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 					</div>
 					<Desc>{tournament.description}</Desc>
 					<div>
-						<p>
-							{tournament.teams.length}/{tournament.maxTeams}
-						</p>
+						{tournament.teams.length}/{tournament.maxTeams}
 					</div>
 				</div>
 				<div
