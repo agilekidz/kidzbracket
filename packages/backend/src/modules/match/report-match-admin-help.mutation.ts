@@ -1,4 +1,4 @@
-import { Arg, ID, Mutation, ObjectType, Resolver } from 'type-graphql';
+import { Arg, Field, ID, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { getRepository } from 'typeorm';
 
 import DBMatch from '../../entities/match';
