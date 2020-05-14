@@ -11,6 +11,11 @@ export default class SecondTeamResolver implements ResolverInterface<GQLMatch> {
 	async secondTeam(@Root() { id }: GQLMatch) {
 		const matchRepository = getRepository(DBMatch);
 		const match = await matchRepository.findOne({ where: { id }, relations: ['secondTeam'] });
-		return match?.secondTeam;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.secondTeam;
 	}
 }

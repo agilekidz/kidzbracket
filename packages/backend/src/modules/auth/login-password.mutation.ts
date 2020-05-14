@@ -40,6 +40,10 @@ export default class LoginPasswordMutationResolver {
 			throw new Error('A user with that email was not found');
 		}
 
+		if (!user.password) {
+			throw new Error('This user does not use password login');
+		}
+
 		if (!(await bcrypt.compare(password, user.password))) {
 			throw new Error('Incorrect password');
 		}

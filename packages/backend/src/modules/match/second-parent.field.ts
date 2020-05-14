@@ -11,6 +11,11 @@ export default class SecondParentResolver implements ResolverInterface<GQLMatch>
 	async secondParent(@Root() { id }: GQLMatch) {
 		const matchRepository = getRepository(DBMatch);
 		const match = await matchRepository.findOne({ where: { id }, relations: ['secondParent'] });
-		return match?.secondParent;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.secondParent;
 	}
 }

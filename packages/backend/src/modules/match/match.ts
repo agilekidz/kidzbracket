@@ -14,37 +14,37 @@ export default class Match {
 		nullable: true,
 		description: 'References the first team of the match',
 	})
-	firstTeam?: GQLTeam;
+	firstTeam: GQLTeam | null;
 
 	@Field(() => GQLTeam, {
 		nullable: true,
 		description: 'Refrences the second team of the match',
 	})
-	secondTeam?: GQLTeam;
+	secondTeam: GQLTeam | null;
 
 	@Field(() => Match, {
 		nullable: true,
 		description: 'Refrences the parent match of the first match',
 	})
-	firstParent?: Match;
+	firstParent: Match | null;
 
 	@Field(() => Match, {
 		nullable: true,
 		description: 'References the parent match of the second match',
 	})
-	secondParent?: Match;
+	secondParent: Match | null;
 
-	@Field({
+	@Field(() => Number, {
 		nullable: true,
 		description: 'The score of the first team',
 	})
-	firstScore?: number;
+	firstScore: number | null;
 
-	@Field({
+	@Field(() => Number, {
 		nullable: true,
 		description: 'The score of the second team',
 	})
-	secondScore?: number;
+	secondScore: number | null;
 
 	@Field(() => Tournament, {
 		description: 'References the tournament that the matches are played in',
@@ -55,7 +55,7 @@ export default class Match {
 		nullable: true,
 		description: 'References the winning team',
 	})
-	winner?: GQLTeam;
+	winner: GQLTeam | null;
 
 	@Field({
 		description: 'The round',

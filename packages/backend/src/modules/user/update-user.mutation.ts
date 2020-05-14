@@ -38,11 +38,11 @@ export default class UpdateUserMutationResolver {
 		}
 
 		if (alias !== undefined) {
-			user.alias = alias || undefined;
+			user.alias = alias;
 		}
 
 		if (bio !== undefined) {
-			user.bio = bio || undefined;
+			user.bio = bio;
 		}
 
 		if (name !== undefined) {

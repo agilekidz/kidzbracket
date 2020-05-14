@@ -11,6 +11,11 @@ export default class WinnerResolver implements ResolverInterface<GQLMatch> {
 	async winner(@Root() { id }: GQLMatch) {
 		const matchRepository = getRepository(DBMatch);
 		const match = await matchRepository.findOne({ where: { id }, relations: ['winner'] });
-		return match?.winner;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.winner;
 	}
 }

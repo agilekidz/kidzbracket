@@ -63,13 +63,13 @@ export async function generateBracket(teams: Team[], tournament: Tournament): Pr
 			current = 0;
 		}
 
-		let team: Team | undefined;
+		let team: Team | null;
 		if (first) {
 			team = matches[current].firstTeam;
-			matches[current].firstTeam = undefined;
+			matches[current].firstTeam = null;
 		} else {
 			team = matches[current].secondTeam;
-			matches[current].secondTeam = undefined;
+			matches[current].secondTeam = null;
 		}
 
 		let match = matchRepository.create({

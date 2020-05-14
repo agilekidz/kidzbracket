@@ -11,6 +11,11 @@ export default class FirstParentResolver implements ResolverInterface<GQLMatch> 
 	async firstParent(@Root() { id }: GQLMatch) {
 		const matchRepository = getRepository(DBMatch);
 		const match = await matchRepository.findOne({ where: { id }, relations: ['firstParent'] });
-		return match?.firstParent;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.firstParent;
 	}
 }
