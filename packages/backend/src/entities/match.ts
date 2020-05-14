@@ -46,4 +46,8 @@ export default class Match extends BaseEntity {
 	//If a team contests the result
 	@Column({ default: false })
 	contested: boolean;
+
+	//If a match needs admin help
+	@Column({ default: false })
+	needAdminHelp: boolean;
 }

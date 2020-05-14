@@ -66,4 +66,9 @@ export default class Match {
 		description: 'If score is contested',
 	})
 	contested: boolean;
+
+	@Field({
+		description: 'If match needs admin help',
+	})
+	needAdminHelp: boolean;
 }
