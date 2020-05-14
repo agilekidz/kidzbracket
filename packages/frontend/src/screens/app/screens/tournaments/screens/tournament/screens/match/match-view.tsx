@@ -21,9 +21,9 @@ export interface MatchViewMatch {
 }
 
 interface Props {
-	reportWin: (teamId: string) => void;
-	reportContested: (contested: boolean) => void;
-	reportFinalized: () => void;
+	reportVictory: (winningTeamId: string) => void;
+	contestMatch: () => void;
+	finalizeMatchContestation: (winningTeamId: string) => void;
 	match: MatchViewMatch;
 	loading: boolean;
 	tournament: {
@@ -33,22 +33,13 @@ interface Props {
 }
 
 const MatchView: React.FC<Props> = ({
-	reportWin,
-	reportContested,
-	reportFinalized,
+	reportVictory,
+	contestMatch,
+	finalizeMatchContestation,
 	match,
 	loading,
 	tournament,
 }) => {
-	function firstTeamRetcon() {
-		reportWin(match.firstTeam.id);
-		console.log(reportFinalized());
-	}
-	function secondTeamRetcon() {
-		reportWin(match.secondTeam.id);
-		console.log(reportFinalized());
-	}
-
 	if (match.winner) {
 		return (
 			<div>
@@ -57,14 +48,16 @@ const MatchView: React.FC<Props> = ({
 				{match.contested && !match.finalized && <h1>The match has been contested!</h1>}
 				{match.contested && !match.finalized && (
 					<AdminCheck ownerId={tournament.owner.id}>
-						<button onClick={firstTeamRetcon}>FRORST TERM WONNED</button>
-						<button onClick={secondTeamRetcon}>SECND TERM WONNED</button>
+						<button onClick={() => finalizeMatchContestation(match.firstTeam.id)}>
+							{match.firstTeam.name} won!
+						</button>
+						<button onClick={() => finalizeMatchContestation(match.secondTeam.id)}>
+							{match.secondTeam.name} won!
+						</button>
 					</AdminCheck>
 				)}
-
-				{/*	 idk, if I dont have an arrow function in the onclick gets sad */}
 				{!match.contested && !match.finalized && (
-					<button disabled={loading} onClick={() => reportContested(true)}>
+					<button disabled={loading} onClick={contestMatch}>
 						Contest result!
 					</button>
 				)}
@@ -76,8 +69,10 @@ const MatchView: React.FC<Props> = ({
 		<div>
 			<MatchViewItem match={match} />
 			<h1>Which team won?</h1>
-			<button onClick={() => reportWin(match.firstTeam.id)}>{match.firstTeam.name} won!</button>
-			<button onClick={() => reportWin(match.secondTeam.id)}>{match.secondTeam.name} won!</button>
+			<button onClick={() => reportVictory(match.firstTeam.id)}>{match.firstTeam.name} won!</button>
+			<button onClick={() => reportVictory(match.secondTeam.id)}>
+				{match.secondTeam.name} won!
+			</button>
 		</div>
 	);
 };

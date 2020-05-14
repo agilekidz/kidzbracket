@@ -3,22 +3,22 @@ import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import {
-	ReportMatchContestedMutation,
-	ReportMatchContestedMutationVariables,
-} from './__generated__/ReportMatchContestedMutation';
+	ContestMatchMutation,
+	ContestMatchMutationVariables,
+} from './__generated__/ContestMatchMutation';
 import {
-	ReportMatchFinalizedMutation,
-	ReportMatchFinalizedMutationVariables,
-} from './__generated__/ReportMatchFinalizedMutation';
+	FinalizeMatchContestationMutation,
+	FinalizeMatchContestationMutationVariables,
+} from './__generated__/FinalizeMatchContestationMutation';
 import {
-	ReportMatchWinMutation,
-	ReportMatchWinMutationVariables,
-} from './__generated__/ReportMatchWinMutation';
+	ReportVictoryMutation,
+	ReportVictoryMutationVariables,
+} from './__generated__/ReportVictoryMutation';
 import MatchView, { MatchViewMatch } from './match-view';
 
-const REPORT_MATCH_WIN_MUTATION = gql`
-	mutation ReportMatchWinMutation($matchId: ID!, $teamId: ID!) {
-		reportMatchWin(matchId: $matchId, teamId: $teamId) {
+const REPORT_VICTORY_MUTATION = gql`
+	mutation ReportVictoryMutation($input: ReportVictoryInput!) {
+		reportVictory(input: $input) {
 			match {
 				id
 				winner {
@@ -29,9 +29,9 @@ const REPORT_MATCH_WIN_MUTATION = gql`
 	}
 `;
 
-const REPORT_MATCH_CONTESTED_MUTATION = gql`
-	mutation ReportMatchContestedMutation($matchId: ID!, $contested: Boolean!) {
-		reportMatchContested(matchId: $matchId, contested: $contested) {
+const CONTEST_MATCH_MUTATION = gql`
+	mutation ContestMatchMutation($id: ID!) {
+		contestMatch(id: $id) {
 			match {
 				id
 				contested
@@ -40,12 +40,15 @@ const REPORT_MATCH_CONTESTED_MUTATION = gql`
 	}
 `;
 
-const REPORT_MATCH_FINALIZED_MUTATION = gql`
-	mutation ReportMatchFinalizedMutation($matchId: ID!) {
-		reportMatchFinalized(matchId: $matchId) {
+const FINALIZE_MATCH_CONTESTATION_MUTATION = gql`
+	mutation FinalizeMatchContestationMutation($input: FinalizeMatchContestationInput!) {
+		finalizeMatchContestation(input: $input) {
 			match {
 				id
 				finalized
+				winner {
+					id
+				}
 			}
 		}
 	}
@@ -60,38 +63,52 @@ interface Props {
 }
 
 const MatchLogic: React.FC<Props> = ({ match }) => {
-	const [reportMatchWin] = useMutation<ReportMatchWinMutation, ReportMatchWinMutationVariables>(
-		REPORT_MATCH_WIN_MUTATION,
+	const [_reportVictory] = useMutation<ReportVictoryMutation, ReportVictoryMutationVariables>(
+		REPORT_VICTORY_MUTATION,
 	);
 
-	const [reportMatchFinalized] = useMutation<
-		ReportMatchFinalizedMutation,
-		ReportMatchFinalizedMutationVariables
-	>(REPORT_MATCH_FINALIZED_MUTATION);
+	const [_contestMatch, { called }] = useMutation<
+		ContestMatchMutation,
+		ContestMatchMutationVariables
+	>(CONTEST_MATCH_MUTATION);
 
-	const reportWin = (teamId: string) => {
-		reportMatchWin({ variables: { matchId: match.id, teamId } });
+	const [_finalizeMatchContestation] = useMutation<
+		FinalizeMatchContestationMutation,
+		FinalizeMatchContestationMutationVariables
+	>(FINALIZE_MATCH_CONTESTATION_MUTATION);
+
+	const reportVictory = (teamId: string) => {
+		_reportVictory({
+			variables: {
+				input: {
+					matchId: match.id,
+					teamId,
+				},
+			},
+		});
 	};
 
-	const reportFinalized = () => {
-		reportMatchFinalized({ variables: { matchId: match.id } });
+	const contestMatch = () => {
+		_contestMatch({ variables: { id: match.id } });
 	};
 
-	const [reportMatchContested, { called }] = useMutation<
-		ReportMatchContestedMutation,
-		ReportMatchContestedMutationVariables
-	>(REPORT_MATCH_CONTESTED_MUTATION);
-
-	const reportContested = (contested: boolean) => {
-		reportMatchContested({ variables: { matchId: match.id, contested: contested } });
+	const finalizeMatchContestation = (winningTeamId: string) => {
+		_finalizeMatchContestation({
+			variables: {
+				input: {
+					matchId: match.id,
+					winningTeamId,
+				},
+			},
+		});
 	};
 
 	return (
 		<MatchView
 			loading={called}
-			reportWin={reportWin}
-			reportContested={reportContested}
-			reportFinalized={reportFinalized}
+			reportVictory={reportVictory}
+			contestMatch={contestMatch}
+			finalizeMatchContestation={finalizeMatchContestation}
 			match={match}
 			tournament={match.tournament}
 		/>
