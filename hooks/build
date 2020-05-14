@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "test"
+
+docker buildasdfasdf -t $IMAGE_NAME --build-arg TERRAFORM_VERSION=$TERRAFORM_VERSION .
+
+echo "test"
