@@ -12,13 +12,14 @@ const Wrapper = styled.div`
 
 interface Props {
 	match: BracketMatch;
+	level: number;
 }
 
-const BracketView: React.FC<Props> = ({ match }) => {
+const BracketView: React.FC<Props> = ({ match, level }) => {
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 			<Wrapper style={{ display: 'flex' }}>
-				<Bracket match={match} />
+				<Bracket match={match} level={level} />
 			</Wrapper>
 		</div>
 	);
