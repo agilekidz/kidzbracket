@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { getRepository } from 'typeorm';
 
 import Team from './entities/team';
@@ -36,7 +37,7 @@ export async function randomTournament() {
 	}
 
 	let tournament = tournamentRepository.create({
-		name: 'Cool Tournament',
+		name: 'Cool Tournament ' + nanoid(5),
 		description: 'Very nice tournament with good description',
 		game: 'League of Legends',
 		maxTeams: 32,
@@ -46,7 +47,7 @@ export async function randomTournament() {
 	tournament = await tournamentRepository.save(tournament);
 
 	const teams: Team[] = [];
-	for (let i = 0; i < 15; i++) {
+	for (let i = 0; i < Math.ceil(Math.random() * 10 + 10); i++) {
 		let team = teamRepository.create({
 			name: 'team' + i,
 			players: ['player 1', 'player 2'],
