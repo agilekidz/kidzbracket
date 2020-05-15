@@ -1,7 +1,6 @@
-import { Arg, Field, InputType, Query, registerEnumType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Arg, Ctx, Field, InputType, Query, registerEnumType, Resolver } from 'type-graphql';
 
-import DBTournament from '../../entities/tournament';
+import { Context } from '../../apollo';
 
 import GQLTournament from './tournament';
 
@@ -27,10 +26,9 @@ export default class TournamentsQueryResolver {
 	async tournaments(
 		@Arg('orderBy', () => TournamentOrderByInput, { nullable: true })
 		orderBy: TournamentOrderByInput | undefined,
+		@Ctx() { repositories }: Context,
 	): Promise<GQLTournament[]> {
-		const tournamentRepository = getRepository(DBTournament);
-
-		return tournamentRepository.find({
+		return repositories.tournamentRepository.find({
 			order: orderBy,
 		});
 	}

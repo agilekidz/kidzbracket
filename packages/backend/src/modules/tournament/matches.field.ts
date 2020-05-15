@@ -1,16 +1,14 @@
-import { FieldResolver, Resolver, ResolverInterface, Root } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Ctx, FieldResolver, Resolver, ResolverInterface, Root } from 'type-graphql';
 
-import DBTournament from '../../entities/tournament';
+import { Context } from '../../apollo';
 
 import GQLTournament from './tournament';
 
 @Resolver(() => GQLTournament)
 export default class MatchesResolver implements ResolverInterface<GQLTournament> {
 	@FieldResolver()
-	async matches(@Root() { id }: GQLTournament) {
-		const tournamentRepository = getRepository(DBTournament);
-		const tournament = await tournamentRepository.findOne({
+	async matches(@Root() { id }: GQLTournament, @Ctx() { repositories }: Context) {
+		const tournament = await repositories.tournamentRepository.findOne({
 			where: { id },
 			relations: ['matches'],
 		});
