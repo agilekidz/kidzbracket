@@ -6,19 +6,19 @@ import DBTournament from '../../entities/tournament';
 import GQLTournament from './tournament';
 
 @Resolver(() => GQLTournament)
-export default class ContestedMatchesResolver implements ResolverInterface<GQLTournament> {
+export default class OwnerResolver implements ResolverInterface<GQLTournament> {
 	@FieldResolver()
-	async contestedMatches(@Root() { id }: GQLTournament) {
+	async owner(@Root() { id }: GQLTournament) {
 		const tournamentRepository = getRepository(DBTournament);
 		const tournament = await tournamentRepository.findOne({
 			where: { id },
-			relations: ['matches'],
+			relations: ['owner'],
 		});
 
-		if (!tournament) {
-			throw new Error('No tournament with that id');
+		if (!tournament?.owner) {
+			throw new Error('No tournament with that owner');
 		}
 
-		return tournament.matches.filter(match => match.contested && !match.finalized);
+		return tournament.owner;
 	}
 }

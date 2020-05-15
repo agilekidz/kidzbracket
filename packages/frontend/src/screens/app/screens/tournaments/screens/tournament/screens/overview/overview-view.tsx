@@ -1,7 +1,18 @@
 import React from 'react';
 
-const OverviewView = () => {
-	return <div>Overview screen</div>;
+interface Props {
+	currentlyRegisteredTeamCount: number;
+	maxTeamsCount: number;
+}
+const OverviewView: React.FC<Props> = ({ currentlyRegisteredTeamCount, maxTeamsCount }) => {
+	return (
+		<div>
+			<div>Overview screen</div>
+			<div>
+				Teams registered : {currentlyRegisteredTeamCount}/{maxTeamsCount}
+			</div>
+		</div>
+	);
 };
 
 export default OverviewView;
