@@ -1,8 +1,6 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
 
 import { Context } from '../../apollo';
-import DBUser from '../../entities/user';
 
 @InputType()
 class RegisterInput {
@@ -26,15 +24,14 @@ class RegisterPayload {
 export default class RegisterMutationResolver {
 	@Mutation(() => RegisterPayload)
 	async register(
-		@Ctx() context: Context,
 		@Arg('input') { name, email, password }: RegisterInput,
+		@Ctx() { user: loggedInUser, repositories, request }: Context,
 	): Promise<RegisterPayload> {
-		if (context.user) {
+		if (loggedInUser) {
 			throw new Error('You are already logged in');
 		}
 
-		const userRepository = getRepository(DBUser);
-		let user = await userRepository.findOne(undefined, {
+		let user = await repositories.userRepository.findOne(undefined, {
 			where: { email },
 		});
 
@@ -42,16 +39,16 @@ export default class RegisterMutationResolver {
 			throw new Error('A user with that email already exists');
 		}
 
-		user = userRepository.create({
+		user = repositories.userRepository.create({
 			name,
 			email,
 			password,
 		});
 
-		user = await userRepository.save(user);
+		user = await repositories.userRepository.save(user);
 
-		if (context.request.session) {
-			context.request.session.auth = {
+		if (request.session) {
+			request.session.auth = {
 				userId: user.id,
 			};
 		}
