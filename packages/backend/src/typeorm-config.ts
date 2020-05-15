@@ -12,7 +12,7 @@ const config: ConnectionOptions = {
 	password: String(process.env.PG_PASSWORD),
 	entities: [__dirname + '/entities/*.{js,ts}'],
 	synchronize: process.env.NODE_ENV === 'development',
-	logging: process.env.NODE_ENV === 'development',
+	logging: process.env.NODE_ENV === 'development' && ['error', 'warn'],
 };
 
 export default config;
