@@ -14,6 +14,10 @@ const GET_TOURNAMENT_QUERY = gql`
 		tournament(id: $id) {
 			id
 			name
+			maxTeams
+			teams {
+				id
+			}
 		}
 	}
 `;
@@ -38,7 +42,14 @@ const TournamentData = () => {
 	}
 
 	if (data) {
-		return <TournamentView tournament={data.tournament} />;
+		return (
+			<TournamentView
+				tournament={{
+					...data.tournament,
+					registeredTeamCount: data.tournament.teams.length,
+				}}
+			/>
+		);
 	}
 
 	return null;
