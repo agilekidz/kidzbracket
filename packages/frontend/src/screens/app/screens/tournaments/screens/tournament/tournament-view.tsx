@@ -39,7 +39,11 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 				</li>
 			</ul>
 			<Switch>
-				<Route exact path={`${url}/`} component={OverviewScreen} />
+				<Route
+					exact
+					path={`${url}/`}
+					render={() => <OverviewScreen tournamentId={tournament.id} />}
+				/>
 				<Route
 					exact
 					path={`${url}/join`}
