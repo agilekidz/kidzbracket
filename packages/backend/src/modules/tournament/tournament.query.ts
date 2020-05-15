@@ -1,7 +1,6 @@
-import { Arg, ID, Query, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Arg, Ctx, ID, Query, Resolver } from 'type-graphql';
 
-import DBTournament from '../../entities/tournament';
+import { Context } from '../../apollo';
 
 import GQLTournament from './tournament';
 
@@ -10,9 +9,9 @@ export default class TournamentQueryResolver {
 	@Query(() => GQLTournament)
 	async tournament(
 		@Arg('id', () => ID, { description: 'Identifier of the tournament' }) id: string,
+		@Ctx() { repositories }: Context,
 	): Promise<GQLTournament> {
-		const tournamentRepository = getRepository(DBTournament);
-		const tournament = await tournamentRepository.findOne({ where: { id } });
+		const tournament = await repositories.tournamentRepository.findOne({ where: { id } });
 		if (!tournament) {
 			throw new Error('Tournament does not exist');
 		}

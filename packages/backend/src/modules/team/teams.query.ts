@@ -1,15 +1,13 @@
-import { Query, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Ctx, Query, Resolver } from 'type-graphql';
 
-import DBTeam from '../../entities/team';
+import { Context } from '../../apollo';
 
 import GQLTeam from './team';
 
 @Resolver()
 export default class TeamsQueryResolver {
 	@Query(() => [GQLTeam])
-	async teams(): Promise<GQLTeam[]> {
-		const teamRepository = getRepository(DBTeam);
-		return teamRepository.find();
+	async teams(@Ctx() { repositories }: Context): Promise<GQLTeam[]> {
+		return repositories.teamRepository.find();
 	}
 }
