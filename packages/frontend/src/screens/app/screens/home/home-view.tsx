@@ -29,6 +29,11 @@ interface Tournament {
 	name: string;
 	description: string;
 	game: string;
+	maxTeams: number;
+	teams: {
+		id: string;
+		name: string;
+	}[];
 }
 
 interface Props {
