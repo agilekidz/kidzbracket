@@ -41,6 +41,7 @@ export async function randomTournament() {
 		description: 'Very nice tournament with good description',
 		game: 'League of Legends',
 		maxTeams: 32,
+		playersPerTeam: 2,
 		owner,
 	});
 	tournament = await tournamentRepository.save(tournament);
