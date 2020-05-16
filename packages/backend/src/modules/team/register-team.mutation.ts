@@ -40,6 +40,10 @@ export default class RegisterTeamMutationResolver {
 			throw new Error('This tournament is full');
 		}
 
+		if (tournament.playersPerTeam != players.filter(player => player !== '').length) {
+			throw new Error('Not the correct number of players >:(');
+		}
+
 		let team = repositories.teamRepository.create({
 			name,
 			players,
