@@ -39,6 +39,14 @@ export default class CreateTournamentMutationResolver {
 			throw new Error('You must be logged in to do that');
 		}
 
+		if (maxTeams < 2) {
+			throw new Error('maxTeams must be at least 2');
+		}
+
+		if (maxTeams > 128) {
+			throw new Error('maxTeams can be no more than 128');
+		}
+
 		if (!(playersPerTeam > 0)) {
 			throw new Error('A team cannot have fewer than one player each');
 		}
