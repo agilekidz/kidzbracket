@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
 
 import { Context } from '../../apollo';
-import DBUser from '../../entities/user';
 
 @InputType()
 class LoginGitHubInput {
@@ -22,10 +20,10 @@ class LoginGitHubPayload {
 export default class LoginGitHubMutationResolver {
 	@Mutation(() => LoginGitHubPayload)
 	async loginGitHub(
-		@Ctx() context: Context,
 		@Arg('input') { code }: LoginGitHubInput,
+		@Ctx() { user: loggedInUser, repositories, request }: Context,
 	): Promise<LoginGitHubPayload> {
-		if (context.user) {
+		if (loggedInUser) {
 			throw new Error('You are already logged in');
 		}
 
@@ -55,24 +53,23 @@ export default class LoginGitHubMutationResolver {
 		const githubId = result.data['id'];
 		const userName = result.data['name'];
 
-		const userRepository = getRepository(DBUser);
-		let user = await userRepository.findOne({
+		let user = await repositories.userRepository.findOne({
 			where: {
 				githubId,
 			},
 		});
 
 		if (!user) {
-			user = userRepository.create({
+			user = repositories.userRepository.create({
 				githubId,
 				name: userName,
 			});
 
-			user = await userRepository.save(user);
+			user = await repositories.userRepository.save(user);
 		}
 
-		if (context.request.session) {
-			context.request.session.auth = {
+		if (request.session) {
+			request.session.auth = {
 				userId: user.id,
 			};
 		}

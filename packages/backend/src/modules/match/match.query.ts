@@ -1,7 +1,6 @@
-import { Arg, ID, Query, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Arg, Ctx, ID, Query, Resolver } from 'type-graphql';
 
-import DBMatch from '../../entities/match';
+import { Context } from '../../apollo';
 
 import GQLMatch from './match';
 
@@ -10,9 +9,9 @@ export default class MatchQueryResolver {
 	@Query(() => GQLMatch)
 	async match(
 		@Arg('id', () => ID, { description: 'Identifier of the match' }) id: string,
+		@Ctx() { repositories }: Context,
 	): Promise<GQLMatch> {
-		const matchRepository = getRepository(DBMatch);
-		const match = await matchRepository.findOne({ where: { id } });
+		const match = await repositories.matchRepository.findOne({ where: { id } });
 		if (!match) {
 			throw new Error('Match does not exist');
 		}

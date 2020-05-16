@@ -1,8 +1,6 @@
-import { Arg, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 
-import DBTeam from '../../entities/team';
-import DBTournament from '../../entities/tournament';
+import { Context } from '../../apollo';
 
 import GQLTeam from './team';
 
@@ -29,14 +27,15 @@ export default class RegisterTeamMutationResolver {
 	@Mutation(() => RegisterTeamPayload)
 	async registerTeam(
 		@Arg('input') { name, players, tournamentId }: RegisterTeamInput,
+		@Ctx() { repositories }: Context,
 	): Promise<RegisterTeamPayload> {
-		const tournamentRepository = getRepository(DBTournament);
-		const tournament = await tournamentRepository.findOne(tournamentId, { relations: ['teams'] });
+		const tournament = await repositories.tournamentRepository.findOne(tournamentId, {
+			relations: ['teams'],
+		});
 		if (!tournament) {
 			throw new Error('That tournament does not exist');
 		}
 
-		console.log(tournament.teams.length);
 		if (tournament.teams.length >= tournament.maxTeams) {
 			throw new Error('This tournament is full');
 		}
@@ -45,14 +44,13 @@ export default class RegisterTeamMutationResolver {
 			throw new Error('Not the correct number of players >:(');
 		}
 
-		const teamRepository = getRepository(DBTeam);
-		let team = teamRepository.create({
+		let team = repositories.teamRepository.create({
 			name,
 			players,
 			tournament,
 		});
 
-		team = await teamRepository.save(team);
+		team = await repositories.teamRepository.save(team);
 
 		return {
 			team,
