@@ -17,6 +17,9 @@ class CreateTournamentInput {
 
 	@Field()
 	maxTeams: number;
+
+	@Field()
+	playersPerTeam: number;
 }
 
 @ObjectType()
@@ -29,11 +32,23 @@ class CreateTournamentPayload {
 export default class CreateTournamentMutationResolver {
 	@Mutation(() => CreateTournamentPayload)
 	async createTournament(
-		@Arg('data') { name, description, game, maxTeams }: CreateTournamentInput,
+		@Arg('data') { name, description, game, maxTeams, playersPerTeam }: CreateTournamentInput,
 		@Ctx() { user, repositories }: Context,
 	): Promise<CreateTournamentPayload> {
 		if (!user) {
 			throw new Error('You must be logged in to do that');
+		}
+
+		if (maxTeams < 2) {
+			throw new Error('maxTeams must be at least 2');
+		}
+
+		if (maxTeams > 128) {
+			throw new Error('maxTeams can be no more than 128');
+		}
+
+		if (!(playersPerTeam > 0)) {
+			throw new Error('A team cannot have fewer than one player each');
 		}
 
 		let tournament = repositories.tournamentRepository.create({
@@ -41,6 +56,7 @@ export default class CreateTournamentMutationResolver {
 			description,
 			game,
 			maxTeams,
+			playersPerTeam,
 			owner: user,
 		});
 

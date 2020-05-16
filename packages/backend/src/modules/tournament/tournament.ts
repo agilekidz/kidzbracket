@@ -24,6 +24,9 @@ export default class Tournament {
 	@Field({ description: 'Max number of teams in the tournament' })
 	maxTeams: number;
 
+	@Field({ description: 'The number of players required in a team' })
+	playersPerTeam: number;
+
 	@Field(() => Match, {
 		description: 'References all the matches that are connected to the tournament',
 	})
