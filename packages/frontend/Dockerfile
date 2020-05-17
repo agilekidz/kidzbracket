@@ -8,7 +8,7 @@ COPY package.json yarn.lock tsconfig.base.json ./
 COPY packages/frontend ./packages/frontend
 COPY packages/backend ./packages/backend
 
-RUN yarn --production=false
+RUN yarn --production=false --network-timeout 10000000
 RUN yarn --cwd packages/frontend build:check
 RUN yarn --cwd packages/frontend build
 
