@@ -1,15 +1,13 @@
-import { Query, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Ctx, Query, Resolver } from 'type-graphql';
 
-import DBUser from '../../entities/user';
+import { Context } from '../../apollo';
 
 import GQLUser from './user';
 
 @Resolver()
 export default class UsersQueryResolver {
 	@Query(() => [GQLUser])
-	async users(): Promise<GQLUser[]> {
-		const userRepository = getRepository(DBUser);
-		return userRepository.find();
+	async users(@Ctx() { repositories }: Context): Promise<GQLUser[]> {
+		return repositories.userRepository.find();
 	}
 }

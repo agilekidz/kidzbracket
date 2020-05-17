@@ -22,12 +22,17 @@ const REGISTER_TEAM_MUTATION = gql`
 `;
 
 interface Props {
-	tournamentId: string;
+	tournament: {
+		id: string;
+		playersPerTeam: number;
+	};
 }
 
-const JoinTournamentLogic: React.FC<Props> = ({ tournamentId }) => {
+const JoinTournamentLogic: React.FC<Props> = ({ tournament }) => {
 	const [teamName, setTeamName] = useState('');
-	const [playerNames, setPlayerNames] = useState(Array.from({ length: 5 }, () => ''));
+	const [playerNames, setPlayerNames] = useState(
+		Array.from({ length: tournament.playersPerTeam }, () => ''),
+	);
 	const [registerTeam] = useMutation<RegisterTeamMutation, RegisterTeamMutationVariables>(
 		REGISTER_TEAM_MUTATION,
 	);
@@ -56,11 +61,11 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournamentId }) => {
 				input: {
 					name: teamName,
 					players: playerNames,
-					tournamentId,
+					tournamentId: tournament.id,
 				},
 			},
 		}).then(() => {
-			history.replace(`/tournaments/${tournamentId}`);
+			history.replace(`/tournaments/${tournament.id}`);
 		});
 	};
 

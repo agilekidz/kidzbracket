@@ -5,18 +5,18 @@ import { Context } from '../../apollo';
 import GQLTournament from './tournament';
 
 @Resolver(() => GQLTournament)
-export default class MatchesResolver implements ResolverInterface<GQLTournament> {
+export default class OwnerResolver implements ResolverInterface<GQLTournament> {
 	@FieldResolver()
-	async matches(@Root() { id }: GQLTournament, @Ctx() { repositories }: Context) {
+	async owner(@Root() { id }: GQLTournament, @Ctx() { repositories }: Context) {
 		const tournament = await repositories.tournamentRepository.findOne({
 			where: { id },
-			relations: ['matches'],
+			relations: ['owner'],
 		});
 
 		if (!tournament) {
-			throw new Error('No tournament with that id');
+			throw new Error('Tournament not found');
 		}
 
-		return tournament.matches;
+		return tournament.owner;
 	}
 }

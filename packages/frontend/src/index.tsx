@@ -10,6 +10,8 @@ import SimpleBar from 'simplebar-react';
 import AppScreen from './screens/app';
 import { AuthProvider } from './screens/app/contexts/auth-context';
 
+console.log(Object.keys(process.env));
+
 const client = new ApolloClient({
 	cache: new InMemoryCache(),
 	link: new HttpLink({

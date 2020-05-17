@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AdminCheck from '../../components/admin-check';
+
 import MatchViewItem from './components/match-view-item';
 
 interface Team {
@@ -14,25 +16,48 @@ export interface MatchViewMatch {
 	secondTeam: Team;
 	winner: Team | null;
 	contested: boolean;
+	tournament: { id: string; owner: { id: string } };
+	finalized: boolean;
 }
 
 interface Props {
-	reportWin: (teamId: string) => void;
-	reportContested: (contested: boolean) => void;
+	reportVictory: (winningTeamId: string) => void;
+	contestMatch: () => void;
+	finalizeMatchContestation: (winningTeamId: string) => void;
 	match: MatchViewMatch;
 	loading: boolean;
+	tournament: {
+		id: string;
+		owner: { id: string };
+	};
 }
 
-const MatchView: React.FC<Props> = ({ reportWin, reportContested, match, loading }) => {
+const MatchView: React.FC<Props> = ({
+	reportVictory,
+	contestMatch,
+	finalizeMatchContestation,
+	match,
+	loading,
+	tournament,
+}) => {
 	if (match.winner) {
 		return (
 			<div>
 				<MatchViewItem match={match} />
 				<h1>The winner is: {match.winner.name}</h1>
-				{match.contested && <h1>The match has been contested!</h1>}
-				{/*	 idk, if I dont have an arrow function in the onclick gets sad */}
-				{!match.contested && (
-					<button disabled={loading} onClick={() => reportContested(true)}>
+				{match.contested && !match.finalized && <h1>The match has been contested!</h1>}
+				{match.contested && !match.finalized && (
+					<AdminCheck ownerId={tournament.owner.id}>
+						<button onClick={() => finalizeMatchContestation(match.firstTeam.id)}>
+							{match.firstTeam.name} won!
+						</button>
+						<button onClick={() => finalizeMatchContestation(match.secondTeam.id)}>
+							{match.secondTeam.name} won!
+						</button>
+					</AdminCheck>
+				)}
+				{!match.contested && !match.finalized && (
+					<button disabled={loading} onClick={contestMatch}>
 						Contest result!
 					</button>
 				)}
@@ -44,8 +69,10 @@ const MatchView: React.FC<Props> = ({ reportWin, reportContested, match, loading
 		<div>
 			<MatchViewItem match={match} />
 			<h1>Which team won?</h1>
-			<button onClick={() => reportWin(match.firstTeam.id)}>{match.firstTeam.name} won!</button>
-			<button onClick={() => reportWin(match.secondTeam.id)}>{match.secondTeam.name} won!</button>
+			<button onClick={() => reportVictory(match.firstTeam.id)}>{match.firstTeam.name} won!</button>
+			<button onClick={() => reportVictory(match.secondTeam.id)}>
+				{match.secondTeam.name} won!
+			</button>
 		</div>
 	);
 };
