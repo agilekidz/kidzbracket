@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
 
 import {
 	GitHubLoginMutation,
@@ -106,7 +106,10 @@ export const AuthProvider: React.FC = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [initialised, setInitialised] = useState(false);
-	const { data, loading, refetch } = useQuery<ProfileQuery>(PROFILE_QUERY);
+
+	const client = useApolloClient();
+
+	const { data, error, loading, refetch } = useQuery<ProfileQuery>(PROFILE_QUERY);
 
 	const [_loginGitHub] = useMutation<GitHubLoginMutation, GitHubLoginMutationVariables>(
 		GITHUB_LOGIN_MUTATION,
@@ -209,9 +212,15 @@ export const AuthProvider: React.FC = ({ children }) => {
 			if (data?.logout.success) {
 				setIsAuthenticated(false);
 				setUser(null);
+				client.resetStore();
 			}
 		});
-	}, [_logout]);
+	}, [_logout, client]);
+
+	if (error && user) {
+		setUser(null);
+		setIsAuthenticated(false);
+	}
 
 	if (loading && !initialised) {
 		return <>Getting authentication...</>;
@@ -225,6 +234,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 			setIsAuthenticated(true);
 		}
 	}
+
 	if (data && data.me !== user) {
 		setUser(data.me);
 	}

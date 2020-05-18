@@ -41,8 +41,6 @@ const InternalBracket: React.FC<InternalBracketProps> = ({ match, first = false,
 	const hasSecondParent = match.secondParent;
 	const hasAnyParent = hasFirstParent || hasSecondParent;
 
-	console.log(level);
-
 	return (
 		<Wrapper>
 			<ChildWrapper>

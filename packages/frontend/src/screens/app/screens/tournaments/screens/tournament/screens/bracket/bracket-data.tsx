@@ -76,8 +76,6 @@ const BracketData: React.FC<Props> = ({ tournamentId }) => {
 
 		const bracket = buildTree(root, matches);
 
-		console.log('data ', depth);
-
 		return <BracketView match={bracket} level={depth - 2} />;
 	}
 
