@@ -12,6 +12,11 @@ export default class SecondTeamResolver implements ResolverInterface<GQLMatch> {
 			where: { id },
 			relations: ['secondTeam'],
 		});
-		return match?.secondTeam;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.secondTeam;
 	}
 }

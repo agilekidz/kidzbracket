@@ -12,6 +12,11 @@ export default class SecondParentResolver implements ResolverInterface<GQLMatch>
 			where: { id },
 			relations: ['secondParent'],
 		});
-		return match?.secondParent;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.secondParent;
 	}
 }
