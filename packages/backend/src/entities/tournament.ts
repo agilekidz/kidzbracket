@@ -11,10 +11,10 @@ export default class Tournament extends BaseEntity {
 	@Column()
 	name: string;
 
-	@Column({ nullable: true })
+	@Column()
 	description: string;
 
-	@Column({ nullable: true })
+	@Column()
 	game: string;
 
 	@Column()

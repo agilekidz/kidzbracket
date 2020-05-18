@@ -8,12 +8,12 @@ export default class User {
 	@Field()
 	name: string;
 
-	@Field()
-	email: string;
+	@Field(() => String, { nullable: true })
+	email: string | null;
 
-	@Field({ nullable: true })
-	alias?: string;
+	@Field(() => String, { nullable: true })
+	alias: string | null;
 
-	@Field({ nullable: true })
-	bio?: string;
+	@Field(() => String, { nullable: true })
+	bio: string | null;
 }

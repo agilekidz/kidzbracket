@@ -12,6 +12,11 @@ export default class WinnerResolver implements ResolverInterface<GQLMatch> {
 			where: { id },
 			relations: ['winner'],
 		});
-		return match?.winner;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.winner;
 	}
 }

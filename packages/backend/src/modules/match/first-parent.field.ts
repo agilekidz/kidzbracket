@@ -12,6 +12,11 @@ export default class FirstParentResolver implements ResolverInterface<GQLMatch> 
 			where: { id },
 			relations: ['firstParent'],
 		});
-		return match?.firstParent;
+
+		if (!match) {
+			return null;
+		}
+
+		return match.firstParent;
 	}
 }
