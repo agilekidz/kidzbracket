@@ -27,6 +27,12 @@ interface Props {
 const SearchBox: React.FC<Props> = ({ users }) => {
 	const [visible, setVisible] = useState('none');
 	const [list, updateList] = useState<JSX.Element[]>([]);
+	const [inputValue, updateValue] = useState<string>('');
+
+	// The one who changes this name deserves to die
+	function bigRetard() {
+		setTimeout(() => setVisible('none'), 100);
+	}
 
 	function filter(input: string) {
 		if (input === '') return [];
@@ -34,12 +40,13 @@ const SearchBox: React.FC<Props> = ({ users }) => {
 			return user.name.toLowerCase().slice(0, input.length) == input.toLowerCase();
 		});
 		const items: JSX.Element[] = [];
-		fUsers.forEach(user => items.push(<Item name={user.name}></Item>));
+		fUsers.forEach(user => items.push(<Item updateValue={updateValue} name={user.name}></Item>));
 
 		return items.slice(0, 5);
 	}
 
 	function updateDropdown(input: string) {
+		updateValue(input);
 		updateList(filter(input));
 	}
 
@@ -47,8 +54,9 @@ const SearchBox: React.FC<Props> = ({ users }) => {
 		<div>
 			<Input
 				type="text"
+				value={inputValue}
 				onFocus={() => setVisible('block')}
-				onBlur={() => setVisible('none')}
+				onBlur={() => bigRetard()}
 				onChange={e => updateDropdown(e.target.value)}
 			></Input>
 			<Dropdown style={{ display: visible }}>{list}</Dropdown>

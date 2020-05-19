@@ -48,11 +48,17 @@ export async function randomTournament() {
 
 	const teams: Team[] = [];
 	for (let i = 0; i < Math.ceil(Math.random() * 10 + 10); i++) {
+		const user1 = await createUser('Player 1', 'email@player.com', 'password');
+		const user2 = await createUser('Player 2', 'email@player.com', 'password');
+		const players = [];
+		players.push(user1);
+		players.push(user2);
 		let team = teamRepository.create({
 			name: 'team' + i,
-			players: ['player 1', 'player 2'],
+			players,
 			tournament,
 		});
+
 		team = await teamRepository.save(team);
 		teams.push(team);
 	}

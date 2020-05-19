@@ -13,17 +13,23 @@ const MATCH_INFO_QUERY = gql`
 			firstTeam {
 				id
 				name
-				players
+				players {
+					id
+				}
 			}
 			secondTeam {
 				id
 				name
-				players
+				players {
+					id
+				}
 			}
 			winner {
 				id
 				name
-				players
+				players {
+					id
+				}
 			}
 			tournament {
 				id

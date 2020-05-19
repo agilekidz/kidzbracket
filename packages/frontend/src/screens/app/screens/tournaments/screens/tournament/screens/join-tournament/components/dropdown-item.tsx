@@ -4,6 +4,7 @@ import Styled from 'styled-components';
 
 interface Props {
 	name: string;
+	updateValue: Function;
 }
 
 const Item = Styled.div`
@@ -15,8 +16,8 @@ const Item = Styled.div`
     :hover {background: lightgray}
 `;
 
-const DropdownItem: React.FC<Props> = ({ name }) => {
-	return <Item>{name}</Item>;
+const DropdownItem: React.FC<Props> = ({ name, updateValue }) => {
+	return <Item onClick={() => updateValue(name)}>{name}</Item>;
 };
 
 export default DropdownItem;

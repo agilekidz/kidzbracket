@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
 import Tournament from '../tournament/tournament';
+import User from '../user/user';
 
 @ObjectType()
 export default class Team {
@@ -10,8 +11,8 @@ export default class Team {
 	@Field()
 	name: string;
 
-	@Field(() => [String], { description: 'the players on the team' })
-	players: string[];
+	@Field(() => [User], { description: 'the players on the team' })
+	players: User[];
 
 	@Field(() => Tournament)
 	tournament: Tournament;

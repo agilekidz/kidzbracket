@@ -15,7 +15,10 @@ const REGISTER_TEAM_MUTATION = gql`
 			team {
 				id
 				name
-				players
+				players {
+					id
+					name
+				}
 			}
 		}
 	}
@@ -24,6 +27,11 @@ const REGISTER_TEAM_MUTATION = gql`
 interface User {
 	id: string;
 	name: string;
+}
+
+interface Team {
+	id: string;
+	players: User[];
 }
 
 interface Props {

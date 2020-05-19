@@ -2,7 +2,7 @@ import React from 'react';
 
 import { gql, useQuery } from '@apollo/client';
 
-import { GetAllUsersQuery, GetAllUsersQueryVariables } from './__generated__/GetAllUsersQuery';
+import { GetAllUsersQuery } from './__generated__/GetAllUsersQuery';
 import {
 	JoinTournamentTournamentInfoQuery,
 	JoinTournamentTournamentInfoQueryVariables,
@@ -27,19 +27,41 @@ const GET_ALL_USERS_QUERY = gql`
 	}
 `;
 
+const GET_ALL_REGISTERD_TEAMS = gql`
+	query GetAllRegisterdTeams($id: ID!) {
+		tournament(id: $id) {
+			id
+			teams {
+				id
+				players {
+					id
+				}
+			}
+		}
+	}
+`;
+
 interface Props {
 	tournamentId: string;
 }
 
 function getAllUsers() {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const { loading, error, data } = useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(
-		GET_ALL_USERS_QUERY,
-	);
+	const { loading, error, data } = useQuery<GetAllUsersQuery>(GET_ALL_USERS_QUERY);
 	return {
 		loading2: loading,
 		error2: error,
 		data2: data,
+	};
+}
+
+function getAllTeams() {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const { loading, error, data } = useQuery<GetAllUsersQuery>(GET_ALL_USERS_QUERY);
+	return {
+		loading3: loading,
+		error3: error,
+		data3: data,
 	};
 }
 
@@ -54,14 +76,15 @@ const JoinTournamentData: React.FC<Props> = ({ tournamentId }) => {
 	});
 
 	const allUsers = getAllUsers();
+	const allTeams = getAllTeams();
 
-	if (loading || allUsers.loading2) {
+	if (loading || allUsers.loading2 || allTeams.loading3) {
 		return <div>loading...</div>;
 	}
-	if (error || allUsers.error2) {
+	if (error || allUsers.error2 || allTeams.error3) {
 		return <div>error</div>;
 	}
-	if (data && allUsers.data2) {
+	if (data && allUsers.data2 && allTeams.data3) {
 		return <JoinTournamentLogic tournament={data.tournament} users={allUsers.data2.users} />;
 	}
 	return <div></div>;
