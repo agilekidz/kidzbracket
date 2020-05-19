@@ -10,27 +10,27 @@ import Tournament from './tournament';
 export default class Match extends BaseEntity {
 	//Team 1 in the match
 	@ManyToOne(() => Team, { nullable: true })
-	firstTeam?: Team;
+	firstTeam: Team | null;
 
 	//Team 2 in the match
 	@ManyToOne(() => Team, { nullable: true })
-	secondTeam?: Team;
+	secondTeam: Team | null;
 
 	//Team 1:s parent match
 	@ManyToOne(() => Match, { nullable: true })
-	firstParent?: Match;
+	firstParent: Match | null;
 
 	//Team 2:s parent match
 	@ManyToOne(() => Match, { nullable: true })
-	secondParent?: Match;
+	secondParent: Match | null;
 
 	//Team 1:s score
-	@Column({ nullable: true })
-	firstScore?: number;
+	@Column('int', { nullable: true })
+	firstScore: number | null;
 
 	//Team 2:s score
-	@Column({ nullable: true })
-	secondScore?: number;
+	@Column('int', { nullable: true })
+	secondScore: number | null;
 
 	//Reference to the tournament
 	@ManyToOne(() => Tournament, tournament => tournament.matches)
@@ -38,7 +38,7 @@ export default class Match extends BaseEntity {
 
 	//Winner of the match
 	@ManyToOne(() => Team, { nullable: true })
-	winner?: Team;
+	winner: Team | null;
 
 	@Column()
 	round: number;
@@ -50,4 +50,7 @@ export default class Match extends BaseEntity {
 	//If a match needs admin help
 	@Column({ default: false })
 	needAdminHelp: boolean;
+
+	@Column({ default: false })
+	finalized: boolean;
 }

@@ -1,8 +1,6 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
 
 import { Context } from '../../apollo';
-import DBTournament from '../../entities/tournament';
 
 import GQLTournament from './tournament';
 
@@ -19,6 +17,9 @@ class CreateTournamentInput {
 
 	@Field()
 	maxTeams: number;
+
+	@Field()
+	playersPerTeam: number;
 }
 
 @ObjectType()
@@ -31,24 +32,35 @@ class CreateTournamentPayload {
 export default class CreateTournamentMutationResolver {
 	@Mutation(() => CreateTournamentPayload)
 	async createTournament(
-		@Arg('data') { name, description, game, maxTeams }: CreateTournamentInput,
-		@Ctx() { user }: Context,
+		@Arg('data') { name, description, game, maxTeams, playersPerTeam }: CreateTournamentInput,
+		@Ctx() { user, repositories }: Context,
 	): Promise<CreateTournamentPayload> {
 		if (!user) {
 			throw new Error('You must be logged in to do that');
 		}
 
-		const tournamentRepository = getRepository(DBTournament);
+		if (maxTeams < 2) {
+			throw new Error('maxTeams must be at least 2');
+		}
 
-		let tournament = tournamentRepository.create({
+		if (maxTeams > 128) {
+			throw new Error('maxTeams can be no more than 128');
+		}
+
+		if (!(playersPerTeam > 0)) {
+			throw new Error('A team cannot have fewer than one player each');
+		}
+
+		let tournament = repositories.tournamentRepository.create({
 			name,
 			description,
 			game,
 			maxTeams,
+			playersPerTeam,
 			owner: user,
 		});
 
-		tournament = await tournamentRepository.save(tournament);
+		tournament = await repositories.tournamentRepository.save(tournament);
 
 		return {
 			tournament: {

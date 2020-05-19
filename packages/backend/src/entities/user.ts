@@ -10,31 +10,31 @@ export default class User extends BaseEntity {
 	@Column()
 	name: string;
 
-	@Column({ nullable: true })
-	email: string;
+	@Column('varchar', { nullable: true })
+	email: string | null;
 
-	@Column({ nullable: true })
-	password: string;
+	@Column('varchar', { nullable: true })
+	password: string | null;
 
-	@Column({ nullable: true })
-	googleId?: string;
+	@Column('varchar', { nullable: true })
+	googleId: string | null;
 
-	@Column({ nullable: true })
-	githubId?: string;
+	@Column('varchar', { nullable: true })
+	githubId: string | null;
 
-	@Column({ nullable: true })
-	facebookId?: string;
+	@Column('varchar', { nullable: true })
+	facebookId: string | null;
 
-	@Column({ nullable: true })
-	alias?: string;
+	@Column('varchar', { nullable: true })
+	alias: string | null;
 
-	@Column({ nullable: true })
-	bio?: string;
+	@Column('varchar', { nullable: true })
+	bio: string | null;
 
 	@OneToMany(() => Tournament, tournament => tournament.owner)
 	tournaments: Tournament[];
 
-	private tempPassword: string;
+	private tempPassword: string | null;
 
 	@AfterLoad()
 	// eslint-disable-next-line
@@ -48,7 +48,7 @@ export default class User extends BaseEntity {
 	// eslint-disable-next-line
 	// @ts-ignore
 	private async encryptPassword() {
-		if (this.tempPassword !== this.password) {
+		if (this.password && this.tempPassword !== this.password) {
 			this.password = await bcrypt.hash(this.password, 12);
 		}
 	}

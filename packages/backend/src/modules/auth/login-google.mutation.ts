@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
 
 import { Context } from '../../apollo';
-import DBUser from '../../entities/user';
 
 @InputType()
 class LoginGoogleInput {
@@ -22,10 +20,10 @@ class LoginGooglePayload {
 export default class LoginGoogleMutationResolver {
 	@Mutation(() => LoginGooglePayload)
 	async loginGoogle(
-		@Ctx() context: Context,
 		@Arg('input') { code }: LoginGoogleInput,
+		@Ctx() { user: loggedInUser, repositories, request }: Context,
 	): Promise<LoginGooglePayload> {
-		if (context.user) {
+		if (loggedInUser) {
 			throw new Error('You are already logged in');
 		}
 
@@ -48,24 +46,23 @@ export default class LoginGoogleMutationResolver {
 		);
 		const googleId = profile['sub'];
 
-		const userRepository = getRepository(DBUser);
-		let user = await userRepository.findOne({
+		let user = await repositories.userRepository.findOne({
 			where: {
 				googleId,
 			},
 		});
 
 		if (!user) {
-			user = userRepository.create({
+			user = repositories.userRepository.create({
 				googleId,
 				name: profile['name'],
 			});
 
-			user = await userRepository.save(user);
+			user = await repositories.userRepository.save(user);
 		}
 
-		if (context.request.session) {
-			context.request.session.auth = {
+		if (request.session) {
+			request.session.auth = {
 				userId: user.id,
 			};
 		}

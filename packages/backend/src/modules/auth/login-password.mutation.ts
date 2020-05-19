@@ -1,9 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
 
 import { Context } from '../../apollo';
-import DBUser from '../../entities/user';
 
 @InputType()
 class LoginPasswordInput {
@@ -24,15 +22,14 @@ class LoginPasswordPayload {
 export default class LoginPasswordMutationResolver {
 	@Mutation(() => LoginPasswordPayload)
 	async loginPassword(
-		@Ctx() context: Context,
 		@Arg('input') { email, password }: LoginPasswordInput,
+		@Ctx() { user: loggedInUser, repositories, request }: Context,
 	): Promise<LoginPasswordPayload> {
-		if (context.user) {
+		if (loggedInUser) {
 			throw new Error('You are already logged in');
 		}
 
-		const userRepository = getRepository(DBUser);
-		const user = await userRepository.findOne(undefined, {
+		const user = await repositories.userRepository.findOne(undefined, {
 			where: { email },
 		});
 
@@ -40,12 +37,16 @@ export default class LoginPasswordMutationResolver {
 			throw new Error('A user with that email was not found');
 		}
 
+		if (!user.password) {
+			throw new Error('This user does not use password login');
+		}
+
 		if (!(await bcrypt.compare(password, user.password))) {
 			throw new Error('Incorrect password');
 		}
 
-		if (context.request.session) {
-			context.request.session.auth = {
+		if (request.session) {
+			request.session.auth = {
 				userId: user.id,
 			};
 		}

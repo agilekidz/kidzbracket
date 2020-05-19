@@ -60,9 +60,13 @@ const BracketData: React.FC<Props> = ({ tournamentId }) => {
 	}
 
 	if (data) {
+		let depth = 0;
 		const matches = new Map<string, Match>();
 		data.tournament.matches.forEach(match => {
 			matches.set(match.id, match);
+			if (match.round > depth) {
+				depth = match.round;
+			}
 		});
 
 		const root = data.tournament.matches.find(match => match.round === 1);
@@ -72,7 +76,7 @@ const BracketData: React.FC<Props> = ({ tournamentId }) => {
 
 		const bracket = buildTree(root, matches);
 
-		return <BracketView match={bracket} />;
+		return <BracketView match={bracket} level={depth - 2} />;
 	}
 
 	return null;

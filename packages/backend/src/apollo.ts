@@ -1,14 +1,23 @@
 import { ApolloServer } from 'apollo-server-express';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
+import Match from './entities/match';
+import Team from './entities/team';
+import Tournament from './entities/tournament';
 import User from './entities/user';
 
 export interface Context {
 	request: Express.Request;
 	response: Express.Response;
 	user?: User;
+	repositories: {
+		matchRepository: Repository<Match>;
+		teamRepository: Repository<Team>;
+		tournamentRepository: Repository<Tournament>;
+		userRepository: Repository<User>;
+	};
 }
 
 async function createApolloServer() {
@@ -20,9 +29,10 @@ async function createApolloServer() {
 	return new ApolloServer({
 		schema,
 		context: async ({ req, res }): Promise<Context> => {
+			const userRepository = getRepository(User);
+
 			let user: User | undefined;
 			try {
-				const userRepository = getRepository(User);
 				user = await userRepository.findOne({ where: { id: req.session?.auth.userId } });
 			} catch (e) {
 				// User isn't logged in
@@ -32,6 +42,12 @@ async function createApolloServer() {
 				request: req,
 				response: res,
 				user,
+				repositories: {
+					matchRepository: getRepository(Match),
+					teamRepository: getRepository(Team),
+					tournamentRepository: getRepository(Tournament),
+					userRepository,
+				},
 			};
 		},
 	});

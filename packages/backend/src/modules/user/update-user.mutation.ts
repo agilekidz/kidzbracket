@@ -1,7 +1,6 @@
-import { Arg, Field, ID, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { getRepository } from 'typeorm';
+import { Arg, Ctx, Field, ID, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 
-import DBUser from '../../entities/user';
+import { Context } from '../../apollo';
 
 import GQLUser from './user';
 
@@ -29,27 +28,27 @@ export default class UpdateUserMutationResolver {
 	async updateUser(
 		@Arg('id', () => ID) id: string,
 		@Arg('data') { alias, bio, name }: UpdateUserInput,
+		@Ctx() { repositories }: Context,
 	): Promise<UpdateUserPayload> {
-		const userRepository = getRepository(DBUser);
-		let user = await userRepository.findOne(id);
+		let user = await repositories.userRepository.findOne(id);
 
 		if (!user) {
 			throw new Error('a user with that id does not exist');
 		}
 
 		if (alias !== undefined) {
-			user.alias = alias || undefined;
+			user.alias = alias;
 		}
 
 		if (bio !== undefined) {
-			user.bio = bio || undefined;
+			user.bio = bio;
 		}
 
 		if (name !== undefined) {
 			user.name = name;
 		}
 
-		user = await userRepository.save(user);
+		user = await repositories.userRepository.save(user);
 
 		return {
 			user,

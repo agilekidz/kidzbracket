@@ -13,6 +13,8 @@ interface Props {
 	tournament: {
 		id: string;
 		name: string;
+		maxTeams: number;
+		registeredTeamCount: number;
 	};
 }
 
@@ -25,9 +27,12 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 				<li style={{ padding: '5px 10px' }}>
 					<Link to={`${url}`}>overview</Link>
 				</li>
-				<li style={{ padding: '5px 10px' }}>
-					<Link to={`${url}/join`}>Join</Link>
-				</li>
+				{(tournament.registeredTeamCount < tournament.maxTeams && (
+					<li style={{ padding: '5px 10px' }}>
+						<Link to={`${url}/join`}>Join</Link>
+					</li>
+				)) || <li style={{ padding: '5px 10px' }}>Join (full)</li>}
+
 				<li style={{ padding: '5px 10px' }}>
 					<Link to={`${url}/bracket`}>Bracket</Link>
 				</li>
@@ -39,7 +44,11 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 				</li>
 			</ul>
 			<Switch>
-				<Route exact path={`${url}/`} component={OverviewScreen} />
+				<Route
+					exact
+					path={`${url}/`}
+					render={() => <OverviewScreen tournamentId={tournament.id} />}
+				/>
 				<Route
 					exact
 					path={`${url}/join`}
@@ -61,7 +70,11 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 					render={() => <ManageTournamentScreen tournamentId={tournament.id} />}
 				/>
 
-				<Route exact path={`${url}/match/:matchId`} render={() => <MatchScreen />} />
+				<Route
+					exact
+					path={`${url}/match/:matchId`}
+					render={() => <MatchScreen tournament={tournament} />}
+				/>
 			</Switch>
 		</div>
 	);
