@@ -21,16 +21,23 @@ interface Match {
 	secondTeam: Team | null;
 }
 
-interface Props {
-	matches: Match[];
-	tournament: { id: string };
+export interface ManageTournamentTournament {
+	id: string;
+	started: boolean;
+	contestedMatches: Match[];
 }
 
-const ManageTournamentView: React.FC<Props> = ({ matches, tournament }) => {
+interface Props {
+	tournament: ManageTournamentTournament;
+	handleTournamentStart: () => void;
+}
+
+const ManageTournamentView: React.FC<Props> = ({ tournament, handleTournamentStart }) => {
 	return (
 		<div>
+			{!tournament.started && <button onClick={handleTournamentStart}>Start tournament</button>}
 			<List>
-				{matches.map(match => (
+				{tournament.contestedMatches.map(match => (
 					<Item key={match.id} match={match} tournament={tournament}></Item>
 				))}
 			</List>
