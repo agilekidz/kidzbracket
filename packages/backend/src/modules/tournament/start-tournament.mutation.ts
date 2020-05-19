@@ -1,6 +1,7 @@
 import { Arg, Ctx, Field, ID, Mutation, ObjectType, Resolver } from 'type-graphql';
 
 import { Context } from '../../apollo';
+import { generateBracket } from '../../generate-bracket';
 
 import Tournament from './tournament';
 
@@ -19,7 +20,7 @@ export default class StartTournamentMutationResolver {
 		}
 
 		let tournament = await repositories.tournamentRepository.findOne(id, {
-			relations: ['owner'],
+			relations: ['owner', 'teams'],
 		});
 		if (!tournament) {
 			throw new Error('Tournament does not exist');
@@ -32,6 +33,12 @@ export default class StartTournamentMutationResolver {
 		if (tournament.started) {
 			throw new Error('Tournament is already started');
 		}
+
+		if (!(tournament.teams.length >= 2)) {
+			throw new Error('Not enough teams to start the tournament! >:(');
+		}
+
+		generateBracket(tournament.teams, tournament);
 
 		tournament.started = true;
 		tournament = await repositories.tournamentRepository.save(tournament);

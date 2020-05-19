@@ -38,10 +38,11 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 				{!tournament.started && tournament.registeredTeamCount >= tournament.maxTeams && (
 					<li style={{ padding: '5px 10px' }}>Join (full)</li>
 				)}
-
-				<li style={{ padding: '5px 10px' }}>
-					<Link to={`${url}/bracket`}>Bracket</Link>
-				</li>
+				{(tournament.started && (
+					<li style={{ padding: '5px 10px' }}>
+						<Link to={`${url}/bracket`}>Bracket</Link>
+					</li>
+				)) || <li style={{ padding: '5px 10px' }}>Bracket</li>}
 				<li style={{ padding: '5px 10px' }}>
 					<Link to={`${url}/teams`}>Teams</Link>
 				</li>
