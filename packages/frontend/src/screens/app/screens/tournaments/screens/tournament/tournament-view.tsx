@@ -15,6 +15,7 @@ interface Props {
 		name: string;
 		maxTeams: number;
 		registeredTeamCount: number;
+		started: boolean;
 	};
 }
 
@@ -27,11 +28,16 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 				<li style={{ padding: '5px 10px' }}>
 					<Link to={`${url}`}>overview</Link>
 				</li>
-				{(tournament.registeredTeamCount < tournament.maxTeams && (
+				{tournament.started && <li style={{ padding: '5px 10px' }}>Join (Started) </li>}
+
+				{!tournament.started && tournament.registeredTeamCount < tournament.maxTeams && (
 					<li style={{ padding: '5px 10px' }}>
 						<Link to={`${url}/join`}>Join</Link>
 					</li>
-				)) || <li style={{ padding: '5px 10px' }}>Join (full)</li>}
+				)}
+				{!tournament.started && tournament.registeredTeamCount >= tournament.maxTeams && (
+					<li style={{ padding: '5px 10px' }}>Join (full)</li>
+				)}
 
 				<li style={{ padding: '5px 10px' }}>
 					<Link to={`${url}/bracket`}>Bracket</Link>

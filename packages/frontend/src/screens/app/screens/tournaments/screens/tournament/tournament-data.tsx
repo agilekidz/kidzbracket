@@ -15,6 +15,7 @@ const GET_TOURNAMENT_QUERY = gql`
 			id
 			name
 			maxTeams
+			started
 			teams {
 				id
 			}
