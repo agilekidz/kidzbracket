@@ -21,14 +21,20 @@ const REGISTER_TEAM_MUTATION = gql`
 	}
 `;
 
+interface User {
+	id: string;
+	name: string;
+}
+
 interface Props {
 	tournament: {
 		id: string;
 		playersPerTeam: number;
 	};
+	users: User[];
 }
 
-const JoinTournamentLogic: React.FC<Props> = ({ tournament }) => {
+const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
 	const [teamName, setTeamName] = useState('');
 	const [playerNames, setPlayerNames] = useState(
 		Array.from({ length: tournament.playersPerTeam }, () => ''),
@@ -76,6 +82,7 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournament }) => {
 			handleTeamNameChange={handleTeamNameChange}
 			handlePlayerNameChange={handlePlayerNameChange}
 			handleSubmit={handleSubmit}
+			users={users}
 		/>
 	);
 };

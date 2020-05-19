@@ -1,8 +1,16 @@
 import React from 'react';
 
+import PlayerBox from './components/player-box';
+
+interface User {
+	id: string;
+	name: string;
+}
+
 interface Props {
 	teamName: string;
 	playerNames: string[];
+	users: User[];
 	handleTeamNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handlePlayerNameChange: (id: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -14,10 +22,12 @@ const JoinTournamentView: React.FC<Props> = ({
 	handleTeamNameChange,
 	handlePlayerNameChange,
 	handleSubmit,
+	users,
 }) => {
 	return (
 		<div>
 			<h2>Join tournament</h2>
+
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="name">TeamName</label>
@@ -26,12 +36,7 @@ const JoinTournamentView: React.FC<Props> = ({
 				{playerNames.map((playerName, index) => (
 					<div key={index}>
 						<label htmlFor="alias">Player {index + 1} name</label>
-						<input
-							type="text"
-							id="alias"
-							value={playerName}
-							onChange={event => handlePlayerNameChange(index, event)}
-						/>
+						<PlayerBox users={users} />
 					</div>
 				))}
 				<input type="submit" value="Join" />
