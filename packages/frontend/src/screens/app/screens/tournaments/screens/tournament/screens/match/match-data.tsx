@@ -15,6 +15,7 @@ const MATCH_INFO_QUERY = gql`
 				name
 				players {
 					id
+					name
 				}
 			}
 			secondTeam {
@@ -22,6 +23,7 @@ const MATCH_INFO_QUERY = gql`
 				name
 				players {
 					id
+					name
 				}
 			}
 			winner {
@@ -29,12 +31,14 @@ const MATCH_INFO_QUERY = gql`
 				name
 				players {
 					id
+					name
 				}
 			}
 			tournament {
 				id
 				owner {
 					id
+					name
 				}
 			}
 			contested

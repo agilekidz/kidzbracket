@@ -1,9 +1,14 @@
 import React from 'react';
 
+interface User {
+	id: string;
+	name: string;
+}
+
 interface Team {
 	id: string;
 	name: string;
-	players: string[];
+	players: User[];
 }
 
 interface Match {
@@ -21,11 +26,11 @@ const MatchViewItem: React.FC<Props> = ({ match }) => {
 		<div>
 			<h1>{match.firstTeam.name}</h1>
 			{match.firstTeam.players.map(player => (
-				<p key={player}>{player}</p>
+				<p key={player.id}>{player.name}</p>
 			))}
 			<h1>{match.secondTeam.name}</h1>
 			{match.secondTeam.players.map(player => (
-				<p key={player}>{player}</p>
+				<p key={player.id}>{player.name}</p>
 			))}
 		</div>
 	);
