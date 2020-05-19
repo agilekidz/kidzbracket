@@ -34,6 +34,7 @@ interface Tournament {
 		id: string;
 		name: string;
 	}[];
+	winner: { name: string } | null;
 }
 
 interface Props {

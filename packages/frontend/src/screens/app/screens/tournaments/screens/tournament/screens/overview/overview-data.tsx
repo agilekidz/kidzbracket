@@ -13,6 +13,10 @@ const OVERVIEW_TOURNAMENT_TEAM_INFO = gql`
 		tournament(id: $id) {
 			id
 			maxTeams
+			winner {
+				id
+				name
+			}
 			teams {
 				id
 			}
@@ -46,6 +50,7 @@ const OverviewData: React.FC<Props> = ({ tournamentId }) => {
 			<OverviewView
 				currentlyRegisteredTeamCount={data.tournament.teams.length}
 				maxTeamsCount={data.tournament.maxTeams}
+				winner={data.tournament.winner}
 			/>
 		);
 	}

@@ -43,4 +43,7 @@ export default class Tournament {
 
 	@Field(() => Team)
 	teams: Team[];
+
+	@Field(() => Team, { nullable: true })
+	winner?: Team | null;
 }
