@@ -1,6 +1,7 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 
 import { Context } from '../../apollo';
+import { finalizeMatch } from '../../finalize-match';
 
 import GQLMatch from './match';
 
@@ -66,6 +67,8 @@ export default class FinalizeMatchContestationMutationResolver {
 		match.finalized = true;
 		match.winner = winningTeam;
 		match = await repositories.matchRepository.save(match);
+
+		await finalizeMatch(match, winningTeam);
 
 		return { match };
 	}
