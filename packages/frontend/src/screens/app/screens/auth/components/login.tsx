@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
+
 import { useAuth } from '../../../contexts/auth-context';
 import gitHubAuthUri from '../utils/github-auth-uri';
 import googleAuthUri from '../utils/google-auth-uri';
@@ -9,44 +12,68 @@ const Login = () => {
 	const [password, setPassword] = useState('');
 	const { loginPassword } = useAuth();
 
+	const layout = {
+		labelCol: { span: 8 },
+		wrapperCol: { span: 16 },
+	};
+
+	const tailLayout = {
+		wrapperCol: { offset: 8, span: 16 },
+	};
+
+	const onFinish = () => {
+		loginPassword(email, password);
+	};
+	const onFinishFailed = () => {};
 	return (
-		<>
-			<ul>
-				<li>
-					<a href={gitHubAuthUri}>Login with GitHub</a>
-				</li>
-				<li>
-					<a href={googleAuthUri}>Login with Google</a>
-				</li>
-			</ul>
-			or
-			<form
-				onSubmit={event => {
-					event.preventDefault();
-					loginPassword(email, password);
-				}}
+		<Form
+			{...layout}
+			name="login"
+			initialValues={{ remember: true }}
+			onFinish={onFinish}
+			onFinishFailed={onFinishFailed}
+		>
+			<Form.Item {...tailLayout}>
+				<Button
+					onClick={() => {
+						window.location.href = gitHubAuthUri;
+					}}
+				>
+					Login with GitHub
+				</Button>
+			</Form.Item>
+			<Form.Item {...tailLayout}>
+				<Button
+					onClick={() => {
+						window.location.href = googleAuthUri;
+					}}
+				>
+					Login with Google
+				</Button>
+			</Form.Item>
+			<Form.Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
+				<Input
+					prefix={<UserOutlined className="site-form-item-icon" />}
+					onChange={event => setEmail(event.target.value)}
+					placeholder="Email"
+				/>
+			</Form.Item>
+			<Form.Item
+				name="password"
+				rules={[{ required: true, message: 'Please input your password!' }]}
 			>
-				<div>
-					<label htmlFor="email">Email</label>
-					<input
-						type="text"
-						id="email"
-						value={email}
-						onChange={event => setEmail(event.target.value)}
-					/>
-				</div>
-				<div>
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						id="password"
-						value={password}
-						onChange={event => setPassword(event.target.value)}
-					/>
-				</div>
-				<input type="submit" value="Login" />
-			</form>
-		</>
+				<Input.Password
+					prefix={<LockOutlined className="site-form-item-icon" />}
+					onChange={event => setPassword(event.target.value)}
+					placeholder="Password"
+				/>
+			</Form.Item>
+			<Form.Item {...tailLayout}>
+				<Button type="primary" htmlType="submit">
+					Submit
+				</Button>
+			</Form.Item>
+		</Form>
 	);
 };
 
