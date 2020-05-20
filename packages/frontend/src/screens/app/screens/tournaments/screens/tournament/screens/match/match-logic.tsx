@@ -14,6 +14,10 @@ import {
 	ReportVictoryMutation,
 	ReportVictoryMutationVariables,
 } from './__generated__/ReportVictoryMutation';
+import {
+	RequestAdminHelpMutation,
+	RequestAdminHelpMutationVariables,
+} from './__generated__/RequestAdminHelpMutation';
 import MatchView, { MatchViewMatch } from './match-view';
 
 const REPORT_VICTORY_MUTATION = gql`
@@ -54,6 +58,17 @@ const FINALIZE_MATCH_CONTESTATION_MUTATION = gql`
 	}
 `;
 
+const REQUEST_ADMIN_HELP_MUTATION = gql`
+	mutation RequestAdminHelpMutation($id: ID!) {
+		reportMatchAdminHelp(needAdminHelp: true, matchId: $id) {
+			match {
+				id
+				needAdminHelp
+			}
+		}
+	}
+`;
+
 interface Match extends MatchViewMatch {
 	id: string;
 }
@@ -76,6 +91,11 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 		FinalizeMatchContestationMutation,
 		FinalizeMatchContestationMutationVariables
 	>(FINALIZE_MATCH_CONTESTATION_MUTATION);
+
+	const [_requestAdminHelp] = useMutation<
+		RequestAdminHelpMutation,
+		RequestAdminHelpMutationVariables
+	>(REQUEST_ADMIN_HELP_MUTATION);
 
 	const reportVictory = (teamId: string) => {
 		_reportVictory({
@@ -102,7 +122,13 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 			},
 		});
 	};
-
+	const requestAdminHelp = () => {
+		_requestAdminHelp({
+			variables: {
+				id: match.id,
+			},
+		});
+	};
 	return (
 		<MatchView
 			loading={called}
@@ -111,6 +137,7 @@ const MatchLogic: React.FC<Props> = ({ match }) => {
 			finalizeMatchContestation={finalizeMatchContestation}
 			match={match}
 			tournament={match.tournament}
+			requestAdminHelp={requestAdminHelp}
 		/>
 	);
 };
