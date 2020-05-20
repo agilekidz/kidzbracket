@@ -16,10 +16,11 @@ export async function finalizeMatch(match: Match, winningTeam: Team) {
 	//Get child match, aka the next match in the progression. Theese square brackets represent or.
 	const childMatch = await matchRepository.findOne({
 		where: [{ firstParent: match }, { secondParent: match }],
+		relations: ['firstParent', 'secondParent'],
 	});
 
 	if (!childMatch) {
-		throw new Error('Child match not found!');
+		throw new Error('finalizedMatch: Child match not found!');
 	}
 
 	if (childMatch.firstParent?.id === match.id) {
@@ -27,6 +28,10 @@ export async function finalizeMatch(match: Match, winningTeam: Team) {
 	} else if (childMatch.secondParent?.id === match.id) {
 		childMatch.secondTeam = winningTeam;
 	} else {
-		throw new Error('Match could not be finalized!');
+		throw new Error('finalizedMatch: Match could not be finalized!');
 	}
+
+	await matchRepository.save(childMatch);
+	match = await matchRepository.save(match);
+	return match;
 }
