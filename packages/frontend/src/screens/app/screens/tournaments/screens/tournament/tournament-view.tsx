@@ -26,7 +26,7 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 			<h1>Name: {tournament.name}</h1>
 			<ul style={{ display: 'flex', listStyle: 'none' }}>
 				<li style={{ padding: '5px 10px' }}>
-					<Link to={`${url}`}>overview</Link>
+					<Link to={`${url}`}>Overview</Link>
 				</li>
 				{tournament.started && <li style={{ padding: '5px 10px' }}>Join (Started) </li>}
 
