@@ -6,12 +6,13 @@ import {
 	GetContestedMatches,
 	GetContestedMatchesVariables,
 } from './__generated__/GetContestedMatches';
-import ManageTournamentView from './manage-tournament-view';
+import ManageTournamentLogic from './manage-tournament-logic';
 
 const GET_CONTESTED_MATCHES = gql`
 	query GetContestedMatches($id: ID!) {
 		tournament(id: $id) {
 			id
+			started
 			contestedMatches {
 				id
 				firstTeam {
@@ -45,13 +46,7 @@ const ManageTournamentData: React.FC<Props> = ({ tournamentId }) => {
 
 	if (error) return <div>Error</div>;
 
-	if (data)
-		return (
-			<ManageTournamentView
-				tournament={data.tournament}
-				matches={data.tournament.contestedMatches}
-			/>
-		);
+	if (data) return <ManageTournamentLogic tournament={data.tournament} />;
 
 	return null;
 };

@@ -27,6 +27,9 @@ export default class Tournament {
 	@Field({ description: 'The number of players required in a team' })
 	playersPerTeam: number;
 
+	@Field({ description: 'If the tournament has been started' })
+	started: boolean;
+
 	@Field(() => Match, {
 		description: 'References all the matches that are connected to the tournament',
 	})

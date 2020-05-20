@@ -68,8 +68,8 @@ const CreateTournamentLogic = () => {
 					playersPerTeam,
 				},
 			},
-		}).then(() => {
-			history.replace('/');
+		}).then(({ data }) => {
+			history.replace(`/tournaments/${data?.createTournament.tournament.id}`);
 		});
 	};
 
