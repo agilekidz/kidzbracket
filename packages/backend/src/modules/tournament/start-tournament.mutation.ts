@@ -38,7 +38,7 @@ export default class StartTournamentMutationResolver {
 			throw new Error('Not enough teams to start the tournament! >:(');
 		}
 
-		generateBracket(tournament.teams, tournament);
+		await generateBracket(tournament.teams, tournament);
 
 		tournament.started = true;
 		tournament = await repositories.tournamentRepository.save(tournament);
