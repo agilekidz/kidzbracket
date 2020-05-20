@@ -16,14 +16,6 @@ const Upcoming = styled.div`
 	flex-grow: 2;
 `;
 
-const Newsfeed = styled.div`
-	flex-grow: 1;
-	flex-shrink: 0;
-	flex-basis: 250px;
-	margin-left: 20px;
-	margin-top: 1%;
-`;
-
 interface Tournament {
 	id: string;
 	name: string;
@@ -49,9 +41,6 @@ const HomeView: React.FC<Props> = ({ tournaments }) => {
 					<TournamentCard key={tournament.id} tournament={tournament} />
 				))}
 			</Upcoming>
-			<Newsfeed>
-				<div style={{ height: '800px', background: 'red' }} />
-			</Newsfeed>
 		</Wrapper>
 	);
 };
