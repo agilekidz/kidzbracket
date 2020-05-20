@@ -20,6 +20,7 @@ const OVERVIEW_TOURNAMENT_TEAM_INFO = gql`
 			teams {
 				id
 			}
+			started
 		}
 	}
 `;
@@ -51,6 +52,7 @@ const OverviewData: React.FC<Props> = ({ tournamentId }) => {
 				currentlyRegisteredTeamCount={data.tournament.teams.length}
 				maxTeamsCount={data.tournament.maxTeams}
 				winner={data.tournament.winner}
+				started={data.tournament.started}
 			/>
 		);
 	}
