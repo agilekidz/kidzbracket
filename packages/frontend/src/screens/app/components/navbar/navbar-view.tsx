@@ -1,34 +1,47 @@
 import React from 'react';
 
+import { Menu } from 'antd';
+import { Link } from 'react-router-dom';
+
 import { useAuth } from '../../contexts/auth-context';
 
-import { Navbar, Navbox, StyledButton, StyledLink } from './navbar-styles';
+import { MenuWrapper } from './navbar-styles';
 
 const NavbarView = () => {
-	const { isAuthenticated, logout, user } = useAuth();
+	const { isAuthenticated, logout } = useAuth();
 
 	return (
-		<Navbar>
-			<Navbox>
-				<StyledLink to="/">Home</StyledLink>
-				<StyledLink to="/tournaments/create">Create tournament</StyledLink>
-				<StyledLink to="/users">Users</StyledLink>
-			</Navbox>
-			<Navbox>
+		<MenuWrapper>
+			<Menu theme="dark" mode="horizontal">
+				<Menu.Item>
+					<Link to="/">Home</Link>
+				</Menu.Item>
+				<Menu.Item>
+					<Link to="/tournaments/create">Create tournament</Link>
+				</Menu.Item>
+				<Menu.Item>
+					<Link to="/users">Users</Link>
+				</Menu.Item>
+			</Menu>
+			<Menu theme="dark" mode="horizontal">
 				{!isAuthenticated && (
-					<>
-						<StyledLink to="/auth/login">Login</StyledLink>
-						<StyledLink to="/auth/register">Register</StyledLink>
-					</>
+					<Menu.Item>
+						<Link to="/auth/login">Login</Link>
+					</Menu.Item>
+				)}
+				{!isAuthenticated && (
+					<Menu.Item>
+						<Link to="/auth/register">Register</Link>
+					</Menu.Item>
 				)}
 				{isAuthenticated && (
-					<>
-						<StyledButton onClick={() => logout()}>Logout{user && ` ${user.name}`}</StyledButton>
-						<StyledLink to="/profile">Profile!?!?{user && ` ${user.name}`}</StyledLink>
-					</>
+					<Menu.Item>
+						<Link to="/profile">Profile</Link>
+					</Menu.Item>
 				)}
-			</Navbox>
-		</Navbar>
+				{isAuthenticated && <Menu.Item onClick={() => logout()}>Logout</Menu.Item>}
+			</Menu>
+		</MenuWrapper>
 	);
 };
 
