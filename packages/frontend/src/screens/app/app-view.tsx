@@ -13,6 +13,7 @@ import HomeScreen from './screens/home';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
 import UsersScreen from './screens/users';
+import { LayoutWrapper } from './shared/styles';
 
 // const GlobalStyle = createGlobalStyle`
 // 	* {
@@ -33,19 +34,25 @@ const AppView = () => {
 		<Layout>
 			{/* <GlobalStyle /> */}
 			<Layout.Header>
-				<Navbar />
+				<LayoutWrapper>
+					<Navbar />
+				</LayoutWrapper>
 			</Layout.Header>
 			<Layout.Content>
-				<Switch>
-					<PrivateRoute path="/users" component={UsersScreen} />
-					<GuestRoute path="/auth" component={AuthScreen} />
-					<Route exact path="/" component={HomeScreen} />
-					<Route path="/tournaments" component={TournamentsScreen} />
-					<PrivateRoute path="/profile" component={ProfileScreen} />
-				</Switch>
+				<LayoutWrapper>
+					<Switch>
+						<PrivateRoute path="/users" component={UsersScreen} />
+						<GuestRoute path="/auth" component={AuthScreen} />
+						<Route exact path="/" component={HomeScreen} />
+						<Route path="/tournaments" component={TournamentsScreen} />
+						<PrivateRoute path="/profile" component={ProfileScreen} />
+					</Switch>
+				</LayoutWrapper>
 			</Layout.Content>
 			<Layout.Footer>
-				<Footer />
+				<LayoutWrapper>
+					<Footer />
+				</LayoutWrapper>
 			</Layout.Footer>
 		</Layout>
 	);
