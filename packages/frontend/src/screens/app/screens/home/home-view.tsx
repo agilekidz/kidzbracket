@@ -35,6 +35,7 @@ interface Tournament {
 		name: string;
 	}[];
 	winner: { name: string } | null;
+	started: boolean;
 }
 
 interface Props {
