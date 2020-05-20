@@ -67,6 +67,11 @@ export default class Match {
 	})
 	contested: boolean;
 
+	@Field({
+		description: 'If match needs admin help',
+	})
+	needAdminHelp: boolean;
+
 	@Field({ description: 'References to if a match is finalized' })
 	finalized: boolean;
 }
