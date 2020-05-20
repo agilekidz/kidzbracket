@@ -35,9 +35,11 @@ export default class RegisterTeamMutationResolver {
 		if (!tournament) {
 			throw new Error('That tournament does not exist');
 		}
+
 		if (tournament.started) {
-			throw new Error('This tournament is full');
+			throw new Error('This tournament has already started');
 		}
+
 		if (tournament.teams.length >= tournament.maxTeams) {
 			throw new Error('This tournament is full');
 		}
