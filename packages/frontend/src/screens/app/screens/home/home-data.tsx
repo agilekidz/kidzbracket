@@ -21,6 +21,7 @@ const TOURNAMENTS_QUERY = gql`
 				id
 				name
 			}
+			started
 		}
 	}
 `;
