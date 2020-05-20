@@ -1,20 +1,23 @@
 import React from 'react';
 
+import { Col, Row } from 'antd';
 import styled from 'styled-components';
 
 import TournamentCard from './components/tournament-card';
 
 const Wrapper = styled.div`
-	margin-right: auto;
-	margin-left: auto;
-	max-width: 1400px;
-	display: flex;
-	flex-grow: 1;
+	margin-top: 16px;
 `;
 
-const Upcoming = styled.div`
-	flex-grow: 2;
-`;
+function chunkify<T>(array: T[], chunkSize: number): T[][] {
+	const chunkedArray: T[][] = [];
+
+	for (let i = 0; i < array.length; i += chunkSize) {
+		chunkedArray.push(array.slice(i, i + chunkSize));
+	}
+
+	return chunkedArray;
+}
 
 interface Tournament {
 	id: string;
@@ -28,6 +31,7 @@ interface Tournament {
 	}[];
 	winner: { name: string } | null;
 }
+const CHUNK_SIZE = 4;
 
 interface Props {
 	tournaments: Tournament[];
@@ -36,11 +40,15 @@ interface Props {
 const HomeView: React.FC<Props> = ({ tournaments }) => {
 	return (
 		<Wrapper>
-			<Upcoming>
-				{tournaments.map(tournament => (
-					<TournamentCard key={tournament.id} tournament={tournament} />
-				))}
-			</Upcoming>
+			{chunkify(tournaments, CHUNK_SIZE).map((chunk, index) => (
+				<Row key={index} gutter={[16, 16]}>
+					{chunk.map(tournament => (
+						<Col span={24 / CHUNK_SIZE} key={tournament.id}>
+							<TournamentCard tournament={tournament} />
+						</Col>
+					))}
+				</Row>
+			))}
 		</Wrapper>
 	);
 };
