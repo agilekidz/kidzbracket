@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
+import { Store } from 'antd/lib/form/interface';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -56,8 +57,7 @@ const CreateTournamentLogic = () => {
 		setPlayersPerTeam(event.target.valueAsNumber);
 	};
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+	const handleSubmit = () => {
 		createTournament({
 			variables: {
 				data: {
