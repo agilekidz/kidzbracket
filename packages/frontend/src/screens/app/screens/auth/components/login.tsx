@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import { useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../../contexts/auth-context';
 import gitHubAuthUri from '../utils/github-auth-uri';
