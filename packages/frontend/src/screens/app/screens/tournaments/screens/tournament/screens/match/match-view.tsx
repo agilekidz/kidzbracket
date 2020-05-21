@@ -35,12 +35,14 @@ interface Props {
 		id: string;
 		owner: { id: string };
 	};
+	requestAdminHelp: () => void;
 }
 
 const MatchView: React.FC<Props> = ({
 	reportVictory,
 	contestMatch,
 	finalizeMatchContestation,
+	requestAdminHelp,
 	match,
 	loading,
 	tournament,
@@ -66,6 +68,8 @@ const MatchView: React.FC<Props> = ({
 						Contest result!
 					</button>
 				)}
+				<h1> Contact Admin</h1>
+				<button onClick={requestAdminHelp}>Request help from Admin</button>
 			</div>
 		);
 	}
@@ -78,6 +82,8 @@ const MatchView: React.FC<Props> = ({
 			<button onClick={() => reportVictory(match.secondTeam.id)}>
 				{match.secondTeam.name} won!
 			</button>
+			<h1> Contact Admin</h1>
+			<button onClick={requestAdminHelp}>Request help from Admin</button>
 		</div>
 	);
 };

@@ -15,6 +15,7 @@ interface Props {
 		name: string;
 		maxTeams: number;
 		registeredTeamCount: number;
+		started: boolean;
 	};
 }
 
@@ -25,17 +26,23 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 			<h1>Name: {tournament.name}</h1>
 			<ul style={{ display: 'flex', listStyle: 'none' }}>
 				<li style={{ padding: '5px 10px' }}>
-					<Link to={`${url}`}>overview</Link>
+					<Link to={`${url}`}>Overview</Link>
 				</li>
-				{(tournament.registeredTeamCount < tournament.maxTeams && (
+				{tournament.started && <li style={{ padding: '5px 10px' }}>Join (Started) </li>}
+
+				{!tournament.started && tournament.registeredTeamCount < tournament.maxTeams && (
 					<li style={{ padding: '5px 10px' }}>
 						<Link to={`${url}/join`}>Join</Link>
 					</li>
-				)) || <li style={{ padding: '5px 10px' }}>Join (full)</li>}
-
-				<li style={{ padding: '5px 10px' }}>
-					<Link to={`${url}/bracket`}>Bracket</Link>
-				</li>
+				)}
+				{!tournament.started && tournament.registeredTeamCount >= tournament.maxTeams && (
+					<li style={{ padding: '5px 10px' }}>Join (full)</li>
+				)}
+				{(tournament.started && (
+					<li style={{ padding: '5px 10px' }}>
+						<Link to={`${url}/bracket`}>Bracket</Link>
+					</li>
+				)) || <li style={{ padding: '5px 10px' }}>Bracket</li>}
 				<li style={{ padding: '5px 10px' }}>
 					<Link to={`${url}/teams`}>Teams</Link>
 				</li>

@@ -1,6 +1,7 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 
 import { Context } from '../../apollo';
+import { finalizeMatch } from '../../finalize-match';
 
 import GQLMatch from './match';
 
@@ -47,6 +48,30 @@ export default class ReportVictoryMutationResolver {
 
 		match.winner = team;
 		await repositories.matchRepository.save(match);
+
+		//TODO: Change timeout to 15 min
+		setTimeout(async () => {
+			try {
+				const match = await repositories.matchRepository.findOne(matchId);
+				if (!match) {
+					return;
+				}
+
+				if (match.contested || match.finalized) {
+					return;
+				}
+
+				const team = await repositories.teamRepository.findOne(teamId);
+				if (!team) {
+					return;
+				}
+				await finalizeMatch(match, team);
+				console.log('Finalized match on timeout');
+			} catch {
+				//Something went wrong
+				console.error('Something went wrong, match not finalized properly');
+			}
+		}, 1 * 60 * 1000);
 
 		return { match };
 	}

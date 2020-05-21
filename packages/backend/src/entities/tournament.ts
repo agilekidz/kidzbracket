@@ -23,6 +23,9 @@ export default class Tournament extends BaseEntity {
 	@Column()
 	playersPerTeam: number;
 
+	@Column({ default: false })
+	started: boolean;
+
 	@ManyToOne(() => User, user => user.tournaments)
 	owner: User;
 

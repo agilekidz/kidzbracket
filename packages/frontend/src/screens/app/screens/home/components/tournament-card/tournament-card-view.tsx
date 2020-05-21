@@ -15,6 +15,8 @@ interface Props {
 			id: string;
 			name: string;
 		}[];
+		winner: { name: string } | null;
+		started: boolean;
 	};
 }
 
@@ -25,6 +27,7 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 			<Innerbox onClick={() => history.push('/tournaments/' + tournament.id)}>
 				<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', marginRight: '10%' }}>
 					<Name>{tournament.name}</Name>
+
 					<div style={{ display: 'flex', margin: '10px 0 30px 0' }}>
 						<Game>Game: {tournament.game}</Game>
 					</div>
@@ -32,6 +35,10 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 					<div>
 						{tournament.teams.length}/{tournament.maxTeams}
 					</div>
+					{tournament.started && <div>Tournament started </div>}
+					{tournament.winner && (
+						<div style={{ padding: '5px 10px' }}>Winner: {tournament.winner.name} </div>
+					)}
 				</div>
 				<div
 					style={{

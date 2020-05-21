@@ -47,6 +47,10 @@ export default class Match extends BaseEntity {
 	@Column({ default: false })
 	contested: boolean;
 
+	//If a match needs admin help
+	@Column({ default: false })
+	needAdminHelp: boolean;
+
 	@Column({ default: false })
 	finalized: boolean;
 }
