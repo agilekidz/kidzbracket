@@ -8,6 +8,7 @@ export const Card = styled.div<CardProps>`
 	border: 1px black solid;
 	width: 200px;
 	opacity: ${({ invisible }) => (invisible ? '0' : '1')};
+	color: Blue;
 `;
 
 interface TeamProps {

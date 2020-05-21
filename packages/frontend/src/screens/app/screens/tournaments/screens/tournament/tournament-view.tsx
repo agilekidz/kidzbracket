@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { Button } from 'antd';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import BracketScreen from './screens/bracket';
 import JoinTournamentScreen from './screens/join-tournament';
@@ -19,37 +21,71 @@ interface Props {
 	};
 }
 
+const ButtonStyle = {
+	padding: '7px 10px',
+	background: '#e5eafa',
+	size: 'middle',
+};
+
+const HeaderTitle = styled.p`
+	font-size: 40px;
+	color: hotpink;
+`;
 const TournamentView: React.FC<Props> = ({ tournament }) => {
 	const { url } = useRouteMatch();
 	return (
 		<div>
-			<h1>Name: {tournament.name}</h1>
-			<ul style={{ display: 'flex', listStyle: 'none' }}>
-				<li style={{ padding: '5px 10px' }}>
+			<HeaderTitle>{tournament.name}</HeaderTitle>
+			<div
+				style={{
+					display: 'flex',
+					maxWidth: '500px',
+					justifyContent: 'space-between',
+					margin: '10px 0px 10px 0px',
+				}}
+			>
+				<Button style={{ color: 'black', ...ButtonStyle }}>
 					<Link to={`${url}`}>Overview</Link>
-				</li>
-				{tournament.started && <li style={{ padding: '5px 10px' }}>Join (Started) </li>}
+				</Button>
+				{tournament.started && (
+					<Button disabled={true} style={{ color: 'gray', ...ButtonStyle }}>
+						Join (Started)
+					</Button>
+				)}
 
 				{!tournament.started && tournament.registeredTeamCount < tournament.maxTeams && (
-					<li style={{ padding: '5px 10px' }}>
+					<Button disabled={true} style={{ color: 'gray', ...ButtonStyle }}>
 						<Link to={`${url}/join`}>Join</Link>
-					</li>
+					</Button>
 				)}
 				{!tournament.started && tournament.registeredTeamCount >= tournament.maxTeams && (
-					<li style={{ padding: '5px 10px' }}>Join (full)</li>
+					<Button disabled={true} style={{ color: 'gray', ...ButtonStyle }}>
+						Join (full)
+					</Button>
 				)}
 				{(tournament.started && (
-					<li style={{ padding: '5px 10px' }}>
+					<Button style={{ color: 'black', ...ButtonStyle }}>
 						<Link to={`${url}/bracket`}>Bracket</Link>
-					</li>
-				)) || <li style={{ padding: '5px 10px' }}>Bracket</li>}
-				<li style={{ padding: '5px 10px' }}>
+					</Button>
+				)) || (
+					<Button disabled={true} style={{ color: 'gray', ...ButtonStyle }}>
+						Bracket
+					</Button>
+				)}
+				<Button style={{ color: 'black', ...ButtonStyle }}>
 					<Link to={`${url}/teams`}>Teams</Link>
-				</li>
-				<li style={{ padding: '5px 10px' }}>
+				</Button>
+				<Button style={{ color: 'black', ...ButtonStyle }}>
 					<Link to={`${url}/manage`}>Manage</Link>
-				</li>
-			</ul>
+				</Button>
+			</div>
+			<div
+				style={{
+					height: '2px',
+					backgroundColor: 'hotpink',
+					marginBottom: '10px',
+				}}
+			></div>
 			<Switch>
 				<Route
 					exact
