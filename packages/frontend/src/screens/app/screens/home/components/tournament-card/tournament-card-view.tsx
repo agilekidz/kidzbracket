@@ -15,6 +15,7 @@ interface Props {
 			name: string;
 		}[];
 		winner: { name: string } | null;
+		started: boolean;
 	};
 }
 
@@ -51,6 +52,11 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 				Registered teams: {tournament.teams.length}/{tournament.maxTeams}
 			</p>
 			{tournament.winner && <p>Winner: {tournament.winner.name} </p>}
+			{tournament.started && (
+				<p>
+					<strong>Started</strong>
+				</p>
+			)}
 		</Card>
 	);
 };

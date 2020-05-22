@@ -30,6 +30,7 @@ interface Tournament {
 		name: string;
 	}[];
 	winner: { name: string } | null;
+	started: boolean;
 }
 const CHUNK_SIZE = 4;
 
