@@ -3,6 +3,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 
+import { LayoutWrapper } from './app-styles';
 // import { createGlobalStyle } from 'styled-components';
 import Footer from './components/footer';
 import GuestRoute from './components/guest-route';
@@ -13,7 +14,6 @@ import HomeScreen from './screens/home';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
 import UsersScreen from './screens/users';
-import { LayoutWrapper } from './shared/styles';
 
 // const GlobalStyle = createGlobalStyle`
 // 	* {
