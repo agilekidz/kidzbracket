@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { PageHeader, Tabs } from 'antd';
-import { useHistory, useParams } from 'react-router-dom';
+import { Button, PageHeader, Tabs } from 'antd';
+import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../../../contexts/auth-context';
 
@@ -28,30 +28,35 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 	const { tabId } = useParams();
 	const { user } = useAuth();
 	const history = useHistory();
-
-	let joinTabTitle = 'Join';
-	let joinTabEnabled = true;
-	if (tournament.started) {
-		joinTabTitle += ' (started)';
-		joinTabEnabled = false;
-	} else if (tournament.registeredTeamCount >= tournament.maxTeams) {
-		joinTabTitle += ' (full)';
-		joinTabEnabled = false;
-	}
-
-	const callback = (tabId: string) => {
-		history.push(`/tournaments/${tournament.id}/${tabId}`);
-	};
+	const [activeTab, setActiveTab] = useState(tabId);
 
 	return (
 		<React.Fragment>
 			<PageHeader title={<h1 style={{ color: 'hotpink' }}>{tournament.name}</h1>} />
-			<Tabs defaultActiveKey={tabId} onChange={callback} animated={false}>
+			<Tabs
+				defaultActiveKey={tabId}
+				activeKey={activeTab}
+				onChange={newTab => {
+					setActiveTab(newTab);
+					history.push(`/tournaments/${tournament.id}/${newTab}`);
+				}}
+				animated={false}
+				tabBarExtraContent={
+					<Button
+						type="primary"
+						size="large"
+						disabled={tournament.started || tournament.registeredTeamCount >= tournament.maxTeams}
+						onClick={() => {
+							history.push(`/tournaments/${tournament.id}/join`);
+							setActiveTab('join');
+						}}
+					>
+						Join
+					</Button>
+				}
+			>
 				<Tabs.TabPane tab="Overview" key="overview">
 					<OverviewScreen tournamentId={tournament.id} />
-				</Tabs.TabPane>
-				<Tabs.TabPane tab={joinTabTitle} disabled={!joinTabEnabled} key="join">
-					<JoinTournamentScreen tournamentId={tournament.id} />
 				</Tabs.TabPane>
 				<Tabs.TabPane tab="Bracket" disabled={!tournament.started} key="bracket">
 					<BracketScreen tournamentId={tournament.id} />
@@ -65,6 +70,12 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 					</Tabs.TabPane>
 				)}
 			</Tabs>
+			<Switch>
+				<Route
+					path={`/tournaments/${tournament.id}/join`}
+					render={() => <JoinTournamentScreen tournamentId={tournament.id} />}
+				/>
+			</Switch>
 		</React.Fragment>
 	);
 };

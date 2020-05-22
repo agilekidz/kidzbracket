@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 
+import PrivateRoute from '../../components/private-route';
+
 import CreateTournamentScreen from './screens/create-tournament';
 import TournamentScreen from './screens/tournament';
 
@@ -9,7 +11,7 @@ const TournamentsView = () => {
 	const { url } = useRouteMatch();
 	return (
 		<Switch>
-			<Route path={`${url}/create`} component={CreateTournamentScreen} />
+			<PrivateRoute path={`${url}/create`} component={CreateTournamentScreen} />
 			<Route path={`${url}/:tournamentId/:tabId`} component={TournamentScreen} />
 			<Route
 				path={`${url}/:tournamentId`}
