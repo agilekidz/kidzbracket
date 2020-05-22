@@ -207,7 +207,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 					}
 				});
 		},
-		[_register, refetch],
+		[_register, history, refetch],
 	);
 
 	const logout = useCallback(() => {

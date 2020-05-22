@@ -19,9 +19,6 @@ const NavbarView = () => {
 				<Menu.Item>
 					<Link to="/tournaments/create">Create tournament</Link>
 				</Menu.Item>
-				<Menu.Item>
-					<Link to="/users">Users</Link>
-				</Menu.Item>
 			</Menu>
 			<Menu theme="dark" mode="horizontal">
 				{!isAuthenticated && (

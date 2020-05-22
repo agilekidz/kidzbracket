@@ -19,6 +19,9 @@ const GET_TOURNAMENT_QUERY = gql`
 			teams {
 				id
 			}
+			owner {
+				id
+			}
 		}
 	}
 `;
