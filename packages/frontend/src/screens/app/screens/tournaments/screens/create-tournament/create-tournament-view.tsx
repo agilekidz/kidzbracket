@@ -31,13 +31,7 @@ const CreateTournamentView: React.FC<Props> = ({
 }) => {
 	return (
 		<Card title="Create tournament" style={{ width: '400px', margin: '16px auto 0 auto' }}>
-			<Form
-				name="create-tournament"
-				initialValues={{ remember: true }}
-				onFinish={handleSubmit}
-				size="large"
-				layout="vertical"
-			>
+			<Form name="create-tournament" onFinish={handleSubmit} size="large" layout="vertical">
 				<Form.Item
 					label="Name"
 					name="name"

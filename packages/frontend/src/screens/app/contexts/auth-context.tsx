@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react';
 
 import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import {
 	GitHubLoginMutation,
@@ -108,6 +109,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 	const [initialised, setInitialised] = useState(false);
 
 	const client = useApolloClient();
+	const history = useHistory();
 
 	const { data, error, loading, refetch } = useQuery<ProfileQuery>(PROFILE_QUERY);
 
@@ -201,6 +203,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 					if (data) {
 						setIsAuthenticated(true);
 						setUser(data.me);
+						history.replace('/profile');
 					}
 				});
 		},
