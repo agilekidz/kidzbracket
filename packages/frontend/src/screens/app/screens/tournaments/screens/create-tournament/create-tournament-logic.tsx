@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
+import { message } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -33,7 +34,14 @@ const CreateTournamentLogic = () => {
 	const [createTournament] = useMutation<
 		CreateTournamentMutation,
 		CreateTournamentMutationVariables
-	>(CREATE_TOURNAMENT_MUTATION);
+	>(CREATE_TOURNAMENT_MUTATION, {
+		onCompleted() {
+			message.success('Successfully created tournament');
+		},
+		onError() {
+			message.error('Could not create tournament');
+		},
+	});
 	const history = useHistory();
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
