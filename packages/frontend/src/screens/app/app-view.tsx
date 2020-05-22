@@ -11,28 +11,13 @@ import Navbar from './components/navbar';
 import PrivateRoute from './components/private-route';
 import AuthScreen from './screens/auth';
 import HomeScreen from './screens/home';
+import MatchScreen from './screens/match';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
-import UsersScreen from './screens/users';
-
-// const GlobalStyle = createGlobalStyle`
-// 	* {
-//     box-sizing: border-box;
-//   }
-
-//   html {
-//     height: 100%;
-//   }
-
-//   body {
-//     min-height: 100%;
-//   }
-// `;
 
 const AppView = () => {
 	return (
 		<Layout>
-			{/* <GlobalStyle /> */}
 			<Layout.Header>
 				<LayoutWrapper>
 					<Navbar />
@@ -41,10 +26,10 @@ const AppView = () => {
 			<Layout.Content>
 				<LayoutWrapper>
 					<Switch>
-						<PrivateRoute path="/users" component={UsersScreen} />
 						<GuestRoute path="/auth" component={AuthScreen} />
 						<Route exact path="/" component={HomeScreen} />
 						<Route path="/tournaments" component={TournamentsScreen} />
+						<Route path="/matches/:matchId" component={MatchScreen} />
 						<PrivateRoute path="/profile" component={ProfileScreen} />
 					</Switch>
 				</LayoutWrapper>
