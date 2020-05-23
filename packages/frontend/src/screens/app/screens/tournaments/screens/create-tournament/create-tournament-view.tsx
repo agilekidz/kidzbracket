@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-	Form,
-	FormWrapper,
-	Input,
-	InputWrapper,
-	Label,
-	SubmitButtonWrapper,
-} from './create-tournament-styles';
+import { Button, Card, Form, Input, Row } from 'antd';
 
 interface Props {
 	name: string;
@@ -20,7 +13,7 @@ interface Props {
 	handleGameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleMaxTeamsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handlePlayersPerTeamChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+	handleSubmit: () => void;
 }
 
 const CreateTournamentView: React.FC<Props> = ({
@@ -37,52 +30,78 @@ const CreateTournamentView: React.FC<Props> = ({
 	handleSubmit,
 }) => {
 	return (
-		<FormWrapper>
-			<h2>Create tournament</h2>
-			<Form onSubmit={handleSubmit}>
-				<InputWrapper>
-					<Label htmlFor="name">Name</Label>
-					<Input id="name" type="text" value={name} onChange={handleNameChange} />
-				</InputWrapper>
-				<InputWrapper>
-					<Label htmlFor="description">Description</Label>
+		<Card title="Create tournament" style={{ width: '400px', margin: '16px auto 0 auto' }}>
+			<Form name="create-tournament" onFinish={handleSubmit} size="large" layout="vertical">
+				<Form.Item
+					label="Name"
+					name="name"
+					rules={[{ required: true, message: 'Please input the name of the tournament!' }]}
+				>
+					<Input value={name} onChange={handleNameChange} placeholder="Name" />
+				</Form.Item>
+				<Form.Item
+					label="Description"
+					name="description"
+					rules={[{ required: true, message: 'Enter a short description' }]}
+				>
+					<Input value={description} onChange={handleDescriptionChange} placeholder="Description" />
+				</Form.Item>
+				<Form.Item label="Game" name="game" rules={[{ required: true, message: 'Enter the game' }]}>
 					<Input
-						id="description"
+						id="game"
 						type="text"
-						value={description}
-						onChange={handleDescriptionChange}
+						value={game}
+						onChange={handleGameChange}
+						placeholder="Game"
 					/>
-				</InputWrapper>
-				<InputWrapper>
-					<Label htmlFor="game">Game</Label>
-					<Input id="game" type="text" value={game} onChange={handleGameChange} />
-				</InputWrapper>
-				<InputWrapper>
-					<Label htmlFor="maxTeams">Max number of teams</Label>
+				</Form.Item>
+				<Form.Item
+					label="Max number of teams"
+					name="max-no-teams"
+					rules={[
+						{
+							required: true,
+							message: 'Please input the maximum number of teams in the tournament!',
+						},
+					]}
+				>
 					<Input
-						id="maxTeams"
 						type="number"
-						min="2"
 						max="128"
+						min="2"
 						value={maxTeams}
 						onChange={handleMaxTeamsChange}
+						placeholder="Max number of teams"
 					/>
-				</InputWrapper>
-				<InputWrapper>
-					<Label htmlFor="playersPerTeam">Players per team</Label>
+				</Form.Item>
+				<Form.Item
+					label="Players per team"
+					name="no-players-in-team"
+					rules={[
+						{
+							required: true,
+							message: 'Please input the number of players in teams!',
+						},
+					]}
+				>
 					<Input
 						id="playersPerTeam"
 						type="number"
 						min="1"
 						value={playersPerTeam}
 						onChange={handlePlayersPerTeamChange}
+						placeholder="Players per team"
 					/>
-				</InputWrapper>
-				<SubmitButtonWrapper>
-					<Input type="submit" value="Submit" />
-				</SubmitButtonWrapper>
+				</Form.Item>
+				<Row justify="center">
+					<Form.Item>
+						<Button type="primary" htmlType="submit">
+							Create
+						</Button>
+					</Form.Item>
+				</Row>
 			</Form>
-		</FormWrapper>
+		</Card>
 	);
 };
 

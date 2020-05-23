@@ -47,13 +47,7 @@ const MATCH_INFO_QUERY = gql`
 	}
 `;
 
-interface Props {
-	tournament: {
-		id: string;
-	};
-}
-
-const MatchData: React.FC<Props> = () => {
+const MatchData = () => {
 	const { matchId } = useParams();
 
 	const { data, error, loading } = useQuery<MatchInfoQuery, MatchInfoQueryVariables>(
