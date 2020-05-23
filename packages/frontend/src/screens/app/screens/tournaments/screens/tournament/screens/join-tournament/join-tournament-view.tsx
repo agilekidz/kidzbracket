@@ -47,7 +47,12 @@ const JoinTournamentView: React.FC<Props> = ({
 							style={{ width: '100%' }}
 							placeholder="Select a player"
 							optionFilterProp="children"
-							onChange={value => handleSelectPlayer(index, value.toString())}
+							onChange={(_value, option) => {
+								// TODO: come up with a better way of getting id
+								// At the moment the `value` key of Select.Option has to be the name
+								// Else the id is shown in the box when selecting a user
+								handleSelectPlayer(index, (option as any).key);
+							}}
 							filterOption={(input, option) => {
 								if (!option) {
 									return false;
@@ -57,10 +62,15 @@ const JoinTournamentView: React.FC<Props> = ({
 							}}
 						>
 							{users.map(user => (
-								<Select.Option key={user.id} value={user.id}>
+								<Select.Option key={user.id} value={user.name}>
 									{user.name}
 								</Select.Option>
 							))}
+							<Select.Option value="jack">Jack</Select.Option>
+							<Select.Option value="lucy">Lucy</Select.Option>
+							<Select.Option value="lucy2">Lucy</Select.Option>
+							<Select.Option value="lucy3">Lucy</Select.Option>
+							<Select.Option value="tom">Tom</Select.Option>
 						</Select>
 					</Form.Item>
 				))}
