@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AdminCheck from '../../components/admin-check';
+import AdminCheck from '../tournaments/screens/tournament/components/admin-check';
 
 import MatchViewItem from './components/match-view-item';
 

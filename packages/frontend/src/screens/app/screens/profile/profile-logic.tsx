@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
+import { message } from 'antd';
 
 import {
 	UpdateProfileMutation,
@@ -33,9 +34,18 @@ const ProfileLogic: React.FC<Props> = ({ user }) => {
 	const [alias, setAlias] = useState(user.alias);
 	const [bio, setBio] = useState(user.bio);
 	const [name, setName] = useState(user.name);
-	const [updateUser] = useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(
-		UPDATE_PROFILE_MUTATION,
-	);
+	const [updateUser, { loading }] = useMutation<
+		UpdateProfileMutation,
+		UpdateProfileMutationVariables
+	>(UPDATE_PROFILE_MUTATION, {
+		onCompleted() {
+			message.success('Your profile has been saved');
+		},
+		onError() {
+			message.error('Could not save your profile');
+		},
+	});
+
 	const handleAliasChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setAlias(event.target.value);
 	};
@@ -46,8 +56,7 @@ const ProfileLogic: React.FC<Props> = ({ user }) => {
 		setName(event.target.value);
 	};
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+	const handleSubmit = () => {
 		updateUser({
 			variables: {
 				data: { alias, bio, name },
@@ -60,6 +69,7 @@ const ProfileLogic: React.FC<Props> = ({ user }) => {
 			alias={alias}
 			bio={bio}
 			name={name}
+			loading={loading}
 			handleAliasChange={handleAliasChange}
 			handleBioChange={handleBioChange}
 			handleNameChange={handleNameChange}
