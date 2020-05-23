@@ -15,23 +15,32 @@ const REGISTER_TEAM_MUTATION = gql`
 			team {
 				id
 				name
-				players
+				players {
+					id
+					name
+				}
 			}
 		}
 	}
 `;
+
+interface User {
+	id: string;
+	name: string;
+}
 
 interface Props {
 	tournament: {
 		id: string;
 		playersPerTeam: number;
 	};
+	users: User[];
 }
 
-const JoinTournamentLogic: React.FC<Props> = ({ tournament }) => {
+const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
 	const [teamName, setTeamName] = useState('');
-	const [playerNames, setPlayerNames] = useState(
-		Array.from({ length: tournament.playersPerTeam }, () => ''),
+	const [playerIds, setPlayerIds] = useState<(string | null)[]>(
+		Array.from({ length: tournament.playersPerTeam }, () => null),
 	);
 	const [registerTeam] = useMutation<RegisterTeamMutation, RegisterTeamMutationVariables>(
 		REGISTER_TEAM_MUTATION,
@@ -42,40 +51,43 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournament }) => {
 		setTeamName(event.target.value);
 	};
 
-	const handlePlayerNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-		setPlayerNames(
-			playerNames.map((playerName, i) => {
+	const handleSelectPlayer = (index: number, newPlayerId: string) => {
+		setPlayerIds(playerIds =>
+			playerIds.map((playerId, i) => {
 				if (i === index) {
-					return event.target.value;
+					return newPlayerId;
 				}
 
-				return playerName;
+				return playerId;
 			}),
 		);
 	};
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		registerTeam({
-			variables: {
-				input: {
-					name: teamName,
-					players: playerNames,
-					tournamentId: tournament.id,
+	const handleSubmit = () => {
+		const nonNullPlayerIds = playerIds.filter(playerId => playerId !== null) as string[];
+		if (nonNullPlayerIds.length === playerIds.length) {
+			registerTeam({
+				variables: {
+					input: {
+						name: teamName,
+						players: nonNullPlayerIds,
+						tournamentId: tournament.id,
+					},
 				},
-			},
-		}).then(() => {
-			history.replace(`/tournaments/${tournament.id}`);
-		});
+			}).then(() => {
+				history.replace(`/tournaments/${tournament.id}`);
+			});
+		}
 	};
 
 	return (
 		<JoinTournamentView
 			teamName={teamName}
-			playerNames={playerNames}
+			players={playerIds}
 			handleTeamNameChange={handleTeamNameChange}
-			handlePlayerNameChange={handlePlayerNameChange}
+			handleSelectPlayer={handleSelectPlayer}
 			handleSubmit={handleSubmit}
+			users={users.filter(user => !playerIds.find(playerId => playerId === user.id))}
 		/>
 	);
 };

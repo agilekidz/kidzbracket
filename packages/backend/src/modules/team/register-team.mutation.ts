@@ -1,6 +1,7 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 
 import { Context } from '../../apollo';
+import User from '../../entities/user';
 
 import GQLTeam from './team';
 
@@ -26,7 +27,7 @@ class RegisterTeamPayload {
 export default class RegisterTeamMutationResolver {
 	@Mutation(() => RegisterTeamPayload)
 	async registerTeam(
-		@Arg('input') { name, players, tournamentId }: RegisterTeamInput,
+		@Arg('input') { name, players: playerIds, tournamentId }: RegisterTeamInput,
 		@Ctx() { repositories }: Context,
 	): Promise<RegisterTeamPayload> {
 		const tournament = await repositories.tournamentRepository.findOne(tournamentId, {
@@ -44,9 +45,24 @@ export default class RegisterTeamMutationResolver {
 			throw new Error('This tournament is full');
 		}
 
-		if (tournament.playersPerTeam != players.filter(player => player !== '').length) {
+		if (tournament.playersPerTeam != playerIds.filter(playerId => playerId !== '').length) {
 			throw new Error('Not the correct number of players >:(');
 		}
+
+		const players = await Promise.all(
+			playerIds.map(
+				playerId =>
+					new Promise<User>((resolve, reject) => {
+						repositories.userRepository.findOne(playerId).then(player => {
+							if (!player) {
+								reject('No user found with id ' + playerId);
+							}
+
+							resolve(player);
+						});
+					}),
+			),
+		);
 
 		let team = repositories.teamRepository.create({
 			name,

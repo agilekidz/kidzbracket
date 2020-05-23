@@ -4,10 +4,15 @@ import AdminCheck from '../tournaments/screens/tournament/components/admin-check
 
 import MatchViewItem from './components/match-view-item';
 
+interface User {
+	id: string;
+	name: string;
+}
+
 interface Team {
 	id: string;
 	name: string;
-	players: string[];
+	players: User[];
 }
 
 export interface MatchViewMatch {
