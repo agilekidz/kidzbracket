@@ -66,11 +66,6 @@ const JoinTournamentView: React.FC<Props> = ({
 									{user.name}
 								</Select.Option>
 							))}
-							<Select.Option value="jack">Jack</Select.Option>
-							<Select.Option value="lucy">Lucy</Select.Option>
-							<Select.Option value="lucy2">Lucy</Select.Option>
-							<Select.Option value="lucy3">Lucy</Select.Option>
-							<Select.Option value="tom">Tom</Select.Option>
 						</Select>
 					</Form.Item>
 				))}
