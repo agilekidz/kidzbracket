@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { gql, useMutation } from '@apollo/client';
+import { message } from 'antd';
 
 import ManageTournamentView, { ManageTournamentTournament } from './manage-tournament-view';
 
@@ -20,7 +21,14 @@ interface Props {
 }
 
 const ManageTournamentLogic: React.FC<Props> = ({ tournament }) => {
-	const [startTournament] = useMutation(START_TOURNAMENT_MUTATION);
+	const [startTournament] = useMutation(START_TOURNAMENT_MUTATION, {
+		onCompleted: () => {
+			message.success('Started tournament!');
+		},
+		onError: () => {
+			message.error('Not enough teams');
+		},
+	});
 
 	const handleTournamentStart = () => {
 		startTournament({
