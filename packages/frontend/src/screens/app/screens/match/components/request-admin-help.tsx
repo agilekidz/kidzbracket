@@ -6,7 +6,7 @@ import { Button } from 'antd';
 import {
 	RequestAdminHelpMutation,
 	RequestAdminHelpMutationVariables,
-} from '../__generated__/RequestAdminHelpMutation';
+} from './__generated__/RequestAdminHelpMutation';
 
 const REQUEST_ADMIN_HELP_MUTATION = gql`
 	mutation RequestAdminHelpMutation($id: ID!) {
