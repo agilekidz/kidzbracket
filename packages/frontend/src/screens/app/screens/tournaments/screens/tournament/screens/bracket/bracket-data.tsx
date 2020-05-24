@@ -36,6 +36,7 @@ const BRACKET_MATCHES_QUERY = gql`
 					name
 				}
 				round
+				finalized
 			}
 		}
 	}
