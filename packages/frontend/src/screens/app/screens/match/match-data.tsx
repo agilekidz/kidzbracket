@@ -4,6 +4,8 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useParams } from 'react-router-dom';
 
+import { Spinner } from '../../shared/components/spinner';
+
 import { MatchInfoQuery, MatchInfoQueryVariables } from './__generated__/MatchInfoQuery';
 import MatchView from './match-view';
 
@@ -60,7 +62,7 @@ const MatchData = () => {
 	);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	if (error) {

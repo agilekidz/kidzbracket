@@ -4,6 +4,8 @@ import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useHistory } from 'react-router-dom';
 
+import { Spinner } from '../shared/components/spinner';
+
 import {
 	GitHubLoginMutation,
 	GitHubLoginMutationVariables,
@@ -227,7 +229,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 	}
 
 	if (loading && !initialised) {
-		return <>Getting authentication...</>;
+		return <Spinner />;
 	}
 
 	if (!loading && !initialised) {

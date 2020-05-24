@@ -3,6 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { Spinner } from '../../../../../../shared/components/spinner';
+
 import {
 	GetContestedMatches,
 	GetContestedMatchesVariables,
@@ -43,11 +45,17 @@ const ManageTournamentData: React.FC<Props> = ({ tournamentId }) => {
 		},
 	);
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) {
+		return <Spinner />;
+	}
 
-	if (error) return <div>Error</div>;
+	if (error) {
+		return <div>Error</div>;
+	}
 
-	if (data) return <ManageTournamentLogic tournament={data.tournament} />;
+	if (data) {
+		return <ManageTournamentLogic tournament={data.tournament} />;
+	}
 
 	return null;
 };

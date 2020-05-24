@@ -3,6 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { Spinner } from '../../shared/components/spinner';
+
 import { TournamentsQuery } from './__generated__/TournamentsQuery';
 import HomeView from './home-view';
 
@@ -31,11 +33,13 @@ const HomeData = () => {
 	const { data, error, loading } = useQuery<TournamentsQuery>(TOURNAMENTS_QUERY);
 
 	if (loading) {
-		return <div>loading.-_..</div>;
+		return <Spinner />;
 	}
+
 	if (error) {
 		return <div>Error!</div>;
 	}
+
 	if (data) {
 		return <HomeView tournaments={data.tournaments} />;
 	}

@@ -3,6 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { Spinner } from '../../shared/components/spinner';
+
 import { ProfileAliasBioQuery } from './__generated__/ProfileAliasBioQuery';
 import ProfileLogic from './profile-logic';
 
@@ -21,7 +23,7 @@ const ProfileData = () => {
 	const { data, error, loading } = useQuery<ProfileAliasBioQuery>(PROFILE_QUERY);
 
 	if (loading) {
-		return <div>loading.-_..</div>;
+		return <Spinner />;
 	}
 	if (error) {
 		return <div>Error!</div>;
