@@ -31,6 +31,6 @@ export function buildTree(currentMatch: Match, matches: Map<string, Match>): Bra
 		firstParent,
 		firstTeamScore: null,
 		secondTeamScore: null,
-		winner: currentMatch.winner,
+		winner: (currentMatch.finalized && currentMatch.winner) || null,
 	};
 }
