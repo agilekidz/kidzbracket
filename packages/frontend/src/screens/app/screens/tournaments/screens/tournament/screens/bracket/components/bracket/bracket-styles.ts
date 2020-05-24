@@ -32,13 +32,13 @@ export const ContentCardWrapper = styled.div`
 export const HorizontalConnector = styled.div`
 	width: ${LINE_LENGTH_PX};
 	height: ${LINE_THICKNESS_PX};
-	background: black;
+	background: #1f1f1f;
 `;
 
 export const VerticalConnector = styled.div`
 	width: ${LINE_THICKNESS_PX};
 	height: calc(50% + ${LINE_THICKNESS_PX});
-	background: black;
+	background: #1f1f1f;
 `;
 
 export const HalfVerticalConnectorWrapper = styled.div`
@@ -52,7 +52,7 @@ export const HalfVerticalConnectorFilled = styled.div`
 	width: ${LINE_THICKNESS_PX};
 	flex-basis: calc(50% + ${HALF_LINE_THICKNESS_PX});
 	flex-shrink: 0;
-	background: black;
+	background: #1f1f1f;
 `;
 
 export const HalfVerticalConnectorEmpty = styled.div`

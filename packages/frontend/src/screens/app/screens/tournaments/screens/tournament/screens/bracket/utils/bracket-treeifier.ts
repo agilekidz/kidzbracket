@@ -3,7 +3,7 @@ import { BracketMatch } from '../components/bracket/bracket-view';
 import { Match } from './types';
 
 export function buildTree(currentMatch: Match, matches: Map<string, Match>): BracketMatch {
-	let secondParent: BracketMatch | undefined = undefined;
+	let secondParent: BracketMatch | null = null;
 	if (currentMatch.secondParent) {
 		const match = matches.get(currentMatch.secondParent.id);
 		if (!match) {
@@ -13,7 +13,7 @@ export function buildTree(currentMatch: Match, matches: Map<string, Match>): Bra
 		secondParent = buildTree(match, matches);
 	}
 
-	let firstParent: BracketMatch | undefined = undefined;
+	let firstParent: BracketMatch | null = null;
 	if (currentMatch.firstParent) {
 		const match = matches.get(currentMatch.firstParent.id);
 		if (!match) {
@@ -25,12 +25,12 @@ export function buildTree(currentMatch: Match, matches: Map<string, Match>): Bra
 
 	return {
 		id: currentMatch.id,
-		secondTeam: currentMatch.secondTeam || undefined,
-		firstTeam: currentMatch.firstTeam || undefined,
+		secondTeam: currentMatch.secondTeam,
+		firstTeam: currentMatch.firstTeam,
 		secondParent,
 		firstParent,
-		firstTeamScore: undefined,
-		secondTeamScore: undefined,
-		winner: undefined,
+		firstTeamScore: null,
+		secondTeamScore: null,
+		winner: currentMatch.winner,
 	};
 }
