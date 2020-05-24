@@ -4,7 +4,7 @@ import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
 import { MatchInfoQuery, MatchInfoQueryVariables } from './__generated__/MatchInfoQuery';
-import MatchLogic from './match-logic';
+import MatchView from './match-view';
 
 const MATCH_INFO_QUERY = gql`
 	query MatchInfoQuery($id: ID!) {
@@ -43,6 +43,7 @@ const MATCH_INFO_QUERY = gql`
 			}
 			contested
 			finalized
+			needAdminHelp
 		}
 	}
 `;
@@ -70,12 +71,13 @@ const MatchData = () => {
 			// This assignment solves TypeScript not being able to infer firstTeam and
 			// secondTeam being non-null, despite the check in the if clause above
 			return (
-				<MatchLogic
+				<MatchView
 					match={{
 						...data.match,
 						firstTeam: data.match.firstTeam,
 						secondTeam: data.match.secondTeam,
 					}}
+					tournament={data.match.tournament}
 				/>
 			);
 		} else {
