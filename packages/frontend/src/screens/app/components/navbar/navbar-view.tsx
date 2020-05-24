@@ -43,12 +43,12 @@ const NavbarView = () => {
 			<Menu theme="dark" mode="horizontal" selectedKeys={selectedKeys}>
 				{!isAuthenticated && (
 					<Menu.Item key="login">
-						<Link to="/auth/login">Login</Link>
+						<Link to={{ pathname: '/auth/login', state: { from: pathname } }}>Login</Link>
 					</Menu.Item>
 				)}
 				{!isAuthenticated && (
 					<Menu.Item key="register">
-						<Link to="/auth/register">Register</Link>
+						<Link to={{ pathname: '/auth/register', state: { from: pathname } }}>Register</Link>
 					</Menu.Item>
 				)}
 				{isAuthenticated && (
