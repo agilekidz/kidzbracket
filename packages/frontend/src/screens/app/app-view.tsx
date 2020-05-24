@@ -23,7 +23,7 @@ const AppView = () => {
 					<Navbar />
 				</LayoutWrapper>
 			</Layout.Header>
-			<Layout.Content>
+			<Layout.Content style={{ minHeight: 'calc(100vh - 134px)' }}>
 				<LayoutWrapper>
 					<Switch>
 						<GuestRoute path="/auth" component={AuthScreen} />
