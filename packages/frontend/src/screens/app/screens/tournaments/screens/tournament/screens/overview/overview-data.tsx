@@ -21,6 +21,8 @@ const OVERVIEW_TOURNAMENT_TEAM_INFO = gql`
 				id
 			}
 			started
+			game
+			description
 		}
 	}
 `;
@@ -49,10 +51,10 @@ const OverviewData: React.FC<Props> = ({ tournamentId }) => {
 	if (data) {
 		return (
 			<OverviewView
-				currentlyRegisteredTeamCount={data.tournament.teams.length}
-				maxTeamsCount={data.tournament.maxTeams}
-				winner={data.tournament.winner}
-				started={data.tournament.started}
+				tournament={{
+					...data.tournament,
+					currentlyRegisteredTeamCount: data.tournament.teams.length,
+				}}
 			/>
 		);
 	}
