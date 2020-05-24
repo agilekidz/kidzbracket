@@ -10,7 +10,9 @@ export async function finalizeMatch(match: Match, winningTeam: Team) {
 	match.winner = winningTeam;
 
 	if (match.round === 1) {
-		return;
+		match = await matchRepository.save(match);
+
+		return match;
 	}
 
 	//Get child match, aka the next match in the progression. Theese square brackets represent or.

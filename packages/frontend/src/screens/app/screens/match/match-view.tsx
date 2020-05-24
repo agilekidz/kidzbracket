@@ -1,8 +1,15 @@
 import React from 'react';
 
-import AdminCheck from '../tournaments/screens/tournament/components/admin-check';
+import { PageHeader, Row } from 'antd';
+import { useHistory } from 'react-router-dom';
 
-import MatchViewItem from './components/match-view-item';
+import { useAuth } from '../../contexts/auth-context';
+
+import ContestMatch from './components/contest-match';
+import FinalizeMatch from './components/finalize-match';
+import ReportVictory from './components/report-victory';
+import RequestAdminHelp from './components/request-admin-help';
+import Team from './components/team';
 
 interface User {
 	id: string;
@@ -23,68 +30,91 @@ export interface MatchViewMatch {
 	contested: boolean;
 	tournament: { id: string; owner: { id: string } };
 	finalized: boolean;
+	needAdminHelp: boolean;
 }
 
 interface Props {
-	reportVictory: (winningTeamId: string) => void;
-	contestMatch: () => void;
-	finalizeMatchContestation: (winningTeamId: string) => void;
 	match: MatchViewMatch;
-	loading: boolean;
 	tournament: {
 		id: string;
 		owner: { id: string };
 	};
-	requestAdminHelp: () => void;
 }
 
-const MatchView: React.FC<Props> = ({
-	reportVictory,
-	contestMatch,
-	finalizeMatchContestation,
-	requestAdminHelp,
-	match,
-	loading,
-	tournament,
-}) => {
-	if (match.winner) {
-		return (
-			<div>
-				<MatchViewItem match={match} />
-				<h1>The winner is: {match.winner.name}</h1>
-				{match.contested && !match.finalized && <h1>The match has been contested!</h1>}
-				{match.contested && !match.finalized && (
-					<AdminCheck ownerId={tournament.owner.id}>
-						<button onClick={() => finalizeMatchContestation(match.firstTeam.id)}>
-							{match.firstTeam.name} won!
-						</button>
-						<button onClick={() => finalizeMatchContestation(match.secondTeam.id)}>
-							{match.secondTeam.name} won!
-						</button>
-					</AdminCheck>
-				)}
-				{!match.contested && !match.finalized && (
-					<button disabled={loading} onClick={contestMatch}>
-						Contest result!
-					</button>
-				)}
-				<h1> Contact Admin</h1>
-				<button onClick={requestAdminHelp}>Request help from Admin</button>
-			</div>
-		);
-	}
+const MatchView: React.FC<Props> = ({ match, tournament }) => {
+	const { user } = useAuth();
+	const history = useHistory();
+
+	const playerIsInFirstTeam = (playerId: string) => {
+		return match.firstTeam.players.find(player => player.id === playerId) !== undefined;
+	};
+
+	const playerIsInSecondTeam = (playerId: string) => {
+		return match.secondTeam.players.find(player => player.id === playerId) !== undefined;
+	};
+
+	const playerIsInMatch = (playerId: string) => {
+		return playerIsInFirstTeam(playerId) || playerIsInSecondTeam(playerId);
+	};
+
+	const playerIsInLosingTeam = (playerId: string) => {
+		if (match.winner) {
+			if (match.firstTeam.id === match.winner.id) {
+				return playerIsInSecondTeam(playerId);
+			} else {
+				return playerIsInFirstTeam(playerId);
+			}
+		}
+
+		return false;
+	};
+
+	const canReportVictory = user && !match.winner && playerIsInMatch(user.id);
+	const canContestMatch =
+		user && match.winner && !match.contested && !match.finalized && playerIsInLosingTeam(user.id);
+	const canFinalizeMatch =
+		user && match.contested && !match.finalized && user.id === tournament.owner.id;
+	const canRequestAdminHelp =
+		user && !match.needAdminHelp && !match.finalized && playerIsInMatch(user.id);
 
 	return (
-		<div>
-			<MatchViewItem match={match} />
-			<h1>Which team won?</h1>
-			<button onClick={() => reportVictory(match.firstTeam.id)}>{match.firstTeam.name} won!</button>
-			<button onClick={() => reportVictory(match.secondTeam.id)}>
-				{match.secondTeam.name} won!
-			</button>
-			<h1> Contact Admin</h1>
-			<button onClick={requestAdminHelp}>Request help from Admin</button>
-		</div>
+		<React.Fragment>
+			<PageHeader
+				title={`${match.firstTeam.name} vs. ${match.secondTeam.name}`}
+				onBack={() => history.goBack()}
+			/>
+			<Row justify="space-around" align="middle">
+				<Team
+					team={match.firstTeam}
+					winner={
+						(match.finalized && match.winner && match.winner.id === match.firstTeam.id) || false
+					}
+				/>
+				<h1>vs.</h1>
+				<Team
+					team={match.secondTeam}
+					winner={
+						(match.finalized && match.winner && match.winner.id === match.secondTeam.id) || false
+					}
+				/>
+			</Row>
+			<Row justify="center" style={{ margin: '16px 0' }}>
+				{canReportVictory && (
+					<ReportVictory
+						matchId={match.id}
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						teamId={playerIsInFirstTeam(user!.id) ? match.firstTeam.id : match.secondTeam.id}
+					/>
+				)}
+				{canContestMatch && <ContestMatch matchId={match.id} />}
+				{canFinalizeMatch && <FinalizeMatch match={match} />}
+			</Row>
+			{canRequestAdminHelp && (
+				<Row justify="center" style={{ margin: '16px 0' }}>
+					<RequestAdminHelp matchId={match.id} />
+				</Row>
+			)}
+		</React.Fragment>
 	);
 };
 

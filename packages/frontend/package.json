@@ -20,6 +20,7 @@
 		"test": "jest --passWithNoTests"
 	},
 	"dependencies": {
+		"@ant-design/icons": "^4.1.0",
 		"@apollo/client": "^3.0.0-beta.43",
 		"@types/styled-components": "^5.1.0",
 		"antd": "^4.2.4",
