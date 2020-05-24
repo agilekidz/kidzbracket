@@ -4,6 +4,7 @@ import RedisSession from 'connect-redis';
 import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
+import { createServer } from 'http';
 import redis from 'redis';
 import { createConnection, getRepository } from 'typeorm';
 
@@ -47,8 +48,8 @@ const RedisSessionStore = RedisSession(session);
 			}),
 		);
 
-		const server = await createApolloServer();
-		server.applyMiddleware({
+		const apolloServer = await createApolloServer();
+		apolloServer.applyMiddleware({
 			app,
 			cors: {
 				origin: String(process.env.FRONTEND_LOCATION),
@@ -56,8 +57,11 @@ const RedisSessionStore = RedisSession(session);
 			},
 		});
 
-		app.listen(3000, () => {
-			console.log(`Server ready`);
+		const httpServer = createServer(app);
+		apolloServer.installSubscriptionHandlers(httpServer);
+		httpServer.listen(3000, () => {
+			console.log(`http://localhost:3000${apolloServer.graphqlPath}`);
+			console.log(`ws://localhost:3000${apolloServer.subscriptionsPath}`);
 		});
 	} catch (e) {
 		console.error(e);

@@ -1,4 +1,14 @@
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
+import {
+	Arg,
+	Ctx,
+	Field,
+	InputType,
+	Mutation,
+	ObjectType,
+	PubSub,
+	PubSubEngine,
+	Resolver,
+} from 'type-graphql';
 
 import { Context } from '../../apollo';
 import { finalizeMatch } from '../../finalize-match';
@@ -27,6 +37,7 @@ export default class ReportVictoryMutationResolver {
 	async reportVictory(
 		@Arg('input') { matchId, teamId }: ReportVictoryInput,
 		@Ctx() { user, repositories }: Context,
+		@PubSub() pubsub: PubSubEngine,
 	): Promise<ReportVictoryMutationPayload> {
 		if (!user) {
 			throw new Error('You must be logged in to do that');
@@ -66,12 +77,15 @@ export default class ReportVictoryMutationResolver {
 					return;
 				}
 				await finalizeMatch(match, team);
+
+				pubsub.publish('MATCH_FINALIZED', match);
+
 				console.log('Finalized match on timeout');
 			} catch {
 				//Something went wrong
 				console.error('Something went wrong, match not finalized properly');
 			}
-		}, 1 * 60 * 1000);
+		}, 10 * 1000);
 
 		return { match };
 	}

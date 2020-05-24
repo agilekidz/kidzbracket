@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import { ProfileAliasBioQuery } from './__generated__/ProfileAliasBioQuery';
 import ProfileLogic from './profile-logic';

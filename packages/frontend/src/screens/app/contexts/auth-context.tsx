@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react';
 
-import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
+import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { useHistory } from 'react-router-dom';
 
 import {

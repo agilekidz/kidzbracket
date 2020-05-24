@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import { TournamentsQuery } from './__generated__/TournamentsQuery';
 import HomeView from './home-view';
