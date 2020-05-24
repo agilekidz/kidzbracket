@@ -1,13 +1,18 @@
 import React from 'react';
 
-import { Card } from 'antd';
+import { CrownFilled } from '@ant-design/icons';
+import { Card, Tag } from 'antd';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyleTag = styled(Tag)`
+	margin-bottom: 8px;
+`;
 
 interface Props {
 	tournament: {
 		id: string;
 		name: string;
-		description: string;
 		game: string;
 		maxTeams: number;
 		teams: {
@@ -23,6 +28,7 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 	const history = useHistory();
 	return (
 		<Card
+			style={{ height: '100%' }}
 			cover={
 				<div
 					onClick={() => history.push('/tournaments/' + tournament.id)}
@@ -42,20 +48,25 @@ const TournamentCardView: React.FC<Props> = ({ tournament }) => {
 				onClick={() => history.push('/tournaments/' + tournament.id)}
 				style={{
 					cursor: 'pointer',
+					textOverflow: 'ellipsis',
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
 				}}
 			>
 				{tournament.name}
 			</h2>
-			<p>Game: {tournament.game}</p>
-			<p>Description: {tournament.description}</p>
-			<p>
-				Registered teams: {tournament.teams.length}/{tournament.maxTeams}
-			</p>
-			{tournament.winner && <p>Winner: {tournament.winner.name} </p>}
-			{tournament.started && (
-				<p>
-					<strong>Started</strong>
-				</p>
+			<StyleTag>{tournament.game}</StyleTag>
+			{!tournament.started && (
+				<StyleTag>
+					{tournament.maxTeams - tournament.teams.length} / {tournament.maxTeams} spots left
+				</StyleTag>
+			)}
+			{tournament.started && !tournament.winner && <Tag color="green">Ongoing</Tag>}
+			{tournament.winner && (
+				<StyleTag color="green">
+					<CrownFilled style={{ color: 'yellow', marginRight: '4px' }} />
+					{tournament.winner.name}
+				</StyleTag>
 			)}
 		</Card>
 	);

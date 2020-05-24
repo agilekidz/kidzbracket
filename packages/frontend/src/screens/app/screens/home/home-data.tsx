@@ -13,7 +13,6 @@ const TOURNAMENTS_QUERY = gql`
 		tournaments {
 			id
 			name
-			description
 			game
 			maxTeams
 			winner {
