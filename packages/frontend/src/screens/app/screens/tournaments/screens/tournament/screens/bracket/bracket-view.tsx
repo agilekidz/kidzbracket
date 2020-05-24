@@ -6,8 +6,9 @@ import Bracket from './components/bracket';
 import { BracketMatch } from './components/bracket/bracket-view';
 
 const Wrapper = styled.div`
-	background: lightgray;
 	width: 1200px;
+	display: flex;
+	justify-content: center;
 `;
 
 interface Props {
@@ -18,7 +19,7 @@ interface Props {
 const BracketView: React.FC<Props> = ({ match, level }) => {
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-			<Wrapper style={{ display: 'flex' }}>
+			<Wrapper>
 				<Bracket match={match} level={level} />
 			</Wrapper>
 		</div>

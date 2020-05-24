@@ -31,6 +31,10 @@ const BRACKET_MATCHES_QUERY = gql`
 					id
 					name
 				}
+				winner {
+					id
+					name
+				}
 				round
 			}
 		}
