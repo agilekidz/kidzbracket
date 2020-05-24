@@ -85,7 +85,7 @@ export default class ReportVictoryMutationResolver {
 				//Something went wrong
 				console.error('Something went wrong, match not finalized properly');
 			}
-		}, 10 * 1000);
+		}, 1 * 60 * 1000);
 
 		return { match };
 	}
