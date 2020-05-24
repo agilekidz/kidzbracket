@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, PageHeader, Tabs } from 'antd';
+import { Button, Tabs } from 'antd';
 import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../../../contexts/auth-context';
@@ -32,7 +32,7 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 
 	return (
 		<React.Fragment>
-			<PageHeader title={<h1 style={{ color: 'hotpink' }}>{tournament.name}</h1>} />
+			<h1 style={{ marginTop: '16px' }}>{tournament.name}</h1>
 			<Tabs
 				defaultActiveKey={tabId}
 				activeKey={activeTab}

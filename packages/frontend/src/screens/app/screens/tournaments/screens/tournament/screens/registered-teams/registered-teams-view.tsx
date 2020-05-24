@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Card, List } from 'antd';
+
 interface Props {
 	teams: {
 		id: string;
@@ -9,13 +11,9 @@ interface Props {
 
 const RegisteredTeamsView: React.FC<Props> = ({ teams }) => {
 	return (
-		<div>
-			<ul>
-				{teams.map(team => (
-					<li key={team.id}>{team.name}</li>
-				))}
-			</ul>
-		</div>
+		<Card>
+			<List dataSource={teams} renderItem={team => <List.Item>{team.name}</List.Item>} />
+		</Card>
 	);
 };
 
