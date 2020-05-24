@@ -34,11 +34,11 @@ interface Tournament {
 	winner: { name: string } | null;
 	started: boolean;
 }
-const CHUNK_SIZE = 4;
 
 interface Props {
 	tournaments: Tournament[];
 }
+
 const HomeView: React.FC<Props> = ({ tournaments }) => {
 	const ref = useRef(null);
 	const size = useComponentSize(ref);
