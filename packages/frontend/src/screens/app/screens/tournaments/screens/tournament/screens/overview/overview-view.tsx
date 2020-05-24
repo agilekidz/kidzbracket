@@ -1,27 +1,32 @@
 import React from 'react';
 
 interface Props {
-	currentlyRegisteredTeamCount: number;
-	maxTeamsCount: number;
-	winner: {
-		name: string;
-	} | null;
-	started: boolean;
+	tournament: {
+		currentlyRegisteredTeamCount: number;
+		maxTeams: number;
+		winner: {
+			name: string;
+		} | null;
+		started: boolean;
+		game: string;
+		description: string;
+	};
 }
-const OverviewView: React.FC<Props> = ({
-	currentlyRegisteredTeamCount,
-	maxTeamsCount,
-	winner,
-	started,
-}) => {
+const OverviewView: React.FC<Props> = ({ tournament }) => {
 	return (
-		<div>
-			{started && <h1 style={{ padding: '5px 10px' }}>Tournament started</h1>}
-			<div style={{ padding: '5px 10px' }}>
-				Teams registered : {currentlyRegisteredTeamCount}/{maxTeamsCount}
-			</div>
-			{winner && <h1 style={{ padding: '5px 10px' }}>Winner: {winner.name} </h1>}
-		</div>
+		<React.Fragment>
+			<p>Game: {tournament.game}</p>
+			<p>Description: {tournament.description}</p>
+			<p>
+				Teams registered: {tournament.currentlyRegisteredTeamCount}/{tournament.maxTeams}
+			</p>
+			{tournament.started && (
+				<p>
+					<strong>Tournament started</strong>
+				</p>
+			)}
+			{tournament.winner && <p>Winner: {tournament.winner.name}</p>}
+		</React.Fragment>
 	);
 };
 
