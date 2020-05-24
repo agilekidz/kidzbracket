@@ -20,13 +20,13 @@ interface Team {
 
 export interface BracketMatch {
 	id: string;
-	firstParent?: BracketMatch;
-	secondParent?: BracketMatch;
-	firstTeam?: Team;
-	secondTeam?: Team;
-	firstTeamScore?: number;
-	secondTeamScore?: number;
-	winner?: Team;
+	firstParent: BracketMatch | null;
+	secondParent: BracketMatch | null;
+	firstTeam: Team | null;
+	secondTeam: Team | null;
+	firstTeamScore: number | null;
+	secondTeamScore: number | null;
+	winner: Team | null;
 }
 
 interface InternalBracketProps {
