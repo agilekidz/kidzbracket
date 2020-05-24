@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
+import { message } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 import {
 	RegisterTeamMutation,
 	RegisterTeamMutationVariables,
 } from './__generated__/RegisterTeamMutation';
+import { RegisterTeamQuery, RegisterTeamQueryVariables } from './__generated__/RegisterTeamQuery';
 import JoinTournamentView from './join-tournament-view';
+
+const TOURNAMENT_TEAMS_QUERY = gql`
+	query RegisterTeamQuery($tournamentId: ID!) {
+		tournament(id: $tournamentId) {
+			id
+			teams {
+				id
+			}
+		}
+	}
+`;
 
 const REGISTER_TEAM_MUTATION = gql`
 	mutation RegisterTeamMutation($input: RegisterTeamInput!) {
@@ -44,6 +57,35 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
 	);
 	const [registerTeam] = useMutation<RegisterTeamMutation, RegisterTeamMutationVariables>(
 		REGISTER_TEAM_MUTATION,
+		{
+			onCompleted(data) {
+				message.success('Successfully registered team ' + data.registerTeam.team.name);
+			},
+			onError() {
+				message.error('Could not register team');
+			},
+			update(cache, { data }) {
+				if (data) {
+					const tournamentData = cache.readQuery<RegisterTeamQuery, RegisterTeamQueryVariables>({
+						query: TOURNAMENT_TEAMS_QUERY,
+						variables: {
+							tournamentId: tournament.id,
+						},
+					});
+					if (tournamentData) {
+						cache.writeQuery<RegisterTeamQuery, RegisterTeamQueryVariables>({
+							query: TOURNAMENT_TEAMS_QUERY,
+							data: {
+								tournament: {
+									...tournamentData.tournament,
+									teams: [...tournamentData.tournament.teams, data.registerTeam.team],
+								},
+							},
+						});
+					}
+				}
+			},
+		},
 	);
 	const history = useHistory();
 
