@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
 import { Button } from 'antd';
+import gql from 'graphql-tag';
 
 import {
 	RequestAdminHelpMutation,

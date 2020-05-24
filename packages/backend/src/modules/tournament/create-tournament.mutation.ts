@@ -1,4 +1,14 @@
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
+import {
+	Arg,
+	Ctx,
+	Field,
+	InputType,
+	Mutation,
+	ObjectType,
+	PubSub,
+	PubSubEngine,
+	Resolver,
+} from 'type-graphql';
 
 import { Context } from '../../apollo';
 
@@ -34,6 +44,7 @@ export default class CreateTournamentMutationResolver {
 	async createTournament(
 		@Arg('data') { name, description, game, maxTeams, playersPerTeam }: CreateTournamentInput,
 		@Ctx() { user, repositories }: Context,
+		@PubSub() pubsub: PubSubEngine,
 	): Promise<CreateTournamentPayload> {
 		if (!user) {
 			throw new Error('You must be logged in to do that');
@@ -61,6 +72,8 @@ export default class CreateTournamentMutationResolver {
 		});
 
 		tournament = await repositories.tournamentRepository.save(tournament);
+
+		pubsub.publish('TOURNAMENT_CREATED', tournament);
 
 		return {
 			tournament: {

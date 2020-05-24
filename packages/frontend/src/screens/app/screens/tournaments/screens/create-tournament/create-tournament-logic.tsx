@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
 import { message } from 'antd';
+import gql from 'graphql-tag';
 import { useHistory } from 'react-router-dom';
 
 import {
 	CreateTournamentMutation,
 	CreateTournamentMutationVariables,
 } from './__generated__/CreateTournamentMutation';
+import { CreateTournamentQuery } from './__generated__/CreateTournamentQuery';
 import TournamentView from './create-tournament-view';
+
+const TOURNAMENTS_QUERY = gql`
+	query CreateTournamentQuery {
+		tournaments {
+			id
+		}
+	}
+`;
 
 const CREATE_TOURNAMENT_MUTATION = gql`
 	mutation CreateTournamentMutation($data: CreateTournamentInput!) {
@@ -40,6 +50,19 @@ const CreateTournamentLogic = () => {
 		},
 		onError() {
 			message.error('Could not create tournament');
+		},
+		update(cache, { data }) {
+			if (data) {
+				const tournamentData = cache.readQuery<CreateTournamentQuery>({ query: TOURNAMENTS_QUERY });
+				if (tournamentData) {
+					cache.writeQuery<CreateTournamentQuery>({
+						query: TOURNAMENTS_QUERY,
+						data: {
+							tournaments: [...tournamentData.tournaments, data.createTournament.tournament],
+						},
+					});
+				}
+			}
 		},
 	});
 	const history = useHistory();

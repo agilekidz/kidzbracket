@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
 import { message } from 'antd';
+import gql from 'graphql-tag';
 
 import {
 	UpdateProfileMutation,

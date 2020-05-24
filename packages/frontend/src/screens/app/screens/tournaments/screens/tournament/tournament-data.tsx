@@ -1,7 +1,10 @@
 import React from 'react';
 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { useParams } from 'react-router-dom';
+
+import { Spinner } from '../../../../shared/components/spinner';
 
 import {
 	GetTournamentQuery,
@@ -38,7 +41,7 @@ const TournamentData = () => {
 	);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	if (error) {

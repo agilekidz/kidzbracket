@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, PubSub } from 'apollo-server-express';
 import path from 'path';
 import { buildSchema } from 'type-graphql';
 import { getRepository, Repository } from 'typeorm';
@@ -21,9 +21,11 @@ export interface Context {
 }
 
 async function createApolloServer() {
+	const pubsub = new PubSub();
 	const schema = await buildSchema({
-		resolvers: [__dirname + '/modules/**/*.{mutation,query,field}.{js,ts}'],
+		resolvers: [__dirname + '/modules/**/*.{mutation,query,field,subscription}.{js,ts}'],
 		emitSchemaFile: path.resolve(__dirname, '__generated__/schema.gql'),
+		pubSub: pubsub,
 	});
 
 	return new ApolloServer({

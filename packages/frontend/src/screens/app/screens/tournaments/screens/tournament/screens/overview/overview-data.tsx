@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+import { Spinner } from '../../../../../../shared/components/spinner';
 
 import {
 	OverviewTournamentTeamInfo,
@@ -41,7 +44,7 @@ const OverviewData: React.FC<Props> = ({ tournamentId }) => {
 	});
 
 	if (loading) {
-		return <div>loading...</div>;
+		return <Spinner />;
 	}
 
 	if (error) {

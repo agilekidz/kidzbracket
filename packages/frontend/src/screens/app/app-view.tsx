@@ -3,6 +3,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 
+import { useSubscriptionSync } from './app-hooks';
 import { LayoutWrapper } from './app-styles';
 // import { createGlobalStyle } from 'styled-components';
 import Footer from './components/footer';
@@ -16,6 +17,8 @@ import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
 
 const AppView = () => {
+	useSubscriptionSync();
+
 	return (
 		<Layout>
 			<Layout.Header>

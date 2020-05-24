@@ -1,7 +1,10 @@
 import React from 'react';
 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { useParams } from 'react-router-dom';
+
+import { Spinner } from '../../shared/components/spinner';
 
 import { MatchInfoQuery, MatchInfoQueryVariables } from './__generated__/MatchInfoQuery';
 import MatchView from './match-view';
@@ -59,7 +62,7 @@ const MatchData = () => {
 	);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	if (error) {
@@ -67,15 +70,16 @@ const MatchData = () => {
 	}
 
 	if (data) {
-		if (data.match.firstTeam && data.match.secondTeam) {
+		const { match } = data;
+		if (match.firstTeam && match.secondTeam) {
 			// This assignment solves TypeScript not being able to infer firstTeam and
 			// secondTeam being non-null, despite the check in the if clause above
 			return (
 				<MatchView
 					match={{
-						...data.match,
-						firstTeam: data.match.firstTeam,
-						secondTeam: data.match.secondTeam,
+						...match,
+						firstTeam: match.firstTeam,
+						secondTeam: match.secondTeam,
 					}}
 					tournament={data.match.tournament}
 				/>

@@ -34,6 +34,12 @@ export default class Match {
 	})
 	secondParent: Match | null;
 
+	@Field(() => Match, {
+		nullable: true,
+		description: 'The next match',
+	})
+	nextMatch?: Match | null;
+
 	@Field(() => Number, {
 		nullable: true,
 		description: 'The score of the first team',
