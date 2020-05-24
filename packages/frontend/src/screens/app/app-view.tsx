@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { useApolloClient, useSubscription } from '@apollo/react-hooks';
 import { Layout } from 'antd';
-import gql from 'graphql-tag';
 import { Route, Switch } from 'react-router-dom';
 
-import { MatchFinalizedSubscription } from './__generated__/MatchFinalizedSubscription';
-import { MatchFragment } from './__generated__/MatchFragment';
+import { useSubscriptionSync } from './app-hooks';
 import { LayoutWrapper } from './app-styles';
 // import { createGlobalStyle } from 'styled-components';
 import Footer from './components/footer';
@@ -19,43 +16,8 @@ import MatchScreen from './screens/match';
 import ProfileScreen from './screens/profile';
 import TournamentsScreen from './screens/tournaments';
 
-const MATCH_FINALIZED_SUBSCRIPTION = gql`
-	subscription MatchFinalizedSubscription {
-		matchFinalized {
-			id
-			finalized
-		}
-	}
-`;
-
-const MATCH_FRAGMENT = gql`
-	fragment MatchFragment on Match {
-		id
-		finalized
-	}
-`;
-
 const AppView = () => {
-	const { data } = useSubscription<MatchFinalizedSubscription>(MATCH_FINALIZED_SUBSCRIPTION);
-	const client = useApolloClient();
-
-	useEffect(() => {
-		if (data) {
-			const id = 'Match:' + data.matchFinalized.id;
-			const fragmentData = client.readFragment<MatchFragment>({
-				id,
-				fragment: MATCH_FRAGMENT,
-			});
-
-			if (fragmentData) {
-				client.writeFragment<MatchFragment>({
-					id,
-					fragment: MATCH_FRAGMENT,
-					data: data.matchFinalized,
-				});
-			}
-		}
-	}, [client, data]);
+	useSubscriptionSync();
 
 	return (
 		<Layout>

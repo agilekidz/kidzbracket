@@ -14,8 +14,20 @@ interface Props {
 const MatchCardView: React.FC<Props> = ({ match, invisible = false }) => {
 	const history = useHistory();
 
+	const hasBothTeams = match.firstTeam !== null && match.secondTeam !== null;
+
 	return (
-		<Card invisible={invisible} onClick={() => history.push(`/matches/${match.id}`)}>
+		<Card
+			invisible={invisible}
+			onClick={() => {
+				if (hasBothTeams) {
+					history.push(`/matches/${match.id}`);
+				}
+			}}
+			style={{
+				cursor: hasBothTeams ? 'pointer' : 'auto',
+			}}
+		>
 			<Team
 				winner={
 					(match.winner && match.firstTeam && match.winner.id === match.firstTeam.id) || false

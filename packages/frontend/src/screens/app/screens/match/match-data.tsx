@@ -68,15 +68,16 @@ const MatchData = () => {
 	}
 
 	if (data) {
-		if (data.match.firstTeam && data.match.secondTeam) {
+		const { match } = data;
+		if (match.firstTeam && match.secondTeam) {
 			// This assignment solves TypeScript not being able to infer firstTeam and
 			// secondTeam being non-null, despite the check in the if clause above
 			return (
 				<MatchView
 					match={{
-						...data.match,
-						firstTeam: data.match.firstTeam,
-						secondTeam: data.match.secondTeam,
+						...match,
+						firstTeam: match.firstTeam,
+						secondTeam: match.secondTeam,
 					}}
 					tournament={data.match.tournament}
 				/>

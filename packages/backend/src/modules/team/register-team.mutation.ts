@@ -1,4 +1,14 @@
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
+import {
+	Arg,
+	Ctx,
+	Field,
+	InputType,
+	Mutation,
+	ObjectType,
+	PubSub,
+	PubSubEngine,
+	Resolver,
+} from 'type-graphql';
 
 import { Context } from '../../apollo';
 import DBTeam from '../../entities/team';
@@ -30,6 +40,7 @@ export default class RegisterTeamMutationResolver {
 	async registerTeam(
 		@Arg('input') { name, players: playerIds, tournamentId }: RegisterTeamInput,
 		@Ctx() { repositories }: Context,
+		@PubSub() pubsub: PubSubEngine,
 	): Promise<RegisterTeamPayload> {
 		const tournament = await repositories.tournamentRepository.findOne(tournamentId, {
 			relations: ['teams'],
@@ -101,6 +112,8 @@ export default class RegisterTeamMutationResolver {
 		});
 
 		team = await repositories.teamRepository.save(team);
+
+		pubsub.publish('TEAM_REGISTERED', team);
 
 		return {
 			team,
