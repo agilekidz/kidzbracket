@@ -74,15 +74,19 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
 						},
 					});
 					if (tournamentData) {
-						cache.writeQuery<RegisterTeamQuery, RegisterTeamQueryVariables>({
-							query: TOURNAMENT_TEAMS_QUERY,
-							data: {
-								tournament: {
-									...tournamentData.tournament,
-									teams: [...tournamentData.tournament.teams, data.registerTeam.team],
+						if (
+							!tournamentData.tournament.teams.find(team => team.id === data.registerTeam.team.id)
+						) {
+							cache.writeQuery<RegisterTeamQuery, RegisterTeamQueryVariables>({
+								query: TOURNAMENT_TEAMS_QUERY,
+								data: {
+									tournament: {
+										...tournamentData.tournament,
+										teams: [...tournamentData.tournament.teams, data.registerTeam.team],
+									},
 								},
-							},
-						});
+							});
+						}
 					}
 				}
 			},

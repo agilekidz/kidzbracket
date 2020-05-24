@@ -55,12 +55,18 @@ const CreateTournamentLogic = () => {
 			if (data) {
 				const tournamentData = cache.readQuery<CreateTournamentQuery>({ query: TOURNAMENTS_QUERY });
 				if (tournamentData) {
-					cache.writeQuery<CreateTournamentQuery>({
-						query: TOURNAMENTS_QUERY,
-						data: {
-							tournaments: [...tournamentData.tournaments, data.createTournament.tournament],
-						},
-					});
+					if (
+						!tournamentData.tournaments.find(
+							tournament => tournament.id === data.createTournament.tournament.id,
+						)
+					) {
+						cache.writeQuery<CreateTournamentQuery>({
+							query: TOURNAMENTS_QUERY,
+							data: {
+								tournaments: [...tournamentData.tournaments, data.createTournament.tournament],
+							},
+						});
+					}
 				}
 			}
 		},

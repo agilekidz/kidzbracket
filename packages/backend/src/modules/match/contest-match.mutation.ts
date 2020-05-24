@@ -1,4 +1,14 @@
-import { Arg, Ctx, Field, ID, Mutation, ObjectType, Resolver } from 'type-graphql';
+import {
+	Arg,
+	Ctx,
+	Field,
+	ID,
+	Mutation,
+	ObjectType,
+	PubSub,
+	PubSubEngine,
+	Resolver,
+} from 'type-graphql';
 
 import { Context } from '../../apollo';
 
@@ -16,6 +26,7 @@ export default class ContestMatchMutationResolver {
 	async contestMatch(
 		@Arg('id', () => ID) id: string,
 		@Ctx() { repositories }: Context,
+		@PubSub() pubsub: PubSubEngine,
 	): Promise<ContestMatchMutationPayload> {
 		const match = await repositories.matchRepository.findOne(id);
 		if (!match) {
@@ -30,6 +41,8 @@ export default class ContestMatchMutationResolver {
 
 		match.contested = true;
 		await repositories.matchRepository.save(match);
+
+		pubsub.publish('MATCH_CONTESTED', match);
 
 		return { match };
 	}

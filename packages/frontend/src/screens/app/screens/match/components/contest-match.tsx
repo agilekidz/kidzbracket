@@ -40,7 +40,7 @@ const ContestMatch: React.FC<Props> = ({ matchId }) => {
 				});
 			}}
 		>
-			No! <strong>My</strong> team won!
+			No! <strong style={{ margin: '0 4px' }}>My</strong> team won!
 		</Button>
 	);
 };

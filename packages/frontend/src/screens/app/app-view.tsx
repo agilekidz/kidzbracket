@@ -3,13 +3,13 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 
-import { useSubscriptionSync } from './app-hooks';
 import { LayoutWrapper } from './app-styles';
 // import { createGlobalStyle } from 'styled-components';
 import Footer from './components/footer';
 import GuestRoute from './components/guest-route';
 import Navbar from './components/navbar';
 import PrivateRoute from './components/private-route';
+import { useSubscriptionSync } from './hooks/use-subscription-sync';
 import AuthScreen from './screens/auth';
 import HomeScreen from './screens/home';
 import MatchScreen from './screens/match';
