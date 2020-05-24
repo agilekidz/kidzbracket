@@ -1,14 +1,7 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
-import Item from './components/contested-match-item';
-
-const List = styled.div`
-	width: 300px;
-	height: 500px;
-	background: red;
-`;
+import { Button, Card, List, Row } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 interface Team {
 	id: string;
@@ -33,15 +26,45 @@ interface Props {
 }
 
 const ManageTournamentView: React.FC<Props> = ({ tournament, handleTournamentStart }) => {
+	const adresBase = '/matches/';
+	const history = useHistory();
+
 	return (
-		<div>
-			{!tournament.started && <button onClick={handleTournamentStart}>Start tournament</button>}
-			<List>
-				{tournament.contestedMatches.map(match => (
-					<Item key={match.id} match={match} tournament={tournament}></Item>
-				))}
-			</List>
-		</div>
+		<>
+			{!tournament.started && (
+				<Row justify="center">
+					<Button type="primary" onClick={handleTournamentStart}>
+						Start tournament
+					</Button>
+				</Row>
+			)}
+			{tournament.started && (
+				<>
+					<Row justify="center">
+						<h2>Contested matches</h2>
+					</Row>
+					<List
+						itemLayout="vertical"
+						size="large"
+						dataSource={tournament.contestedMatches}
+						renderItem={match => {
+							return (
+								<List.Item>
+									<Card
+										title={match.firstTeam?.name + ' vs ' + match.secondTeam?.name}
+										onClick={() => history.push(adresBase + match.id)}
+									>
+										<p>Match has been contested</p>
+										<Button type="primary">Resolve</Button>
+									</Card>
+								</List.Item>
+							);
+						}}
+					/>
+				</>
+			)}
+			,
+		</>
 	);
 };
 
