@@ -1,6 +1,7 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 
 import { Context } from '../../apollo';
+import DBTeam from '../../entities/team';
 import User from '../../entities/user';
 
 import GQLTeam from './team';
@@ -63,6 +64,35 @@ export default class RegisterTeamMutationResolver {
 					}),
 			),
 		);
+
+		const teamsWithPlayers = await Promise.all(
+			tournament.teams.map(
+				({ id }) =>
+					new Promise<DBTeam>((resolve, reject) => {
+						return repositories.teamRepository
+							.findOne(id, {
+								relations: ['players'],
+							})
+							.then(team => {
+								if (!team) {
+									reject('Team with id ' + id + ' not found');
+								}
+
+								resolve(team);
+							});
+					}),
+			),
+		);
+
+		for (const player of players) {
+			for (const team of teamsWithPlayers) {
+				if (team.players.find(p => p.id === player.id)) {
+					throw new Error(
+						'Player with id ' + player.id + ' is already in a team in the tournament',
+					);
+				}
+			}
+		}
 
 		let team = repositories.teamRepository.create({
 			name,
