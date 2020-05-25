@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useApolloClient, useSubscription } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { MatchFinalizedContestedMatchesFragment } from './__generated__/MatchFinalizedContestedMatchesFragment';
 import { MatchFinalizedMatchFragment } from './__generated__/MatchFinalizedMatchFragment';
 import { MatchFinalizedSubscription } from './__generated__/MatchFinalizedSubscription';
 import { MatchFinalizedTournamentFragment } from './__generated__/MatchFinalizedTournamentFragment';
@@ -57,6 +58,14 @@ const TOURNAMENT_FRAGMENT = gql`
 	}
 `;
 
+const TOURNAMENT_CONTESTED_MATCHES_FRAGMENT = gql`
+	fragment MatchFinalizedContestedMatchesFragment on Tournament {
+		contestedMatches {
+			id
+		}
+	}
+`;
+
 export const useMatchFinalized = () => {
 	const client = useApolloClient();
 	const { data } = useSubscription<MatchFinalizedSubscription>(MATCH_FINALIZED_SUBSCRIPTION);
@@ -97,6 +106,32 @@ export const useMatchFinalized = () => {
 					}
 				} catch (error) {
 					// Tournament winner field not in cache, dw
+				}
+
+				// Remove finalized match from contested matches list of a tournament
+				try {
+					const tournamentId = 'Tournament:' + data.matchFinalized.tournament.id;
+					const tournamentFragmentData = client.readFragment<
+						MatchFinalizedContestedMatchesFragment
+					>({
+						id: tournamentId,
+						fragment: TOURNAMENT_CONTESTED_MATCHES_FRAGMENT,
+					});
+
+					if (tournamentFragmentData) {
+						client.writeFragment<MatchFinalizedContestedMatchesFragment>({
+							id: tournamentId,
+							fragment: TOURNAMENT_CONTESTED_MATCHES_FRAGMENT,
+							data: {
+								...tournamentFragmentData,
+								contestedMatches: tournamentFragmentData.contestedMatches.filter(
+									match => match.id !== data.matchFinalized.id,
+								),
+							},
+						});
+					}
+				} catch (error) {
+					// Match in cache does not have contested field
 				}
 			}
 		}
