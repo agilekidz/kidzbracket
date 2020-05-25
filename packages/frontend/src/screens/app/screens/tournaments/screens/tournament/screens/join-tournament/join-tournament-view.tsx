@@ -11,6 +11,7 @@ interface Props {
 	teamName: string;
 	players: any[];
 	users: User[];
+	user: User;
 	handleTeamNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleSelectPlayer: (index: number, playerId: string) => void;
 	handleSubmit: () => void;
@@ -23,6 +24,7 @@ const JoinTournamentView: React.FC<Props> = ({
 	handleSelectPlayer,
 	handleSubmit,
 	users,
+	user,
 }) => {
 	return (
 		<Card title="Join tournament" style={{ width: '400px', margin: '0 auto' }}>
@@ -36,13 +38,10 @@ const JoinTournamentView: React.FC<Props> = ({
 				</Form.Item>
 
 				{players.map((_player, index) => (
-					<Form.Item
-						key={index}
-						label={`Player ${index + 1}`}
-						name={`player-${index + 1}`}
-						rules={[{ required: true, message: 'Please select a player!' }]}
-					>
+					<Form.Item key={index} label={`Player ${index + 1}`} name={`player-${index + 1}`}>
 						<Select
+							disabled={index === 0}
+							defaultValue={index === 0 ? user.name : undefined}
 							showSearch
 							style={{ width: '100%' }}
 							placeholder="Select a player"

@@ -3,6 +3,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { useAuth } from '../../../../../../contexts/auth-context';
 import { Spinner } from '../../../../../../shared/components/spinner';
 
 import {
@@ -43,12 +44,13 @@ const JoinTournamentData: React.FC<Props> = ({ tournamentId }) => {
 			},
 		},
 	);
+	const { user } = useAuth();
 
 	if (loading) {
 		return <Spinner />;
 	}
 
-	if (error) {
+	if (error || !user) {
 		return <div>error</div>;
 	}
 
@@ -62,7 +64,7 @@ const JoinTournamentData: React.FC<Props> = ({ tournamentId }) => {
 
 			return true;
 		});
-		return <JoinTournamentLogic tournament={data.tournament} users={filteredUsers} />;
+		return <JoinTournamentLogic tournament={data.tournament} users={filteredUsers} user={user} />;
 	}
 
 	return null;

@@ -39,12 +39,17 @@ export default class RegisterTeamMutationResolver {
 	@Mutation(() => RegisterTeamPayload)
 	async registerTeam(
 		@Arg('input') { name, players: playerIds, tournamentId }: RegisterTeamInput,
-		@Ctx() { repositories }: Context,
+		@Ctx() { repositories, user }: Context,
 		@PubSub() pubsub: PubSubEngine,
 	): Promise<RegisterTeamPayload> {
+		if (!user) {
+			throw new Error('You must be logged in to do that');
+		}
+
 		const tournament = await repositories.tournamentRepository.findOne(tournamentId, {
 			relations: ['teams'],
 		});
+
 		if (!tournament) {
 			throw new Error('That tournament does not exist');
 		}
@@ -59,6 +64,10 @@ export default class RegisterTeamMutationResolver {
 
 		if (tournament.playersPerTeam != playerIds.filter(playerId => playerId !== '').length) {
 			throw new Error('Not the correct number of players >:(');
+		}
+
+		if (playerIds[0] !== user.id) {
+			throw new Error('First player must be logged in user');
 		}
 
 		const players = await Promise.all(

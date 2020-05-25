@@ -60,6 +60,8 @@ export default class ReportVictoryMutationResolver {
 		match.winner = team;
 		await repositories.matchRepository.save(match);
 
+		pubsub.publish('VICTORY_REPORTED', match);
+
 		//TODO: Change timeout to 15 min
 		setTimeout(async () => {
 			try {

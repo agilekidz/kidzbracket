@@ -28,7 +28,7 @@ const NavbarView = () => {
 	const { pathname } = useLocation();
 	const selectedKeys = [keyFromPathname(pathname)];
 
-	const { isAuthenticated, logout } = useAuth();
+	const { user, isAuthenticated, logout } = useAuth();
 
 	return (
 		<MenuWrapper>
@@ -41,6 +41,11 @@ const NavbarView = () => {
 				</Menu.Item>
 			</Menu>
 			<Menu theme="dark" mode="horizontal" selectedKeys={selectedKeys}>
+				{user && (
+					<Menu.Item disabled style={{ cursor: 'auto' }}>
+						<div style={{ color: '#969696' }}>Welcome, {user.name}!</div>
+					</Menu.Item>
+				)}
 				{!isAuthenticated && (
 					<Menu.Item key="login">
 						<Link to={{ pathname: '/auth/login', state: { from: pathname } }}>Login</Link>

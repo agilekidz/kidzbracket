@@ -21,6 +21,9 @@ const GET_TOURNAMENT_QUERY = gql`
 			started
 			teams {
 				id
+				players {
+					id
+				}
 			}
 			owner {
 				id
@@ -49,14 +52,7 @@ const TournamentData = () => {
 	}
 
 	if (data) {
-		return (
-			<TournamentView
-				tournament={{
-					...data.tournament,
-					registeredTeamCount: data.tournament.teams.length,
-				}}
-			/>
-		);
+		return <TournamentView tournament={data.tournament} />;
 	}
 
 	return null;

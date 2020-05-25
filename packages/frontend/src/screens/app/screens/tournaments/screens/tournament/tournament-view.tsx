@@ -16,11 +16,16 @@ interface Props {
 		id: string;
 		name: string;
 		maxTeams: number;
-		registeredTeamCount: number;
 		started: boolean;
 		owner: {
 			id: string;
 		};
+		teams: {
+			id: string;
+			players: {
+				id: string;
+			}[];
+		}[];
 	};
 }
 
@@ -29,6 +34,23 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 	const { user } = useAuth();
 	const history = useHistory();
 	const [activeTab, setActiveTab] = useState(tabId);
+
+	const playerIsInTournament = (userId: string) => {
+		for (const team of tournament.teams) {
+			if (team.players.find(player => player.id === userId)) {
+				return true;
+			}
+		}
+
+		return false;
+	};
+
+	const canJoin =
+		(user &&
+			!tournament.started &&
+			tournament.teams.length < tournament.maxTeams &&
+			!playerIsInTournament(user.id)) ||
+		false;
 
 	return (
 		<React.Fragment>
@@ -45,7 +67,7 @@ const TournamentView: React.FC<Props> = ({ tournament }) => {
 					<Button
 						type="primary"
 						size="large"
-						disabled={tournament.started || tournament.registeredTeamCount >= tournament.maxTeams}
+						disabled={!canJoin}
 						onClick={() => {
 							history.push(`/tournaments/${tournament.id}/join`);
 							setActiveTab('join');

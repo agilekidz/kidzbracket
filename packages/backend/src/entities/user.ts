@@ -6,7 +6,6 @@ import Tournament from './tournament';
 
 @Entity()
 export default class User extends BaseEntity {
-	//TODO: Ta bort?
 	@Column()
 	name: string;
 

@@ -49,12 +49,19 @@ interface Props {
 		playersPerTeam: number;
 	};
 	users: User[];
+	user: User;
 }
 
-const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
+const JoinTournamentLogic: React.FC<Props> = ({ tournament, users, user }) => {
 	const [teamName, setTeamName] = useState('');
 	const [playerIds, setPlayerIds] = useState<(string | null)[]>(
-		Array.from({ length: tournament.playersPerTeam }, () => null),
+		Array.from({ length: tournament.playersPerTeam }, (_, i) => {
+			if (i === 0) {
+				return user.id;
+			}
+
+			return null;
+		}),
 	);
 	const [registerTeam] = useMutation<RegisterTeamMutation, RegisterTeamMutationVariables>(
 		REGISTER_TEAM_MUTATION,
@@ -74,15 +81,19 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
 						},
 					});
 					if (tournamentData) {
-						cache.writeQuery<RegisterTeamQuery, RegisterTeamQueryVariables>({
-							query: TOURNAMENT_TEAMS_QUERY,
-							data: {
-								tournament: {
-									...tournamentData.tournament,
-									teams: [...tournamentData.tournament.teams, data.registerTeam.team],
+						if (
+							!tournamentData.tournament.teams.find(team => team.id === data.registerTeam.team.id)
+						) {
+							cache.writeQuery<RegisterTeamQuery, RegisterTeamQueryVariables>({
+								query: TOURNAMENT_TEAMS_QUERY,
+								data: {
+									tournament: {
+										...tournamentData.tournament,
+										teams: [...tournamentData.tournament.teams, data.registerTeam.team],
+									},
 								},
-							},
-						});
+							});
+						}
 					}
 				}
 			},
@@ -131,6 +142,7 @@ const JoinTournamentLogic: React.FC<Props> = ({ tournament, users }) => {
 			handleSelectPlayer={handleSelectPlayer}
 			handleSubmit={handleSubmit}
 			users={users.filter(user => !playerIds.find(playerId => playerId === user.id))}
+			user={user}
 		/>
 	);
 };

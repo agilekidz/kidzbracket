@@ -20,12 +20,16 @@ const OverviewView: React.FC<Props> = ({ tournament }) => {
 			<p>
 				Teams registered: {tournament.currentlyRegisteredTeamCount}/{tournament.maxTeams}
 			</p>
-			{tournament.started && (
+			{tournament.started && !tournament.winner && (
 				<p>
 					<strong>Tournament started</strong>
 				</p>
 			)}
-			{tournament.winner && <p>Winner: {tournament.winner.name}</p>}
+			{tournament.winner && (
+				<p>
+					<strong>Winner: {tournament.winner.name}</strong>
+				</p>
+			)}
 		</React.Fragment>
 	);
 };

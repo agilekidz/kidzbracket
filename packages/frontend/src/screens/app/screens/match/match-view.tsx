@@ -81,7 +81,7 @@ const MatchView: React.FC<Props> = ({ match, tournament }) => {
 		<React.Fragment>
 			<PageHeader
 				title={`${match.firstTeam.name} vs. ${match.secondTeam.name}`}
-				onBack={() => history.replace(`/tournaments/${tournament.id}`)}
+				onBack={() => history.replace(`/tournaments/${tournament.id}/bracket`)}
 			/>
 			<Row justify="space-around" align="middle">
 				<Team

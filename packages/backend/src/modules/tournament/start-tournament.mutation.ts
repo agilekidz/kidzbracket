@@ -1,4 +1,14 @@
-import { Arg, Ctx, Field, ID, Mutation, ObjectType, Resolver } from 'type-graphql';
+import {
+	Arg,
+	Ctx,
+	Field,
+	ID,
+	Mutation,
+	ObjectType,
+	PubSub,
+	PubSubEngine,
+	Resolver,
+} from 'type-graphql';
 
 import { Context } from '../../apollo';
 import { generateBracket } from '../../generate-bracket';
@@ -14,7 +24,11 @@ class StartTournamentPayload {
 @Resolver()
 export default class StartTournamentMutationResolver {
 	@Mutation(() => StartTournamentPayload)
-	async startTournament(@Arg('id', () => ID) id: string, @Ctx() { repositories, user }: Context) {
+	async startTournament(
+		@Arg('id', () => ID) id: string,
+		@Ctx() { repositories, user }: Context,
+		@PubSub() pubsub: PubSubEngine,
+	) {
 		if (!user) {
 			throw new Error('You must be logged in to do that');
 		}
@@ -42,6 +56,8 @@ export default class StartTournamentMutationResolver {
 
 		tournament.started = true;
 		tournament = await repositories.tournamentRepository.save(tournament);
+
+		pubsub.publish('TOURNAMENT_STARTED', tournament);
 
 		return {
 			tournament,
