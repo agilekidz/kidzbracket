@@ -3,16 +3,8 @@ import { useEffect } from 'react';
 import { useApolloClient, useSubscription } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { AppHooksTournamentFragment } from './__generated__/AppHooksTournamentFragment';
-import { AppHooksTournamentQuery } from './__generated__/AppHooksTournamentQuery';
-import {
-	AppHooksTournamentTeamsQuery,
-	AppHooksTournamentTeamsQueryVariables,
-} from './__generated__/AppHooksTournamentTeamsQuery';
-import { MatchFinalizedSubscription } from './__generated__/MatchFinalizedSubscription';
-import { MatchFragment } from './__generated__/MatchFragment';
 import { TeamRegisteredSubscription } from './__generated__/TeamRegisteredSubscription';
-import { TournamentCreatedSubscription } from './__generated__/TournamentCreatedSubscription';
+import { TeamRegisteredTournamentFragment } from './__generated__/TeamRegisteredTournamentFragment';
 
 const TEAM_REGISTERED_SUBSCRIPTION = gql`
 	subscription TeamRegisteredSubscription {
@@ -31,7 +23,7 @@ const TEAM_REGISTERED_SUBSCRIPTION = gql`
 `;
 
 const TOURNAMENT_TEAMS_FRAGMENT = gql`
-	fragment AppHooksTournamentFragment on Tournament {
+	fragment TeamRegisteredTournamentFragment on Tournament {
 		id
 		teams {
 			id
@@ -49,7 +41,7 @@ export const useTeamRegistered = () => {
 		if (teamRegisteredData) {
 			try {
 				const id = 'Tournament:' + teamRegisteredData.teamRegistered.tournament.id;
-				const tournamentTeamsData = client.readFragment<AppHooksTournamentFragment>({
+				const tournamentTeamsData = client.readFragment<TeamRegisteredTournamentFragment>({
 					fragment: TOURNAMENT_TEAMS_FRAGMENT,
 					id,
 				});
@@ -59,7 +51,7 @@ export const useTeamRegistered = () => {
 							team => team.id === teamRegisteredData.teamRegistered.id,
 						)
 					) {
-						client.writeFragment<AppHooksTournamentFragment>({
+						client.writeFragment<TeamRegisteredTournamentFragment>({
 							fragment: TOURNAMENT_TEAMS_FRAGMENT,
 							id,
 							data: {

@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 import { useApolloClient, useSubscription } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { TournamentCreatedSubscription } from './__generated__/TournamentCreatedSubscription';
+import { TournamentCreatedTournamentQuery } from './__generated__/TournamentCreatedTournamentQuery';
+
 const TOURNAMENT_CREATED_SUBSCRIPTION = gql`
 	subscription TournamentCreatedSubscription {
 		tournamentCreated {
@@ -25,7 +28,7 @@ const TOURNAMENT_CREATED_SUBSCRIPTION = gql`
 `;
 
 const TOURNAMENTS_QUERY = gql`
-	query AppHooksTournamentQuery {
+	query TournamentCreatedTournamentQuery {
 		tournaments {
 			id
 		}
@@ -41,7 +44,7 @@ export const useTournamentCreated = () => {
 	useEffect(() => {
 		if (tournamentCreatedData) {
 			try {
-				const tournamentsData = client.readQuery<AppHooksTournamentQuery>({
+				const tournamentsData = client.readQuery<TournamentCreatedTournamentQuery>({
 					query: TOURNAMENTS_QUERY,
 				});
 				if (tournamentsData) {
@@ -50,7 +53,7 @@ export const useTournamentCreated = () => {
 							tournament => tournament.id === tournamentCreatedData.tournamentCreated.id,
 						)
 					) {
-						client.writeQuery<AppHooksTournamentQuery>({
+						client.writeQuery<TournamentCreatedTournamentQuery>({
 							query: TOURNAMENTS_QUERY,
 							data: {
 								tournaments: [
