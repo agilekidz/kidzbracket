@@ -4,13 +4,13 @@ A tournament hosting solution
 
 ## The group
 
-rosengrenen - Rasmus Rosengren
-Noxemia - Aarons Sandgren
-cajoho99 - Carl Holmberg
-SantaPoro - Dino Pasalic
-Hannorden - Hannes Nordblom
-jonatanlandin - Jonatan Landin
-AntonRodholm - Anton Rödholm
+* rosengrenen - Rasmus Rosengren
+* Noxemia - Aarons Sandgren
+* cajoho99 - Carl Holmberg
+* SantaPoro - Dino Pasalic
+* Hannorden - Hannes Nordblom
+* jonatanlandin - Jonatan Landin
+* AntonRodholm - Anton Rödholm
 
 ## Documents
 
