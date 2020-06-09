@@ -1,45 +1,40 @@
-# react-node-react-template
+# kidzbracket
 
-A monorepo (using `yarn workspaces`) template for a web application using a React frontend, and a NodeJS backend.
+A tournament hosting solution
 
-## Features
+## The group
 
-- `typescript` for type-checking
-- `eslint` for linting
-- `jest` for testing
-- `prettier` (via `eslint`) for formatting
-- `husky` for git hooks, such as applying formatting pre commits and fetching latest yarn packages post merges
-- Docker for containerization
-- TravisCI for continuous integration
+rosengrenen - Rasmus Rosengren
+Noxemia - Aarons Sandgren
+cajoho99 - Carl Holmberg
+SantaPoro - Dino Pasalic
+Hannorden - Hannes Nordblom
+jonatanlandin - Jonatan Landin
+AntonRodholm - Anton Rödholm
+
+## Documents
+
+All documents (individual reflections, team reflections, and final report) can be found in the `documents` folder.
+
+## Technical documentation
+
+The technical documentation can be found under the `Wiki` tab of the repository
 
 ## Using
 
+### Requirements
+
+- Docker
+- Docker compose
+
 ### Environment variables
 
-In the root of the project, the frontend package, and the backend package, copy the `.env.example` to `.env` and fill in the variables.
+In the root of the project, the frontend package, and the backend package, copy the `.env.example` to `.env` and fill in the variables (most of them are prefilled with correct values).
 
-### Development
-
-To start the project in development mode, run
+To run the project, execute
 
 ```
-docker-compose up -d
+docker-compose up
 ```
 
 in the root of the project.
-
-#### Logs
-
-To access the logs run
-
-```
-docker-compose logs -f frontend
-```
-
-or
-
-```
-docker-compose logs -f backend
-```
-
-in the root of the project
