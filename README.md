@@ -18,7 +18,9 @@ All documents (individual reflections, team reflections, and final report) can b
 
 ## Technical documentation
 
-The technical documentation can be found under the `Wiki` tab of the repository
+The technical documentation can be found under the `Wiki` tab of the repository.
+There is a document where all the technologies we use are presented.
+It can be found [here](https://github.com/agilekidz/stack).
 
 ## Using
 
